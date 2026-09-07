@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Toimik.UrlNormalization;
+using System.Globalization;
 
 namespace Gee.External.Browsing {
     /// <summary>
@@ -91,7 +93,7 @@ namespace Gee.External.Browsing {
         /// <remarks>
         ///     Represents a regular expression pattern to match a URI formatted in accordance with RFC 3986.
         /// </remarks>
-        private static readonly Regex UriPattern = new Regex(@"^(?:(?<scheme>[a-zA-Z][a-zA-Z\d+-.]*):)?(?:\/\/(?:(?<user>[a-zA-Z\d\-._~\!$&'()*+,;=%]*)(?::(?<pass>[a-zA-Z\d\-._~\!$&'()*+,;=:%]*))?@)?(?<host>(?:(?:\s+)?[a-zA-Z\d-.%]+)|(?:(?:\s+)?\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|(?:(?:\s+)?\[(?:[a-fA-F\d.:]+)\]))?(?::(?<port>\d*))?(?<path>(?:\/[a-zA-Z\d\-._~\!$&'()*+,;=:@%]*)*)|(?<user>)(?<pass>)(?<host>)(?<port>)(?<path>\/[a-zA-Z\d\-._~\!$&'()*+,;=:@%]+(?:\/[a-zA-Z\d\-._~\!$&'()*+,;=:@%]*)*)?|(?<user>)(?<pass>)(?<host>)(?<port>)(?<path>[a-zA-Z\d\-._~\!$&'()*+,;=:@%]+(?:\/[a-zA-Z\d\-._~\!$&'()*+,;=:@%]*)*))?(?:\?(?<query>[a-zA-Z\d\-._~\!$&'()*+,;=:@%\/?]*))?(?:\#(?<fragment>[a-zA-Z\d\-._~\!$&'()*+,;=:@%\/?]*))?$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex UriPattern = new Regex(@"^(?:(?<scheme>[a-zA-Z][a-zA-Z\d+-.]*):)?(?:\/\/(?:(?<user>[a-zA-Z\d\-._~\!$&'()*+,;=%]*)(?::(?<pass>[a-zA-Z\d\-._~\!$&'()*+,;=:%]*))?@)?(?<host>(?:(?:\s+)?[^\s/?#@:\[\]\\]+)|(?:(?:\s+)?\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|(?:(?:\s+)?\[(?:[a-fA-F\d.:]+)\]))?(?::(?<port>\d*))?(?<path>(?:\/[^\s/?#\\]*)*)|(?<user>)(?<pass>)(?<host>)(?<port>)(?<path>\/[^\s/?#\\]+(?:\/[^\s/?#\\]*)*)?|(?<user>)(?<pass>)(?<host>)(?<port>)(?<path>[^\s/?#\\]+(?:\/[^\s/?#\\]*)*))?(?:\?(?<query>[^\s#\\]*))?(?:\#(?<fragment>[^\s#\\]*))?$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         ///     Canonicalized URL.
@@ -150,7 +152,7 @@ namespace Gee.External.Browsing {
                 // consecutive dot (".") characters with a single dot (".") character.
                 cHost = Url.LeadingDotPattern.Replace(cHost, string.Empty);
                 cHost = Url.TrailingDotPattern.Replace(cHost, string.Empty);
-                cHost = Url.ConsecutiveDotPattern.Replace(cHost, ".");
+                // cHost = Url.ConsecutiveDotPattern.Replace(cHost, ".");
 
                 // ...
                 //
@@ -164,7 +166,7 @@ namespace Gee.External.Browsing {
                 // ...
                 //
                 // Next, we convert the URI host component to lowercase.
-                cHost = cHost.ToLowerInvariant();
+                // cHost = cHost.ToLowerInvariant();
 
                 // ...
                 //
@@ -186,15 +188,11 @@ namespace Gee.External.Browsing {
                 //
                 // Next, we replace current directory path segments ("/./"), parent directory path segments ("/../"),
                 // and consecutive slash ("/") characters with a single slash ("/") character.
-                cPath = Url.CurrentDirectoryPattern.Replace(cPath, "/");
-                cPath = Url.ParentDirectoryPattern.Replace(cPath, "/");
-                cPath = Url.ConsecutiveSlashPattern.Replace(cPath, "/");
 
-                // ...
-                //
                 // Last, we encode the URI path component.
                 cPath = Encode(cPath);
                 return cPath;
+ 
             }
 
             // <summary>
@@ -204,6 +202,13 @@ namespace Gee.External.Browsing {
                 // ...
                 //
                 // Throws an exception if the operation fails.
+
+                HttpUrlNormalizer normalizer = new HttpUrlNormalizer(
+                    removableDirectoryIndexNames: new HashSet<string>(0)
+                    );
+                cUri = normalizer.Normalize(cUri);
+
+
                 var cUriMatch = Url.UriPattern.Match(cUri);
                 if (!cUriMatch.Success) {
                     var cDetailMessage = $"A string ({cUri}) does not express a URI.";
@@ -237,17 +242,29 @@ namespace Gee.External.Browsing {
                     cHostMatch = cUriMatch.Groups["host"];
                 }
 
-                var cHost = CanonicalizeHost(cHostMatch.Value);
+                IdnMapping idn = new IdnMapping();
+
+                string asciiHost; 
+                try
+                {
+                    asciiHost = idn.GetAscii(cHostMatch.Value);
+                }
+                catch
+                {
+                    asciiHost = cHostMatch.Value;
+                }
+
+                var cHost = CanonicalizeHost(idn.GetAscii(cHostMatch.Value));
                 var cPath = "/";
                 var cPathMatch = cUriMatch.Groups["path"];
                 if (cPathMatch.Success && cPathMatch.Value != string.Empty) {
                     cPath = CanonicalizePath(cPathMatch.Value);
                 }
 
-                string cQuery = null;
-                string cValueQuery = null;
+                string? cQuery = null;
+                string? cValueQuery = null;
                 var cQueryMatch = cUriMatch.Groups["query"];
-                if (cQueryMatch.Success && cQueryMatch.Value != string.Empty) {
+                if (cQueryMatch.Success) {
                     // ...
                     //
                     // In accordance with the Google Safe Browsing Specification, we first decode the URI query
@@ -255,8 +272,17 @@ namespace Gee.External.Browsing {
                     cQuery = Decode(cQueryMatch.Value);
                     cQuery = Encode(cQuery);
 
-                    cValueQuery = $"?{cQuery}";
+                    if (cQuery == "")
+                    {
+                        cQuery = null;
+                        cValueQuery = $"?";
+                    }
+                    else
+                    {
+                        cValueQuery = $"?{cQuery}";
+                    }
                 }
+
 
                 var cValue = $"{cScheme}://{cHost}{cPath}{cValueQuery}";
                 return (cValue, cScheme, cHost, cPath, cQuery);
@@ -339,15 +365,9 @@ namespace Gee.External.Browsing {
                 //
                 // Next, we will extract up to 4 path segments from the URI path component.
                 var cPathSegments = cPath.Split('/');
-                var cEndIndex = Math.Min(cPathSegments.Length, 4);
+                var cEndIndex = Math.Min(cPathSegments.Length - 1, 4);
                 for (var cI = 0; cI < cEndIndex; cI++) {
-                    var cNewPathSegments = cPathSegments.Take(cI + 1);
-                    var cPathExpression = string.Join("/", cNewPathSegments);
-                    if (cI != cEndIndex - 1) {
-                        cPathExpression = $"{cPathExpression}/";
-                    }
-
-                    cPathExpressions.Add(cPathExpression);
+                    cPathExpressions.Add(string.Join("/", cPathSegments.Take(cI + 1)) + "/");
                 }
 
                 return cPathExpressions;
@@ -362,6 +382,7 @@ namespace Gee.External.Browsing {
                 // In accordance with the Google Safe Browsing Specification, we first remove CR, LF, and TAB ASCII
                 // control characters from a string before we decode it.
                 cString = Url.ControlCharactersPattern.Replace(cString, string.Empty);
+
                 while (true) {
                     // ...
                     //

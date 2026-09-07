@@ -1,7 +1,6 @@
 ﻿using Flurl;
 using Flurl.Http;
 using Flurl.Http.Configuration;
-using Flurl.Util;
 using Gee.Common.Guards;
 using SafeBrowsing.V5;
 using System;
@@ -12,13 +11,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using Polly;
-using System.Buffers.Binary;
-using System.Text;
-using System.Net.NetworkInformation;
-using Gee.External.Browsing.Services;
-using Google.Protobuf.WellKnownTypes;
+
 
 namespace Gee.External.Browsing.Clients.Http {
     /// <summary>
@@ -414,7 +407,7 @@ namespace Gee.External.Browsing.Clients.Http {
 
                         var version = Convert.ToHexString(hashList.Version.ToByteArray()); 
 
-                        DateTime minimumWait = DateTime.MinValue;
+                        DateTime? minimumWait = null;
                         if (!(hashList.MinimumWaitDuration is null))
                         {
                             minimumWait = DateTime.UtcNow + DurationConverter.SafeBrowsingDurationToTimespan(hashList.MinimumWaitDuration);
