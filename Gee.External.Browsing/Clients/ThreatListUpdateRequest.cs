@@ -8,13 +8,6 @@ namespace Gee.External.Browsing.Clients {
     ///     Threat List Update Request.
     /// </summary>
     public sealed class ThreatListUpdateRequest {
-        /// <summary>
-        ///     Get Client Metadata.
-        /// </summary>
-        /// <remarks>
-        ///     Represents the metadata of the client making the threat list update request.
-        /// </remarks>
-        public ClientMetadata ClientMetadata { get; }
 
         /// <summary>
         ///     Get Queries.
@@ -46,29 +39,14 @@ namespace Gee.External.Browsing.Clients {
         /// <exception cref="System.ArgumentNullException">
         ///     Thrown if <paramref name="queries" /> is a null reference.
         /// </exception>
-        public ThreatListUpdateRequest(IEnumerable<ThreatListUpdateQuery> queries) : this(queries, null) { }
-
-        /// <summary>
-        ///     Create a Threat List Update Request.
-        /// </summary>
-        /// <param name="queries">
-        ///     A collection of <see cref="ThreatListUpdateQuery" /> indicating the collection of
-        ///     <see cref="ThreatList" /> to retrieve.
-        /// </param>
-        /// <param name="clientMetadata">
-        ///     The metadata of the client making the threat list update request. A null reference indicates the
-        ///     client's metadata is unknown.
-        /// </param>
-        /// <exception cref="System.ArgumentNullException">
-        ///     Thrown if <paramref name="queries" /> is a null reference.
-        /// </exception>
-        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        public ThreatListUpdateRequest(IEnumerable<ThreatListUpdateQuery> queries, ClientMetadata clientMetadata) {
+        public ThreatListUpdateRequest(IEnumerable<ThreatListUpdateQuery> queries)
+        {
             Guard.ThrowIf(nameof(queries), queries).Null();
 
-            this.ClientMetadata = clientMetadata ?? ClientMetadata.Default;
             this.Queries = new HashSet<ThreatListUpdateQuery>(queries);
         }
+
+        
 
         /// <summary>
         ///     Create a Threat List Update Request.
@@ -82,7 +60,6 @@ namespace Gee.External.Browsing.Clients {
         internal ThreatListUpdateRequest(ThreatListUpdateRequestBuilder builder) {
             Guard.ThrowIf(nameof(builder), builder).Null();
 
-            this.ClientMetadata = builder.ClientMetadata;
             this.Queries = builder.Queries;
         }
     }

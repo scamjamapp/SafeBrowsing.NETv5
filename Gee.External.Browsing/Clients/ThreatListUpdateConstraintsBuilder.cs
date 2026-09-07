@@ -1,4 +1,5 @@
-﻿using Gee.Common.Guards;
+﻿using System;
+using Gee.Common.Guards;
 using Gee.External.Browsing.Databases;
 
 namespace Gee.External.Browsing.Clients {
@@ -6,15 +7,6 @@ namespace Gee.External.Browsing.Clients {
     ///     Threat List Update Constraints Builder.
     /// </summary>
     public sealed class ThreatListUpdateConstraintsBuilder {
-        /// <summary>
-        ///     Get and Set Client Location.
-        /// </summary>
-        /// <remarks>
-        ///     Represents the geographic location, formatted as an ISO 31166-1 alpha-2 region code, of a client. An
-        ///     invalid geographic location is ignored by the Google Safe Browsing API. A null reference indicates the
-        ///     geographic location of the client is unknown.
-        /// </remarks>
-        internal string ClientLocation { get; private set; }
 
         /// <summary>
         ///     Get and Set Maximum Database Entries.
@@ -37,26 +29,6 @@ namespace Gee.External.Browsing.Clients {
         internal int MaximumResponseEntries { get; private set; }
 
         /// <summary>
-        ///     Get and Set Threat List Language.
-        /// </summary>
-        /// <remarks>
-        ///     Represents the language, formatted as an ISO 639 alpha-2 language code, a <see cref="ThreatList" />
-        ///     should be retrieved for. An invalid language is ignored by the Google Safe Browsing API. A null
-        ///     reference indicates a language should not be considered.
-        /// </remarks>
-        internal string ThreatListLanguage { get; private set; }
-
-        /// <summary>
-        ///     Get and Set Threat List Location.
-        /// </summary>
-        /// <remarks>
-        ///     Represents the geographic location, formatted as an ISO 31166-1 alpha-2 region code, a
-        ///     <see cref="ThreatList" /> should be retrieved for. An invalid geographic location is ignored by the
-        ///     Google Safe Browsing API. A null reference indicates a geographic location should not be considered.
-        /// </remarks>
-        internal string ThreatListLocation { get; private set; }
-
-        /// <summary>
         ///     Build a Threat List Update Constraints.
         /// </summary>
         /// <returns>
@@ -70,29 +42,10 @@ namespace Gee.External.Browsing.Clients {
             // Reinitialize the builder's state to prevent it from corrupting the immutable built object's state after
             // its built. If the object holds a reference to the builder's state, any mutation to the builder's state
             // will be reflected in the built object's state.
-            this.ClientLocation = null;
             this.MaximumDatabaseEntries = default;
             this.MaximumResponseEntries = default;
-            this.ThreatListLanguage = null;
-            this.ThreatListLocation = null;
 
             return threatListUpdateConstraints;
-        }
-
-        /// <summary>
-        ///     Set Client Location.
-        /// </summary>
-        /// <param name="value">
-        ///     The geographic location, formatted as an ISO 31166-1 alpha-2 region code, of a client. An invalid
-        ///     geographic location is ignored by the Google Safe Browsing API. A null reference indicates the
-        ///     geographic location of the client is unknown.
-        /// </param>
-        /// <returns>
-        ///     This threat list update constraints builder.
-        /// </returns>
-        public ThreatListUpdateConstraintsBuilder SetClientLocation(string value) {
-            this.ClientLocation = value;
-            return this;
         }
 
         /// <summary>
@@ -133,39 +86,12 @@ namespace Gee.External.Browsing.Clients {
         public ThreatListUpdateConstraintsBuilder SetMaximumResponseEntries(int value) {
             Guard.ThrowIf(nameof(value), value).LessThan(0);
 
+            if (0 < value && value < 1024)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), "invalid value for MaximumResponseEntries, refer to https://developers.google.com/safe-browsing/reference/rest/v5/hashList#resource:-hashlist");
+            }
+
             this.MaximumResponseEntries = value;
-            return this;
-        }
-
-        /// <summary>
-        ///     Set Threat List Language.
-        /// </summary>
-        /// <param name="value">
-        ///     The language, formatted as an ISO 639 alpha-2 language code, a <see cref="ThreatList" /> should be
-        ///     retrieved for. An invalid language is ignored by the Google Safe Browsing API. A null reference
-        ///     indicates a language should not be considered.
-        /// </param>
-        /// <returns>
-        ///     This threat list update constraints builder.
-        /// </returns>
-        public ThreatListUpdateConstraintsBuilder SetThreatListLanguage(string value) {
-            this.ThreatListLanguage = value;
-            return this;
-        }
-
-        /// <summary>
-        ///     Set Threat List Location.
-        /// </summary>
-        /// <param name="value">
-        ///     The geographic location, formatted as an ISO 31166-1 alpha-2 region code, a <see cref="ThreatList" />
-        ///     should be retrieved for. An invalid geographic location is ignored by the Google Safe Browsing API. A
-        ///     null reference indicates a geographic location should not be considered.
-        /// </param>
-        /// <returns>
-        ///     This threat list update constraints builder.
-        /// </returns>
-        public ThreatListUpdateConstraintsBuilder SetThreatListLocation(string value) {
-            this.ThreatListLocation = value;
             return this;
         }
     }

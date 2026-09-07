@@ -9,12 +9,6 @@ namespace Gee.External.Browsing.Clients.Http {
     [Serializable]
     internal sealed class FullHashRequestModel {
         /// <summary>
-        ///     Get and Set Client Metadata.
-        /// </summary>
-        [JsonProperty(PropertyName = "client", NullValueHandling = NullValueHandling.Ignore)]
-        public ClientMetadataModel ClientMetadata { get; set; }
-
-        /// <summary>
         ///     Get and Set Query.
         /// </summary>
         [JsonProperty(PropertyName = "threatInfo", NullValueHandling = NullValueHandling.Ignore)]

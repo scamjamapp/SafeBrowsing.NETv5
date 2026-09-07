@@ -71,12 +71,10 @@ namespace Gee.External.Browsing.Clients.Http {
             //      Set Retrieved Threat List.
             // </summary>
             void SetRetrievedThreatList(ThreatListUpdateResultModel cModel, ThreatListUpdateResultBuilder cBuilder, DateTime cThreatListRetrieveDate, DateTime? cThreatListWaitToDate) {
-                var cPlatformType = cModel.PlatformType.AsPlatformType();
                 var cState = cModel.ThreatListState.Base64Decode().HexadecimalEncode();
-                var cThreatEntryType = cModel.ThreatEntryType.AsThreatEntryType();
-                var cThreatType = cModel.ThreatType.AsThreatType();
+                var cThreatListName = cModel.ThreatListName.AsThreatListName();
                 cBuilder.SetRetrievedThreatList(b => {
-                    b.SetDescriptor(cThreatType, cPlatformType, cThreatEntryType);
+                    b.SetDescriptor(cThreatListName);
                     b.SetRetrieveDate(cThreatListRetrieveDate);
                     b.SetState(cState);
                     b.SetWaitToDate(cThreatListWaitToDate);

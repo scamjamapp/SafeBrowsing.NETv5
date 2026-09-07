@@ -34,16 +34,6 @@ namespace Gee.External.Browsing.Clients {
         internal HashSet<UnsafeThreat> UnsafeThreats { get; private set; }
 
         /// <summary>
-        ///     Get and Set Wait to Date.
-        /// </summary>
-        /// <remarks>
-        ///     Represents the date, in Coordinated Universal Time (UTC), a client must wait to before issuing another
-        ///     <see cref="FullHashRequest" /> to the Google Safe Browsing API. A null reference indicates a client
-        ///     does not have to wait.
-        /// </remarks>
-        internal DateTime? WaitToDate { get; private set; }
-
-        /// <summary>
         ///     Create a Full Hash Response Builder.
         /// </summary>
         internal FullHashResponseBuilder() {
@@ -121,7 +111,6 @@ namespace Gee.External.Browsing.Clients {
             this.Request = null;
             this.SafeThreatsExpirationDate = default;
             this.UnsafeThreats = new HashSet<UnsafeThreat>();
-            this.WaitToDate = null;
 
             return fullHashResponse;
         }
@@ -158,22 +147,6 @@ namespace Gee.External.Browsing.Clients {
         /// </returns>
         public FullHashResponseBuilder SetSafeThreatsExpirationDate(DateTime value) {
             this.SafeThreatsExpirationDate = value.ToUniversalTime();
-            return this;
-        }
-
-        /// <summary>
-        ///     Set Wait to Date.
-        /// </summary>
-        /// <param name="value">
-        ///     The date, in Coordinated Universal Time (UTC), a client must wait to before issuing another
-        ///     <see cref="FullHashRequest" /> to the Google Safe Browsing API. If the date is not in UTC, it is
-        ///     converted to it. A null reference indicates a client does not have to wait.
-        /// </param>
-        /// <returns>
-        ///     This full hash response builder.
-        /// </returns>
-        public FullHashResponseBuilder SetWaitToDate(DateTime? value) {
-            this.WaitToDate = value?.ToUniversalTime();
             return this;
         }
     }

@@ -102,12 +102,10 @@ namespace Gee.External.Browsing.Databases.Json {
 
                         threatListModels = threatListModels ?? new List<ThreatListModel>(threatLists.Count);
                         threatListModels.Add(new ThreatListModel {
-                            PlatformType = threatList.Descriptor.PlatformType,
                             RetrieveDate = threatList.RetrieveDate,
                             State = threatList.State,
-                            ThreatEntryType = threatList.Descriptor.ThreatEntryType,
                             ThreatSha256HashPrefixes = threats,
-                            ThreatType = threatList.Descriptor.ThreatType,
+                            ThreatListName = threatList.Descriptor.ThreatListName,
                             WaitToDate = threatList.WaitToDate
                         });
                     }

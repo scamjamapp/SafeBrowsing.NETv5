@@ -13,16 +13,6 @@ namespace Gee.External.Browsing.Clients {
         public static readonly ThreatListUpdateConstraints Default;
 
         /// <summary>
-        ///     Get Client Location.
-        /// </summary>
-        /// <remarks>
-        ///     Represents the geographic location, formatted as an ISO 31166-1 alpha-2 region code, of a client. An
-        ///     invalid geographic location is ignored by the Google Safe Browsing API. A null reference indicates the
-        ///     geographic location of the client is unknown.
-        /// </remarks>
-        public string ClientLocation { get; }
-
-        /// <summary>
         ///     Get Maximum Database Entries.
         /// </summary>
         /// <remarks>
@@ -43,26 +33,6 @@ namespace Gee.External.Browsing.Clients {
         public int MaximumResponseEntries { get; }
 
         /// <summary>
-        ///     Get Threat List Language.
-        /// </summary>
-        /// <remarks>
-        ///     Represents the language, formatted as an ISO 639 alpha-2 language code, a <see cref="ThreatList" />
-        ///     should be retrieved for. An invalid language is ignored by the Google Safe Browsing API. A null
-        ///     reference indicates a language should not be considered.
-        /// </remarks>
-        public string ThreatListLanguage { get; }
-
-        /// <summary>
-        ///     Get Threat List Location.
-        /// </summary>
-        /// <remarks>
-        ///     Represents the geographic location, formatted as an ISO 31166-1 alpha-2 region code, a
-        ///     <see cref="ThreatList" /> should be retrieved for. An invalid geographic location is ignored by the
-        ///     Google Safe Browsing API. A null reference indicates a geographic location should not be considered.
-        /// </remarks>
-        public string ThreatListLocation { get; }
-
-        /// <summary>
         ///     Create a Threat List Update Constraints.
         /// </summary>
         static ThreatListUpdateConstraints() {
@@ -73,11 +43,8 @@ namespace Gee.External.Browsing.Clients {
             // </summary>
             ThreatListUpdateConstraints CreateDefault() {
                 var cThreatListUpdateConstraints = ThreatListUpdateConstraints.Build()
-                    .SetThreatListLocation(null)
-                    .SetClientLocation(null)
                     .SetMaximumDatabaseEntries(0)
                     .SetMaximumResponseEntries(0)
-                    .SetThreatListLanguage(null)
                     .Build();
 
                 return cThreatListUpdateConstraints;
@@ -108,11 +75,8 @@ namespace Gee.External.Browsing.Clients {
         internal ThreatListUpdateConstraints(ThreatListUpdateConstraintsBuilder builder) {
             Guard.ThrowIf(nameof(builder), builder).Null();
 
-            this.ClientLocation = builder.ClientLocation;
             this.MaximumDatabaseEntries = builder.MaximumDatabaseEntries;
             this.MaximumResponseEntries = builder.MaximumResponseEntries;
-            this.ThreatListLanguage = builder.ThreatListLanguage;
-            this.ThreatListLocation = builder.ThreatListLocation;
         }
     }
 }

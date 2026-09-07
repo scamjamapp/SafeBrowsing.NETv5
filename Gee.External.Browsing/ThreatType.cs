@@ -3,9 +3,7 @@
     ///     Threat Type.
     /// </summary>
     /// <remarks>
-    ///     Indicates the nature of a threat. A <see cref="ThreatType" /> is also used as one of the 
-    ///     identifiers identifying a <see cref="ThreatList" /> together with <see cref="PlatformType" /> and
-    ///     <see cref="ThreatEntryType" />.
+    ///     Indicates the nature of a threat in a v5 hashes.search lookup (in FullHashDetail) /> 
     /// </remarks>
     public enum ThreatType {
         /// <summary>
@@ -23,13 +21,13 @@
         ///     Indicates a threat is a potentially harmful application (PHA). A PHA is one that could put users, user
         ///     data, or computer systems at risk.
         /// </summary>
-        PotentiallyHarmfulApplication = 2,
+        PotentiallyHarmfulApplication = 4,
 
         /// <summary>
         ///     Indicates a threat is social engineering content. Social engineering content tricks users into doing
         ///     something dangerous, such as revealing confidential information or downloading software.
         /// </summary>
-        SocialEngineering = 3,
+        SocialEngineering = 2,
 
         /// <summary>
         ///     Indicates a threat is unwanted software. Unwanted software is one that is deceptive, trick users into
@@ -38,6 +36,6 @@
         ///     to remove, collects or transmits private information without a user's knowledge, or is bundled with
         ///     other software and its presence is not disclosed.
         /// </summary>
-        UnwantedSoftware = 4
+        UnwantedSoftware = 3
     }
 }

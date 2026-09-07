@@ -45,16 +45,6 @@ namespace Gee.External.Browsing.Clients {
         public IReadOnlyCollection<UnsafeThreat> UnsafeThreats { get; }
 
         /// <summary>
-        ///     Get Wait to Date.
-        /// </summary>
-        /// <remarks>
-        ///     Represents the date, in Coordinated Universal Time (UTC), a client must wait to before issuing another
-        ///     <see cref="FullHashRequest" /> to the Google Safe Browsing API. A null reference indicates a client
-        ///     does not have to wait.
-        /// </remarks>
-        public DateTime? WaitToDate { get; }
-
-        /// <summary>
         ///     Build a Full Hash Response.
         /// </summary>
         /// <returns>
@@ -80,22 +70,16 @@ namespace Gee.External.Browsing.Clients {
         ///     A collection of <see cref="UnsafeThreat" />. A null reference indicates no threats were determined to
         ///     be unsafe.
         /// </param>
-        /// <param name="waitToDate">
-        ///     The date, in Coordinated Universal Time (UTC), a client must wait to before issuing another
-        ///     <see cref="FullHashRequest" /> to the Google Safe Browsing API. If the date is not in UTC, it is
-        ///     converted to it. A null reference indicates a client does not have to wait.
-        /// </param>
         /// <exception cref="System.ArgumentNullException">
         ///     Thrown if <paramref name="request"/> is a null reference.
         /// </exception>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        public FullHashResponse(FullHashRequest request, DateTime safeThreatsExpirationDate, IEnumerable<UnsafeThreat> unsafeThreats, DateTime? waitToDate) {
+        public FullHashResponse(FullHashRequest request, DateTime safeThreatsExpirationDate, IEnumerable<UnsafeThreat> unsafeThreats) {
             Guard.ThrowIf(nameof(request), request).Null();
 
             this.Request = request;
             this.SafeThreatsExpirationDate = safeThreatsExpirationDate.ToUniversalTime();
             this.UnsafeThreats = CreateUnsafeThreats(unsafeThreats);
-            this.WaitToDate = waitToDate?.ToUniversalTime();
 
             // <summary>
             //      Create Unsafe Threats.
@@ -126,7 +110,6 @@ namespace Gee.External.Browsing.Clients {
             this.Request = builder.Request;
             this.SafeThreatsExpirationDate = builder.SafeThreatsExpirationDate;
             this.UnsafeThreats = builder.UnsafeThreats;
-            this.WaitToDate = builder.WaitToDate;
         }
 
         /// <summary>

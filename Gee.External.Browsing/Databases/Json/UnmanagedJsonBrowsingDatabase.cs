@@ -92,11 +92,9 @@ namespace Gee.External.Browsing.Databases.Json {
                     var fileModel = this.DatabaseFileManager.Read();
                     if (fileModel.ThreatLists != null) {
                         foreach (var threatListModel in fileModel.ThreatLists) {
-                            var platformType = threatListModel.PlatformType;
-                            var threatEntryType = threatListModel.ThreatEntryType;
-                            var threatType = threatListModel.ThreatType;
+                            var threatListName = threatListModel.ThreatListName;
                             var threatList = ThreatList.Build()
-                                .SetDescriptor(threatType, platformType, threatEntryType)
+                                .SetDescriptor(threatListName)
                                 .SetRetrieveDate(threatListModel.RetrieveDate)
                                 .SetState(threatListModel.State)
                                 .SetWaitToDate(threatListModel.WaitToDate)

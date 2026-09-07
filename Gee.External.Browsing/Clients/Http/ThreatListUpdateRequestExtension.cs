@@ -19,7 +19,6 @@ namespace Gee.External.Browsing.Clients.Http {
             ThreatListUpdateRequestModel threatListUpdateRequestModel = null;
             if (@this != null) {
                 threatListUpdateRequestModel = new ThreatListUpdateRequestModel();
-                threatListUpdateRequestModel.ClientMetadata = @this.ClientMetadata.AsClientMetadataModel();
                 threatListUpdateRequestModel.Queries = @this.Queries.Select(m => m.AsThreatListUpdateQueryModel());
             }
 

@@ -9,12 +9,6 @@ namespace Gee.External.Browsing.Clients.Http {
     [Serializable]
     internal sealed class ThreatListUpdateRequestModel {
         /// <summary>
-        ///     Get and Set Client Metadata.
-        /// </summary>
-        [JsonProperty(PropertyName = "client", NullValueHandling = NullValueHandling.Ignore)]
-        public ClientMetadataModel ClientMetadata { get; set; }
-
-        /// <summary>
         ///     Get and Set Queries.
         /// </summary>
         [JsonProperty(PropertyName = "listUpdateRequests", DefaultValueHandling = DefaultValueHandling.Ignore)]

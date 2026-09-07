@@ -423,6 +423,24 @@ namespace Gee.External.Browsing {
             return this.Value;
         }
 
+        /// <summary>
+        ///     Try Get a URL Expression for a SHA256 Hash.
+        /// </summary>
+        /// <param name="sha256Hash">
+        ///     A full SHA256 hash, formatted as a hexadecimal encoded string, identifying the
+        ///     <see cref="UrlExpression" /> to retrieve.
+        /// </param>
+        /// <param name="urlExpression">
+        ///     The <see cref="UrlExpression" /> the URL computes to that is identified by
+        ///     <paramref name="sha256Hash" />, or a null reference if the URL does not compute to it.
+        /// </param>
+        /// <returns>
+        ///     A boolean true if the URL computes to a <see cref="UrlExpression" /> identified by
+        ///     <paramref name="sha256Hash" />. A boolean false otherwise.
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException">
+        ///     Thrown if <paramref name="sha256Hash" /> is a null reference.
+        /// </exception>
         public bool TryGetExpressionForSha256Hash(string sha256Hash, out UrlExpression urlExpression) {
             Guard.ThrowIf(nameof(sha256Hash), sha256Hash).Null();
 

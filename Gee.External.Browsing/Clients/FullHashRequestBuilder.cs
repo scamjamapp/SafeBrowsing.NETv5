@@ -9,14 +9,6 @@ namespace Gee.External.Browsing.Clients {
     /// </summary>
     public sealed class FullHashRequestBuilder {
         /// <summary>
-        ///     Get and Set Client Metadata.
-        /// </summary>
-        /// <remarks>
-        ///     Represents the <see cref="Clients.ClientMetadata" /> of the client making the full hash request.
-        /// </remarks>
-        internal ClientMetadata ClientMetadata { get; private set; }
-
-        /// <summary>
         ///     Get and Set Queries.
         /// </summary>
         /// <remarks>
@@ -39,7 +31,6 @@ namespace Gee.External.Browsing.Clients {
         ///     Create a Full Hash Request Builder.
         /// </summary>
         internal FullHashRequestBuilder() {
-            this.ClientMetadata = ClientMetadata.Default;
             this.Queries = new HashSet<FullHashQuery>();
             this.Sha256HashPrefixes = new HashSet<string>();
         }
@@ -96,19 +87,12 @@ namespace Gee.External.Browsing.Clients {
         /// <summary>
         ///     Add Query.
         /// </summary>
-        /// <param name="threatType">
-        ///     A <see cref="ThreatType" /> identifying the <see cref="ThreatList" /> to query.
-        /// </param>
-        /// <param name="platformType">
-        ///     A <see cref="PlatformType" /> identifying the <see cref="ThreatList" /> to query.
-        /// </param>
-        /// <param name="threatEntryType">
-        ///     A <see cref="ThreatEntryType" /> identifying the <see cref="ThreatList" /> to query.
+        /// <param name="threatListName">
+        ///     A <see cref="ThreatListName" /> identifying the <see cref="ThreatListName" /> to query.
         /// </param>
         /// <param name="threatListState">
         ///     The state, formatted as a hexadecimal encoded string, of the <see cref="ThreatList" /> identified by
-        ///     <paramref name="threatType" />, <paramref name="platformType" />, and
-        ///     <paramref name="threatEntryType" />.
+        ///     <paramref name="threatListName" />
         /// </param>
         /// <returns>
         ///     This full hash request builder.
@@ -119,11 +103,11 @@ namespace Gee.External.Browsing.Clients {
         /// <exception cref="System.FormatException">
         ///     Thrown if <paramref name="threatListState" /> is not hexadecimal encoded.
         /// </exception>
-        public FullHashRequestBuilder AddQuery(ThreatType threatType, PlatformType platformType, ThreatEntryType threatEntryType, string threatListState) {
+        public FullHashRequestBuilder AddQuery(ThreatListName threatListName, string threatListState) {
             // ...
             //
             // Throws an exception if the operation fails.
-            var query = new FullHashQuery(threatType, platformType, threatEntryType, threatListState);
+            var query = new FullHashQuery(threatListName, threatListState);
 
             this.Queries.Add(query);
             return this;
@@ -171,63 +155,10 @@ namespace Gee.External.Browsing.Clients {
             // its built. If the object holds a reference to the builder's state, any mutation to the builder's state
             // will be reflected in the built object's state.
             var fullHashRequest = new FullHashRequest(this);
-            this.ClientMetadata = ClientMetadata.Default;
             this.Queries = new HashSet<FullHashQuery>();
             this.Sha256HashPrefixes = new HashSet<string>();
 
             return fullHashRequest;
-        }
-
-        /// <summary>
-        ///     Set Client Metadata.
-        /// </summary>
-        /// <param name="value">
-        ///     The <see cref="Clients.ClientMetadata" /> of the client making the full hash request. A null reference
-        ///     indicates the metadata of the client is unknown.
-        /// </param>
-        /// <returns>
-        ///     This full hash request builder.
-        /// </returns>
-        public FullHashRequestBuilder SetClientMetadata(ClientMetadata value) {
-            this.ClientMetadata = value ?? ClientMetadata.Default;
-            return this;
-        }
-
-        /// <summary>
-        ///     Set Client Metadata.
-        /// </summary>
-        /// <param name="id">
-        ///     A unique identifier identifying the client.
-        /// </param>
-        /// <param name="majorVersion">
-        ///     The client's major version.
-        /// </param>
-        /// <param name="minorVersion">
-        ///     The client's minor version.
-        /// </param>
-        /// <param name="patchVersion">
-        ///     The client's patch version.
-        /// </param>
-        /// <returns>
-        ///     This full hash request builder.
-        /// </returns>
-        /// <exception cref="System.ArgumentException">
-        ///     Thrown if <paramref name="id" /> consists exclusively of whitespace characters.
-        /// </exception>
-        /// <exception cref="System.ArgumentNullException">
-        ///     Thrown if <paramref name="id" /> is a null reference.
-        /// </exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        ///     Thrown if <paramref name="majorVersion" /> is less than <c>0</c>, or if
-        ///     <paramref name="minorVersion" /> is less than <c>0</c>, or if <paramref name="patchVersion" /> is less
-        ///     than <c>0</c>.
-        /// </exception>
-        public FullHashRequestBuilder SetClientMetadata(string id, int majorVersion, int minorVersion, int patchVersion) {
-            // ...
-            //
-            // Throws an exception if the operation fails.
-            this.ClientMetadata = new ClientMetadata(id, majorVersion, minorVersion, patchVersion);
-            return this;
         }
     }
 }

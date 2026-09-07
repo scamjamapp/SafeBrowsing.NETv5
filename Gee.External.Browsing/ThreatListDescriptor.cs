@@ -3,60 +3,41 @@
     ///     Threat List Descriptor.
     /// </summary>
     /// <remarks>
-    ///     Identifies a threat list. A threat list is identified using a <see cref="Browsing.ThreatType" />, which
-    ///     indicates the nature of its associated threats, a <see cref="Browsing.PlatformType" />, which indicates
-    ///     the platform its associated threats target, and a <see cref="Browsing.ThreatEntryType" />, which indicates
-    ///     how its associated threats is posed.
+    ///     Identifies a threat list. A threat list is identified using a <see cref="Browsing.ThreatListName" />
     /// </remarks>
     public sealed class ThreatListDescriptor {
         /// <summary>
         ///     Determine if Threat List is a Malware List.
         /// </summary>
         /// <remarks>
-        ///     Determines if the threat list is a <see cref="Browsing.ThreatType.Malware" /> list.
+        ///     Determines if the threat list is on <see cref="Browsing.ThreatListName.mw_4b" /> list.
         /// </remarks>
-        public bool IsMalwareList => this.ThreatType == ThreatType.Malware;
+        public bool IsMalwareList => this.ThreatListName == ThreatListName.mw_4b;
 
         /// <summary>
         ///     Determine if Threat List is a Potentially Harmful Application List.
         /// </summary>
         /// <remarks>
-        ///     Determines if the threat list is a <see cref="Browsing.ThreatType.PotentiallyHarmfulApplication" />
+        ///     Determines if the threat list is a <see cref="ThreatListName.pha_4b" />
         ///     (PHA) list.
         /// </remarks>
-        public bool IsPotentiallyHarmfulApplicationList => this.ThreatType == ThreatType.PotentiallyHarmfulApplication;
+        public bool IsPotentiallyHarmfulApplicationList => this.ThreatListName == ThreatListName.pha_4b;
 
         /// <summary>
         ///     Determine if Threat List is a Social Engineering List.
         /// </summary>
         /// <remarks>
-        ///     Determines if the threat list is a <see cref="Browsing.ThreatType.SocialEngineering" /> list.
+        ///     Determines if the threat list is a <see cref="ThreatListName.se_4b" /> list.
         /// </remarks>
-        public bool IsSocialEngineeringList => this.ThreatType == ThreatType.SocialEngineering;
+        public bool IsSocialEngineeringList => this.ThreatListName == ThreatListName.se_4b;
 
         /// <summary>
         ///     Determine if Threat List is an Unwanted Software List.
         /// </summary>
         /// <remarks>
-        ///     Determines if the threat list is an <see cref="Browsing.ThreatType.UnwantedSoftware" /> list.
+        ///     Determines if the threat list is an <see cref="ThreatListName.uws_4b" /> list.
         /// </remarks>
-        public bool IsUnwantedSoftwareList => this.ThreatType == ThreatType.UnwantedSoftware;
-
-        /// <summary>
-        ///     Get Threat List's Platform Type.
-        /// </summary>
-        /// <remarks>
-        ///     Represents the <see cref="PlatformType" /> identifying the threat list.
-        /// </remarks>
-        public PlatformType PlatformType { get; }
-
-        /// <summary>
-        ///     Get Threat List's Threat Entry Type.
-        /// </summary>
-        /// <remarks>
-        ///     Represents the <see cref="ThreatEntryType" /> identifying the threat list.
-        /// </remarks>
-        public ThreatEntryType ThreatEntryType { get; }
+        public bool IsUnwantedSoftwareList => this.ThreatListName == ThreatListName.uws_4b;
 
         /// <summary>
         ///     Get Threat List's Threat Type.
@@ -64,24 +45,16 @@
         /// <remarks>
         ///     Represents the <see cref="ThreatType" /> identifying the threat list.
         /// </remarks>
-        public ThreatType ThreatType { get; }
+        public ThreatListName ThreatListName { get; }
 
         /// <summary>
         ///     Create a Threat List Descriptor.
         /// </summary>
-        /// <param name="threatType">
-        ///     A <see cref="ThreatType" /> identifying the threat list.
+        /// <param name="threatListName">
+        ///     A <see cref="ThreatListName" /> identifying the threat list.
         /// </param>
-        /// <param name="platformType">
-        ///     A <see cref="PlatformType" /> identifying the threat list.
-        /// </param>
-        /// <param name="threatEntryType">
-        ///     A <see cref="ThreatEntryType" /> identifying the threat list.
-        /// </param>
-        public ThreatListDescriptor(ThreatType threatType, PlatformType platformType, ThreatEntryType threatEntryType) {
-            this.PlatformType = platformType;
-            this.ThreatEntryType = threatEntryType;
-            this.ThreatType = threatType;
+        public ThreatListDescriptor(ThreatListName threatListName) {
+            this.ThreatListName = threatListName;
         }
 
         /// <summary>
@@ -96,9 +69,7 @@
         public override bool Equals(object @object) {
             var isEqual = @object != null &&
                           @object is ThreatListDescriptor threatListDescriptor &&
-                          this.PlatformType == threatListDescriptor.PlatformType &&
-                          this.ThreatEntryType == threatListDescriptor.ThreatEntryType &&
-                          this.ThreatType == threatListDescriptor.ThreatType;
+                          this.ThreatListName == threatListDescriptor.ThreatListName;
 
             return isEqual;
         }
@@ -112,9 +83,7 @@
         public override int GetHashCode() {
             unchecked {
                 var hashCode = 13;
-                hashCode = hashCode * 7 + this.PlatformType.GetHashCode();
-                hashCode = hashCode * 7 + this.ThreatEntryType.GetHashCode();
-                hashCode = hashCode * 7 + this.ThreatType.GetHashCode();
+                hashCode = hashCode * 7 + this.ThreatListName.GetHashCode();
 
                 return hashCode;
             }
@@ -127,7 +96,7 @@
         ///     The object's string representation.
         /// </returns>
         public override string ToString() {
-            var @string = $"{this.ThreatType}/{this.PlatformType}/{this.ThreatEntryType}";
+            var @string = $"{this.ThreatListName}";
             return @string;
         }
     }

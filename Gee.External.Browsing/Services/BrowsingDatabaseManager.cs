@@ -234,7 +234,7 @@ namespace Gee.External.Browsing.Services {
                         // new threat lists are made available between synchronization iterations.
                         //
                         // Throws an exception if the operation fails.
-                        var cGetThreatListDescriptorsTask = @this._client.GetThreatListDescriptorsAsync();
+                        var cGetThreatListDescriptorsTask = @this._client.GetThreatListDescriptors();
                         cThreatListDescriptors = await cGetThreatListDescriptorsTask.ConfigureAwait(false);
                     }
 
@@ -315,7 +315,7 @@ namespace Gee.External.Browsing.Services {
                     // Throws an exception if the operation fails.
                     var cComputeThreatListChecksumTask = @this._database.ComputeThreatListChecksumAsync(cThreatList.Descriptor);
                     var cThreatListChecksum = await cComputeThreatListChecksumTask.ConfigureAwait(false);
-                    if (cThreatListChecksum != cThreatListUpdateResult.RetrievedThreatListChecksum) {
+                    if (cThreatListUpdateResult.RetrievedThreatListChecksum != null && cThreatListChecksum != cThreatListUpdateResult.RetrievedThreatListChecksum) {
                         // ...
                         //
                         // Throws an exception if the operation fails.

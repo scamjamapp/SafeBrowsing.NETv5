@@ -125,3 +125,7 @@ _ReSharper*/
 
 ### DocFX Files.
 .docs/api/
+
+*.DS_Store
+
+Gee.External.Browsing/project-review-2026-09-07.txt

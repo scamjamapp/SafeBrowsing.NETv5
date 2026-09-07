@@ -34,10 +34,8 @@ namespace Gee.External.Browsing.Clients.Http {
             //      Create Associated Threat List Descriptor.
             // </summary>
             ThreatListDescriptor CreateAssociatedThreatListDescriptor(UnsafeThreatModel cThis) {
-                var cPlatformType = cThis.PlatformType.AsPlatformType();
-                var cThreatEntryType = cThis.ThreatEntryType.AsThreatEntryType();
-                var cThreatType = cThis.ThreatType.AsThreatType();
-                var cAssociatedThreatListDescriptor = new ThreatListDescriptor(cThreatType, cPlatformType, cThreatEntryType);
+                var cThreatListName = cThis.ThreatType.AsThreatListName();
+                var cAssociatedThreatListDescriptor = new ThreatListDescriptor(cThreatListName);
 
                 return cAssociatedThreatListDescriptor;
             }

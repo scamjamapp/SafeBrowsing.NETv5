@@ -9,9 +9,7 @@ namespace Gee.External.Browsing {
     /// </summary>
     /// <remarks>
     ///     Represents a threat list retrieved from the Google Safe Browsing API. A threat list is identified using a
-    ///     <see cref="ThreatType" />, which indicates the nature of its associated threats, a
-    ///     <see cref="PlatformType" />, which indicates the platform its associated threats target, and a
-    ///     <see cref="ThreatEntryType" />, which indicates how its associated threats is posed.
+    ///     <see cref="ThreatListName" />, which indicates the nature of its associated threats.
     /// </remarks>
     public sealed class ThreatList {
         /// <summary>

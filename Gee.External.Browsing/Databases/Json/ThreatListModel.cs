@@ -8,11 +8,6 @@ namespace Gee.External.Browsing.Databases.Json {
     /// </summary>
     [Serializable]
     internal sealed class ThreatListModel {
-        /// <summary>
-        ///     Get and Set Threat List's Platform Type.
-        /// </summary>
-        [JsonProperty(PropertyName = "PlatformType")]
-        public PlatformType PlatformType { get; set; }
 
         /// <summary>
         ///     Get and Set Threat List's Retrieve Date.
@@ -25,13 +20,6 @@ namespace Gee.External.Browsing.Databases.Json {
         /// </summary>
         [JsonProperty(PropertyName = "State")]
         public string State { get; set; }
-
-        /// <summary>
-        ///     Get and Set Threat List's Threat Entry Type.
-        /// </summary>
-        [JsonProperty(PropertyName = "ThreatEntryType")]
-        public ThreatEntryType ThreatEntryType { get; set; }
-
         /// <summary>
         ///     Get and Set Threat SHA256 Hash Prefixes.
         /// </summary>
@@ -39,10 +27,10 @@ namespace Gee.External.Browsing.Databases.Json {
         public IEnumerable<string> ThreatSha256HashPrefixes { get; set; }
 
         /// <summary>
-        ///     Get and Set Threat List's Threat Type.
+        ///     Get and Set Threat List's Name.
         /// </summary>
-        [JsonProperty(PropertyName = "ThreatType")]
-        public ThreatType ThreatType { get; set; }
+        [JsonProperty(PropertyName = "ThreatListName")]
+        public ThreatListName ThreatListName { get; set; }
 
         /// <summary>
         ///     Get and Set Threat List's Wait to Date.

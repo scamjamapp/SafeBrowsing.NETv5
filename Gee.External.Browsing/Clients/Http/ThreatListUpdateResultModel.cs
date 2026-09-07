@@ -15,18 +15,6 @@ namespace Gee.External.Browsing.Clients.Http {
         public ThreatListUpdateChecksumModel Checksum { get; set; }
 
         /// <summary>
-        ///     Get and Set Platform Type.
-        /// </summary>
-        [JsonProperty(PropertyName = "platformType", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string PlatformType { get; set; }
-
-        /// <summary>
-        ///     Get and Set Threat Entry Type.
-        /// </summary>
-        [JsonProperty(PropertyName = "threatEntryType", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string ThreatEntryType { get; set; }
-
-        /// <summary>
         ///     Get and Set Threat List State.
         /// </summary>
         [JsonProperty(PropertyName = "newClientState", DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -48,7 +36,7 @@ namespace Gee.External.Browsing.Clients.Http {
         ///     Get and Set Threat Type.
         /// </summary>
         [JsonProperty(PropertyName = "threatType", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string ThreatType { get; set; }
+        public string ThreatListName { get; set; }
 
         /// <summary>
         ///     Get and Set Update Type.

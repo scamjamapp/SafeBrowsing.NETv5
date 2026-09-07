@@ -153,13 +153,13 @@ namespace Gee.External.Browsing.Clients {
         /// <exception cref="System.TimeoutException">
         ///     Thrown if communication with the Google Safe Browsing API times out.
         /// </exception>
-        public static Task<IEnumerable<ThreatListDescriptor>> GetThreatListDescriptorsAsync(this IBrowsingClient @this) {
+        public static Task<IEnumerable<ThreatListDescriptor>> GetThreatListDescriptors(this IBrowsingClient @this) {
             Guard.ThrowIf(nameof(@this), @this).Null();
 
             // ...
             //
             // Throws an exception if the operation fails.
-            var getThreatListDescriptorsTask = @this.GetThreatListDescriptorsAsync(CancellationToken.None);
+            var getThreatListDescriptorsTask = @this.GetThreatListDescriptors(CancellationToken.None);
             return getThreatListDescriptorsTask;
         }
 

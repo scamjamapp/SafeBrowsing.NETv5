@@ -100,9 +100,13 @@ namespace Gee.External.Browsing.Databases.Json {
             try {
                 this.LockFile();
 
+                if (!File.Exists(this._filePath)) {
+                    File.WriteAllText(this._filePath, "{}", Encoding.ASCII);
+                }
+
                 var fileContents = File.ReadAllText(this._filePath, Encoding.ASCII);
                 var fileModel = JsonConvert.DeserializeObject<FileModel>(fileContents);
-                return fileModel;
+                return fileModel ?? new FileModel();
             }
             catch (Exception ex) {
                 var detailMessage = $"A file ({this._filePath}) could not be read.";

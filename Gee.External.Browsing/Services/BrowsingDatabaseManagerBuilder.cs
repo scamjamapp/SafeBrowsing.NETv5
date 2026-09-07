@@ -169,38 +169,25 @@ namespace Gee.External.Browsing.Services {
         /// <summary>
         ///     Restrict Updates.
         /// </summary>
-        /// <param name="threatType">
-        ///     A <see cref="ThreatType" /> identifying a <see cref="ThreatList" /> to restrict updates to.
-        /// </param>
-        /// <param name="platformType">
-        ///     A <see cref="PlatformType" /> identifying a <see cref="ThreatList" /> to restrict updates to.
-        /// </param>
-        /// <param name="threatEntryType">
-        ///     A <see cref="ThreatEntryType" /> identifying a <see cref="ThreatList" /> to restrict updates to.
+        /// <param name="threatListName">
+        ///     A <see cref="ThreatListName" /> identifying a <see cref="ThreatListName" /> to restrict updates to.
         /// </param>
         /// <returns>
         ///     This database manager builder.
         /// </returns>
-        public BrowsingDatabaseManagerBuilder RestrictUpdatesTo(ThreatType threatType, PlatformType platformType, ThreatEntryType threatEntryType) {
-            return this.RestrictUpdatesTo(threatType, platformType, threatEntryType, ThreatListUpdateConstraints.Default);
+        public BrowsingDatabaseManagerBuilder RestrictUpdatesTo(ThreatListName threatListName) {
+            return this.RestrictUpdatesTo(threatListName, ThreatListUpdateConstraints.Default);
         }
 
         /// <summary>
         ///     Restrict Updates.
         /// </summary>
-        /// <param name="threatType">
-        ///     A <see cref="ThreatType" /> identifying a <see cref="ThreatList" /> to restrict updates to.
-        /// </param>
-        /// <param name="platformType">
-        ///     A <see cref="PlatformType" /> identifying a <see cref="ThreatList" /> to restrict updates to.
-        /// </param>
-        /// <param name="threatEntryType">
-        ///     A <see cref="ThreatEntryType" /> identifying a <see cref="ThreatList" /> to restrict updates to.
+        /// <param name="threatListName">
+        ///     A <see cref="ThreatListName" /> identifying a <see cref="ThreatListName" /> to restrict updates to.
         /// </param>
         /// <param name="updateConstraintsAction">
         ///     An action to create the <see cref="ThreatListUpdateConstraints" /> to apply when the
-        ///     <see cref="ThreatList" /> identified by <paramref name="threatType" />,
-        ///     <paramref name="platformType" />, and <paramref name="threatEntryType" /> is retrieved.
+        ///     <see cref="ThreatList" /> identified by <paramref name="threatListName" /> is retrieved.
         /// </param>
         /// <returns>
         ///     This database manager builder.
@@ -208,7 +195,7 @@ namespace Gee.External.Browsing.Services {
         /// <exception cref="System.ArgumentNullException">
         ///     Thrown if <paramref name="updateConstraintsAction" /> is a null reference.
         /// </exception>
-        public BrowsingDatabaseManagerBuilder RestrictUpdatesTo(ThreatType threatType, PlatformType platformType, ThreatEntryType threatEntryType, Func<ThreatListUpdateConstraintsBuilder, ThreatListUpdateConstraints> updateConstraintsAction) {
+        public BrowsingDatabaseManagerBuilder RestrictUpdatesTo(ThreatListName threatListName, Func<ThreatListUpdateConstraintsBuilder, ThreatListUpdateConstraints> updateConstraintsAction) {
             Guard.ThrowIf(nameof(updateConstraintsAction), updateConstraintsAction).Null();
 
             // ...
@@ -216,7 +203,7 @@ namespace Gee.External.Browsing.Services {
             // Throws an exception if the operation fails.
             var threatListUpdateConstraintsBuilder = ThreatListUpdateConstraints.Build();
             var threatListUpdateConstraints = updateConstraintsAction(threatListUpdateConstraintsBuilder);
-            this.RestrictUpdatesTo(threatType, platformType, threatEntryType, threatListUpdateConstraints);
+            this.RestrictUpdatesTo(threatListName, threatListUpdateConstraints);
 
             return this;
         }
@@ -224,19 +211,12 @@ namespace Gee.External.Browsing.Services {
         /// <summary>
         ///     Restrict Updates.
         /// </summary>
-        /// <param name="threatType">
-        ///     A <see cref="ThreatType" /> identifying a <see cref="ThreatList" /> to restrict updates to.
-        /// </param>
-        /// <param name="platformType">
-        ///     A <see cref="PlatformType" /> identifying a <see cref="ThreatList" /> to restrict updates to.
-        /// </param>
-        /// <param name="threatEntryType">
-        ///     A <see cref="ThreatEntryType" /> identifying a <see cref="ThreatList" /> to restrict updates to.
+        /// <param name="threatListName">
+        ///     A <see cref="ThreatListName" /> identifying a <see cref="ThreatListName" /> to restrict updates to.
         /// </param>
         /// <param name="updateConstraints">
         ///     The <see cref="ThreatListUpdateConstraints" /> to apply when the <see cref="ThreatList" /> identified
-        ///     by <paramref name="threatType" />, <paramref name="platformType" />, and
-        ///     <paramref name="threatEntryType" /> is retrieved.
+        ///     by <paramref name="threatListName" /> is retrieved.
         /// </param>
         /// <returns>
         ///     This database manager builder.
@@ -244,10 +224,10 @@ namespace Gee.External.Browsing.Services {
         /// <exception cref="System.ArgumentNullException">
         ///     Thrown if <paramref name="updateConstraints" /> is a null reference.
         /// </exception>
-        public BrowsingDatabaseManagerBuilder RestrictUpdatesTo(ThreatType threatType, PlatformType platformType, ThreatEntryType threatEntryType, ThreatListUpdateConstraints updateConstraints) {
+        public BrowsingDatabaseManagerBuilder RestrictUpdatesTo(ThreatListName threatListName, ThreatListUpdateConstraints updateConstraints) {
             Guard.ThrowIf(nameof(updateConstraints), updateConstraints).Null();
 
-            var threatListDescriptor = new ThreatListDescriptor(threatType, platformType, threatEntryType);
+            var threatListDescriptor = new ThreatListDescriptor(threatListName);
             this.UpdateConstraints[threatListDescriptor] = updateConstraints;
             return this;
         }

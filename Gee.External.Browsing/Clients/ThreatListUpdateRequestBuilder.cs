@@ -8,14 +8,6 @@ namespace Gee.External.Browsing.Clients {
     /// </summary>
     public sealed class ThreatListUpdateRequestBuilder {
         /// <summary>
-        ///     Get and Set Client Metadata.
-        /// </summary>
-        /// <remarks>
-        ///     Represents the metadata of the client making the threat list update request.
-        /// </remarks>
-        internal ClientMetadata ClientMetadata { get; private set; }
-
-        /// <summary>
         ///     Get and Set Queries.
         /// </summary>
         /// <remarks>
@@ -90,62 +82,9 @@ namespace Gee.External.Browsing.Clients {
             // Reinitialize the builder's state to prevent it from corrupting the immutable built object's state after
             // its built. If the object holds a reference to the builder's state, any mutation to the builder's state
             // will be reflected in the built object's state.
-            this.ClientMetadata = ClientMetadata.Default;
             this.Queries = new HashSet<ThreatListUpdateQuery>();
 
             return threatListUpdateRequest;
-        }
-
-        /// <summary>
-        ///     Set Client Metadata.
-        /// </summary>
-        /// <param name="value">
-        ///     The metadata of the client making the threat list update request. A null reference indicates the
-        ///     client's metadata is unknown.
-        /// </param>
-        /// <returns>
-        ///     This threat list update request builder.
-        /// </returns>
-        public ThreatListUpdateRequestBuilder SetClientMetadata(ClientMetadata value) {
-            this.ClientMetadata = value ?? ClientMetadata.Default;
-            return this;
-        }
-
-        /// <summary>
-        ///     Set Client Metadata.
-        /// </summary>
-        /// <param name="id">
-        ///     A unique identifier identifying the client.
-        /// </param>
-        /// <param name="majorVersion">
-        ///     The client's major version.
-        /// </param>
-        /// <param name="minorVersion">
-        ///     The client's minor version.
-        /// </param>
-        /// <param name="patchVersion">
-        ///     The client's patch version.
-        /// </param>
-        /// <returns>
-        ///     This threat list update request builder.
-        /// </returns>
-        /// <exception cref="System.ArgumentException">
-        ///     Thrown if <paramref name="id" /> consists exclusively of whitespace characters.
-        /// </exception>
-        /// <exception cref="System.ArgumentNullException">
-        ///     Thrown if <paramref name="id" /> is a null reference.
-        /// </exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        ///     Thrown if <paramref name="majorVersion" /> is less than <c>0</c>, or if
-        ///     <paramref name="minorVersion" /> is less than <c>0</c>, or if <paramref name="patchVersion" /> is less
-        ///     than <c>0</c>.
-        /// </exception>
-        public ThreatListUpdateRequestBuilder SetClientMetadata(string id, int majorVersion, int minorVersion, int patchVersion) {
-            // ...
-            //
-            // Throws an exception if the operation fails.
-            this.ClientMetadata = new ClientMetadata(id, majorVersion, minorVersion, patchVersion);
-            return this;
         }
     }
 }

@@ -58,7 +58,7 @@ namespace Gee.External.Browsing.Clients {
         /// <exception cref="System.TimeoutException">
         ///     Thrown if communication with the Google Safe Browsing API times out.
         /// </exception>
-        Task<IEnumerable<ThreatListDescriptor>> GetThreatListDescriptorsAsync(CancellationToken cancellationToken);
+        Task<IEnumerable<ThreatListDescriptor>> GetThreatListDescriptors(CancellationToken cancellationToken);
 
         /// <summary>
         ///     Get Threat List Updates Asynchronously.

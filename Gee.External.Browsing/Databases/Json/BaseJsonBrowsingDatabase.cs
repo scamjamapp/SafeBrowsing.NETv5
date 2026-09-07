@@ -58,11 +58,9 @@ namespace Gee.External.Browsing.Databases.Json {
                     var cFileModel = @this.DatabaseFileManager.Read();
                     if (cFileModel.ThreatLists != null) {
                         foreach (var cThreatListModel in cFileModel.ThreatLists) {
-                            var cPlatformType = cThreatListModel.PlatformType;
-                            var cThreatEntryType = cThreatListModel.ThreatEntryType;
-                            var cThreatType = cThreatListModel.ThreatType;
+                            var cThreatType = cThreatListModel.ThreatListName;
                             var cThreatList = ThreatList.Build()
-                                .SetDescriptor(cThreatType, cPlatformType, cThreatEntryType)
+                                .SetDescriptor(cThreatType) // TODO: rename from cThreatType
                                 .SetRetrieveDate(cThreatListModel.RetrieveDate)
                                 .SetState(cThreatListModel.State)
                                 .SetWaitToDate(cThreatListModel.WaitToDate)

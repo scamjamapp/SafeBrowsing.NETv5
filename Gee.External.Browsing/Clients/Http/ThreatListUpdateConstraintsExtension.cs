@@ -17,12 +17,9 @@
             ThreatListUpdateConstraintsModel threatListUpdateConstraintsModel = null;
             if (@this != null) {
                 threatListUpdateConstraintsModel = new ThreatListUpdateConstraintsModel();
-                threatListUpdateConstraintsModel.ClientLocation = @this.ClientLocation;
                 threatListUpdateConstraintsModel.MaximumDatabaseEntries = @this.MaximumDatabaseEntries;
                 threatListUpdateConstraintsModel.MaximumResponseEntries = @this.MaximumResponseEntries;
                 threatListUpdateConstraintsModel.SupportedCompressionTypes = CreateSupportedCompressionTypes();
-                threatListUpdateConstraintsModel.ThreatListLanguage = @this.ThreatListLanguage;
-                threatListUpdateConstraintsModel.ThreatListLocation = @this.ThreatListLocation;
             }
 
             return threatListUpdateConstraintsModel;

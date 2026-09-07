@@ -328,10 +328,10 @@ namespace Gee.External.Browsing.Clients {
         ///     Thrown if communication with the Google Safe Browsing API times out.
         /// </exception>
         [SuppressMessage("ReSharper", "ConvertToLocalFunction")]
-        public Task<IEnumerable<ThreatListDescriptor>> GetThreatListDescriptorsAsync(CancellationToken cancellationToken) {
+        public Task<IEnumerable<ThreatListDescriptor>> GetThreatListDescriptors(CancellationToken cancellationToken) {
             this.ThrowIfDisposed();
 
-            Func<Task<IEnumerable<ThreatListDescriptor>>> resiliencyPolicyAction = () => this._client.GetThreatListDescriptorsAsync(cancellationToken);
+            Func<Task<IEnumerable<ThreatListDescriptor>>> resiliencyPolicyAction = () => this._client.GetThreatListDescriptors(cancellationToken);
             var executeResiliencyPolicyTask = this.ExecuteResiliencyPolicyAsync(resiliencyPolicyAction);
             return executeResiliencyPolicyTask;
         }

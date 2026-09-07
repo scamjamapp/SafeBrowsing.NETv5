@@ -83,20 +83,14 @@ namespace Gee.External.Browsing.Clients {
         /// <summary>
         ///     Set Threat List Descriptor.
         /// </summary>
-        /// <param name="threatType">
-        ///     A <see cref="ThreatType" /> identifying the <see cref="ThreatList" /> to retrieve.
-        /// </param>
-        /// <param name="platformType">
-        ///     A <see cref="PlatformType" /> identifying the <see cref="ThreatList" /> to retrieve.
-        /// </param>
-        /// <param name="threatEntryType">
-        ///     A <see cref="ThreatEntryType" /> identifying the <see cref="ThreatList" /> to retrieve.
+        /// <param name="threatListName">
+        ///     A <see cref="ThreatListName" /> identifying the <see cref="ThreatListName" /> to retrieve.
         /// </param>
         /// <returns>
         ///     This threat list update query builder.
         /// </returns>
-        public ThreatListUpdateQueryBuilder SetThreatListDescriptor(ThreatType threatType, PlatformType platformType, ThreatEntryType threatEntryType) {
-            this.ThreatListDescriptor = new ThreatListDescriptor(threatType, platformType, threatEntryType);
+        public ThreatListUpdateQueryBuilder SetThreatListDescriptor(ThreatListName threatListName) {
+            this.ThreatListDescriptor = new ThreatListDescriptor(threatListName);
             return this;
         }
 

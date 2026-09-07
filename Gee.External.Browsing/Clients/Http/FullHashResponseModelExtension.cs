@@ -28,12 +28,11 @@ namespace Gee.External.Browsing.Clients.Http {
             if (@this != null) {
                 var safeThreatsExpirationDate = CreateSafeThreatsExpirationDate(@this);
                 var unsafeThreats = @this.UnsafeThreats?.Select(utm => utm.AsUnsafeThreat());
-                var waitToDate = CreateWaitToDate(@this);
 
                 // ...
                 //
                 // Throws an exception if the operation fails.
-                fullHashResponse = new FullHashResponse(request, safeThreatsExpirationDate, unsafeThreats, waitToDate);
+                fullHashResponse = new FullHashResponse(request, safeThreatsExpirationDate, unsafeThreats);
             }
 
             return fullHashResponse;
@@ -52,22 +51,6 @@ namespace Gee.External.Browsing.Clients.Http {
                 }
 
                 return cSafeThreatsExpirationDate;
-            }
-
-            // <summary>
-            //      Create Wait to Date.
-            // </summary>
-            DateTime? CreateWaitToDate(FullHashResponseModel cThis) {
-                DateTime? cWaitToDate = null;
-                if (cThis.WaitDuration != null) {
-                    var cWaitDuration = cThis.WaitDuration.Substring(0, cThis.WaitDuration.Length - 1);
-                    var cIsWaitDurationParsed = double.TryParse(cWaitDuration, out var cWaitDurationDouble);
-                    if (cIsWaitDurationParsed) {
-                        cWaitToDate = DateTime.UtcNow.AddSeconds(cWaitDurationDouble);
-                    }
-                }
-
-                return cWaitToDate;
             }
         }
     }

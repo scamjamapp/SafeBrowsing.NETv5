@@ -1962,7 +1962,7 @@
                 Thrown if communication with the Google Safe Browsing API times out.
             </exception>
         </member>
-        <member name="M:Gee.External.Browsing.Clients.BrowsingClientExtension.GetThreatListDescriptorsAsync(Gee.External.Browsing.Clients.IBrowsingClient)">
+        <member name="M:Gee.External.Browsing.Clients.BrowsingClientExtension.GetThreatListDescriptors(Gee.External.Browsing.Clients.IBrowsingClient)">
             <summary>
                 Get Threat List Descriptors Asynchronously.
             </summary>
@@ -2220,7 +2220,7 @@
                 Thrown if communication with the Google Safe Browsing API times out.
             </exception>
         </member>
-        <member name="M:Gee.External.Browsing.Clients.BrowsingClientProxy.GetThreatListDescriptorsAsync(System.Threading.CancellationToken)">
+        <member name="M:Gee.External.Browsing.Clients.BrowsingClientProxy.GetThreatListDescriptors(System.Threading.CancellationToken)">
             <summary>
                 Get Threat List Descriptors Asynchronously.
             </summary>
@@ -2279,110 +2279,6 @@
             <exception cref="T:System.ObjectDisposedException">
                 Thrown if the object is disposed.
             </exception>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.ClientMetadata">
-            <summary>
-                Client Metadata.
-            </summary>
-        </member>
-        <member name="F:Gee.External.Browsing.Clients.ClientMetadata.Default">
-            <summary>
-                Default Client Metadata.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.ClientMetadata.Id">
-            <summary>
-                Get Client's Unique Identifier.
-            </summary>
-            <remarks>
-                Represents the unique identifier identifying the client.
-            </remarks>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.ClientMetadata.Version">
-            <summary>
-                Get Client's Version.
-            </summary>
-            <remarks>
-                Represents the client's version.
-            </remarks>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.ClientMetadata.#cctor">
-            <summary>
-                Create a Client Metadata.
-            </summary>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.ClientMetadata.#ctor(System.String,System.Version)">
-            <summary>
-                Create a Client Metadata.
-            </summary>
-            <param name="id">
-                A unique identifier identifying the client.
-            </param>
-            <param name="version">
-                The client's version.
-            </param>
-            <exception cref="T:System.ArgumentException">
-                Thrown if <paramref name="id" /> consists exclusively of whitespace characters.
-            </exception>
-            <exception cref="T:System.ArgumentNullException">
-                Thrown if <paramref name="id" /> is a null reference, or if <paramref name="version" /> is a null
-                reference.
-            </exception>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.ClientMetadata.#ctor(System.String,System.Int32,System.Int32,System.Int32)">
-            <summary>
-                Create a Client Metadata.
-            </summary>
-            <param name="id">
-                A unique identifier identifying the client.
-            </param>
-            <param name="majorVersion">
-                The client's major version.
-            </param>
-            <param name="minorVersion">
-                The client's minor version.
-            </param>
-            <param name="patchVersion">
-                The client's patch version.
-            </param>
-            <exception cref="T:System.ArgumentException">
-                Thrown if <paramref name="id" /> consists exclusively of whitespace characters.
-            </exception>
-            <exception cref="T:System.ArgumentNullException">
-                Thrown if <paramref name="id" /> is a null reference.
-            </exception>
-            <exception cref="T:System.ArgumentOutOfRangeException">
-                Thrown if <paramref name="majorVersion" /> is less than <c>0</c>, or if
-                <paramref name="minorVersion" /> is less than <c>0</c>, or if <paramref name="patchVersion" /> is less
-                than <c>0</c>.
-            </exception>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.ClientMetadata.Equals(System.Object)">
-            <summary>
-                Determine if This Object is Equal to Another Object.
-            </summary>
-            <param name="object">
-                An object to compare to.
-            </param>
-            <returns>
-                A boolean true if this object is equal to <paramref name="object"/>. A boolean false otherwise.
-            </returns>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.ClientMetadata.GetHashCode">
-            <summary>
-                Get Object's Hash Code.
-            </summary>
-            <returns>
-                The object's hash code.
-            </returns>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.ClientMetadata.ToString">
-            <summary>
-                Get Object's String Representation.
-            </summary>
-            <returns>
-                The object's string representation.
-            </returns>
         </member>
         <member name="T:Gee.External.Browsing.Clients.CompressionType">
             <summary>
@@ -2450,23 +2346,16 @@
                 Thrown if <paramref name="threatListState" /> is not hexadecimal encoded.
             </exception>
         </member>
-        <member name="M:Gee.External.Browsing.Clients.FullHashQuery.#ctor(Gee.External.Browsing.ThreatType,Gee.External.Browsing.PlatformType,Gee.External.Browsing.ThreatEntryType,System.String)">
+        <member name="M:Gee.External.Browsing.Clients.FullHashQuery.#ctor(Gee.External.Browsing.ThreatListName,System.String)">
             <summary>
                 Create a Full Hash Query.
             </summary>
-            <param name="threatType">
-                A <see cref="T:Gee.External.Browsing.ThreatType" /> identifying the <see cref="T:Gee.External.Browsing.ThreatList" /> to query.
-            </param>
-            <param name="platformType">
-                A <see cref="T:Gee.External.Browsing.PlatformType" /> identifying the <see cref="T:Gee.External.Browsing.ThreatList" /> to query.
-            </param>
-            <param name="threatEntryType">
-                A <see cref="T:Gee.External.Browsing.ThreatEntryType" /> identifying the <see cref="T:Gee.External.Browsing.ThreatList" /> to query.
+            <param name="threatListName">
+                A <see cref="T:Gee.External.Browsing.ThreatListName" /> identifying the <see cref="T:Gee.External.Browsing.ThreatListName" /> to query.
             </param>
             <param name="threatListState">
                 The state, formatted as a hexadecimal encoded string, of the <see cref="T:Gee.External.Browsing.ThreatList" /> identified by
-                <paramref name="threatType" />, <paramref name="platformType" />, and
-                <paramref name="threatEntryType" />.
+                <paramref name="threatListName" />
             </param>
             <exception cref="T:System.ArgumentNullException">
                 Thrown if <paramref name="threatListState" /> is a null reference.
@@ -2506,14 +2395,6 @@
             <summary>
                 Full Hash Request.
             </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.FullHashRequest.ClientMetadata">
-            <summary>
-                Get Client Metadata.
-            </summary>
-            <remarks>
-                Represents the <see cref="T:Gee.External.Browsing.Clients.ClientMetadata" /> of the client making the full hash request.
-            </remarks>
         </member>
         <member name="P:Gee.External.Browsing.Clients.FullHashRequest.Queries">
             <summary>
@@ -2563,31 +2444,6 @@
                 encoded.
             </exception>
         </member>
-        <member name="M:Gee.External.Browsing.Clients.FullHashRequest.#ctor(System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{Gee.External.Browsing.Clients.FullHashQuery},Gee.External.Browsing.Clients.ClientMetadata)">
-            <summary>
-                Create a Full Hash Request.
-            </summary>
-            <param name="sha256HashPrefixes">
-                A collection of SHA256 hash prefixes, formatted as hexadecimal encoded strings, identifying the
-                threats to query.
-            </param>
-            <param name="queries">
-                A collection of <see cref="T:Gee.External.Browsing.Clients.FullHashQuery" /> indicating the collection of <see cref="T:Gee.External.Browsing.ThreatList" />
-                the threats identified by <paramref name="sha256HashPrefixes" /> are associated with.
-            </param>
-            <param name="clientMetadata">
-                The <see cref="T:Gee.External.Browsing.Clients.ClientMetadata" /> of the client making the full hash request. A null reference
-                indicates the metadata of the client is unknown.
-            </param>
-            <exception cref="T:System.ArgumentNullException">
-                Thrown if <paramref name="queries" /> is a null reference, or if <paramref name="sha256HashPrefixes" />
-                is a null reference.
-            </exception>
-            <exception cref="T:System.FormatException">
-                Thrown if <paramref name="sha256HashPrefixes" /> contains a SHA256 hash prefix that is not hexadecimal
-                encoded.
-            </exception>
-        </member>
         <member name="M:Gee.External.Browsing.Clients.FullHashRequest.#ctor(Gee.External.Browsing.Clients.FullHashRequestBuilder)">
             <summary>
                 Create a Full Hash Request.
@@ -2603,14 +2459,6 @@
             <summary>
                 Full Hash Request Builder.
             </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.FullHashRequestBuilder.ClientMetadata">
-            <summary>
-                Get and Set Client Metadata.
-            </summary>
-            <remarks>
-                Represents the <see cref="T:Gee.External.Browsing.Clients.ClientMetadata" /> of the client making the full hash request.
-            </remarks>
         </member>
         <member name="P:Gee.External.Browsing.Clients.FullHashRequestBuilder.Queries">
             <summary>
@@ -2672,23 +2520,16 @@
                 Thrown if <paramref name="threatListState" /> is not hexadecimal encoded.
             </exception>
         </member>
-        <member name="M:Gee.External.Browsing.Clients.FullHashRequestBuilder.AddQuery(Gee.External.Browsing.ThreatType,Gee.External.Browsing.PlatformType,Gee.External.Browsing.ThreatEntryType,System.String)">
+        <member name="M:Gee.External.Browsing.Clients.FullHashRequestBuilder.AddQuery(Gee.External.Browsing.ThreatListName,System.String)">
             <summary>
                 Add Query.
             </summary>
-            <param name="threatType">
-                A <see cref="T:Gee.External.Browsing.ThreatType" /> identifying the <see cref="T:Gee.External.Browsing.ThreatList" /> to query.
-            </param>
-            <param name="platformType">
-                A <see cref="T:Gee.External.Browsing.PlatformType" /> identifying the <see cref="T:Gee.External.Browsing.ThreatList" /> to query.
-            </param>
-            <param name="threatEntryType">
-                A <see cref="T:Gee.External.Browsing.ThreatEntryType" /> identifying the <see cref="T:Gee.External.Browsing.ThreatList" /> to query.
+            <param name="threatListName">
+                A <see cref="T:Gee.External.Browsing.ThreatListName" /> identifying the <see cref="T:Gee.External.Browsing.ThreatListName" /> to query.
             </param>
             <param name="threatListState">
                 The state, formatted as a hexadecimal encoded string, of the <see cref="T:Gee.External.Browsing.ThreatList" /> identified by
-                <paramref name="threatType" />, <paramref name="platformType" />, and
-                <paramref name="threatEntryType" />.
+                <paramref name="threatListName" />
             </param>
             <returns>
                 This full hash request builder.
@@ -2724,49 +2565,6 @@
             <returns>
                 A <see cref="T:Gee.External.Browsing.Clients.FullHashRequest" />.
             </returns>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.FullHashRequestBuilder.SetClientMetadata(Gee.External.Browsing.Clients.ClientMetadata)">
-            <summary>
-                Set Client Metadata.
-            </summary>
-            <param name="value">
-                The <see cref="T:Gee.External.Browsing.Clients.ClientMetadata" /> of the client making the full hash request. A null reference
-                indicates the metadata of the client is unknown.
-            </param>
-            <returns>
-                This full hash request builder.
-            </returns>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.FullHashRequestBuilder.SetClientMetadata(System.String,System.Int32,System.Int32,System.Int32)">
-            <summary>
-                Set Client Metadata.
-            </summary>
-            <param name="id">
-                A unique identifier identifying the client.
-            </param>
-            <param name="majorVersion">
-                The client's major version.
-            </param>
-            <param name="minorVersion">
-                The client's minor version.
-            </param>
-            <param name="patchVersion">
-                The client's patch version.
-            </param>
-            <returns>
-                This full hash request builder.
-            </returns>
-            <exception cref="T:System.ArgumentException">
-                Thrown if <paramref name="id" /> consists exclusively of whitespace characters.
-            </exception>
-            <exception cref="T:System.ArgumentNullException">
-                Thrown if <paramref name="id" /> is a null reference.
-            </exception>
-            <exception cref="T:System.ArgumentOutOfRangeException">
-                Thrown if <paramref name="majorVersion" /> is less than <c>0</c>, or if
-                <paramref name="minorVersion" /> is less than <c>0</c>, or if <paramref name="patchVersion" /> is less
-                than <c>0</c>.
-            </exception>
         </member>
         <member name="T:Gee.External.Browsing.Clients.FullHashResponse">
             <summary>
@@ -2807,16 +2605,6 @@
                 determined to be unsafe.
             </remarks>
         </member>
-        <member name="P:Gee.External.Browsing.Clients.FullHashResponse.WaitToDate">
-            <summary>
-                Get Wait to Date.
-            </summary>
-            <remarks>
-                Represents the date, in Coordinated Universal Time (UTC), a client must wait to before issuing another
-                <see cref="T:Gee.External.Browsing.Clients.FullHashRequest" /> to the Google Safe Browsing API. A null reference indicates a client
-                does not have to wait.
-            </remarks>
-        </member>
         <member name="M:Gee.External.Browsing.Clients.FullHashResponse.Build">
             <summary>
                 Build a Full Hash Response.
@@ -2825,7 +2613,7 @@
                 A <see cref="T:Gee.External.Browsing.Clients.FullHashResponseBuilder" /> to build a full hash response with.
             </returns>
         </member>
-        <member name="M:Gee.External.Browsing.Clients.FullHashResponse.#ctor(Gee.External.Browsing.Clients.FullHashRequest,System.DateTime,System.Collections.Generic.IEnumerable{Gee.External.Browsing.UnsafeThreat},System.Nullable{System.DateTime})">
+        <member name="M:Gee.External.Browsing.Clients.FullHashResponse.#ctor(Gee.External.Browsing.Clients.FullHashRequest,System.DateTime,System.Collections.Generic.IEnumerable{Gee.External.Browsing.UnsafeThreat})">
             <summary>
                 Create a Full Hash Response.
             </summary>
@@ -2840,11 +2628,6 @@
             <param name="unsafeThreats">
                 A collection of <see cref="T:Gee.External.Browsing.UnsafeThreat" />. A null reference indicates no threats were determined to
                 be unsafe.
-            </param>
-            <param name="waitToDate">
-                The date, in Coordinated Universal Time (UTC), a client must wait to before issuing another
-                <see cref="T:Gee.External.Browsing.Clients.FullHashRequest" /> to the Google Safe Browsing API. If the date is not in UTC, it is
-                converted to it. A null reference indicates a client does not have to wait.
             </param>
             <exception cref="T:System.ArgumentNullException">
                 Thrown if <paramref name="request"/> is a null reference.
@@ -2905,16 +2688,6 @@
             <remarks>
                 Represents the collection of <see cref="T:Gee.External.Browsing.UnsafeThreat" />. An empty collection indicates no threats were
                 determined to be unsafe.
-            </remarks>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.FullHashResponseBuilder.WaitToDate">
-            <summary>
-                Get and Set Wait to Date.
-            </summary>
-            <remarks>
-                Represents the date, in Coordinated Universal Time (UTC), a client must wait to before issuing another
-                <see cref="T:Gee.External.Browsing.Clients.FullHashRequest" /> to the Google Safe Browsing API. A null reference indicates a client
-                does not have to wait.
             </remarks>
         </member>
         <member name="M:Gee.External.Browsing.Clients.FullHashResponseBuilder.#ctor">
@@ -2997,51 +2770,6 @@
                 This full hash response builder.
             </returns>
         </member>
-        <member name="M:Gee.External.Browsing.Clients.FullHashResponseBuilder.SetWaitToDate(System.Nullable{System.DateTime})">
-            <summary>
-                Set Wait to Date.
-            </summary>
-            <param name="value">
-                The date, in Coordinated Universal Time (UTC), a client must wait to before issuing another
-                <see cref="T:Gee.External.Browsing.Clients.FullHashRequest" /> to the Google Safe Browsing API. If the date is not in UTC, it is
-                converted to it. A null reference indicates a client does not have to wait.
-            </param>
-            <returns>
-                This full hash response builder.
-            </returns>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ClientMetadataExtension">
-            <summary>
-                Client Metadata Extension.
-            </summary>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.ClientMetadataExtension.AsClientMetadataModel(Gee.External.Browsing.Clients.ClientMetadata)">
-            <summary>
-                Create a Client Metadata Model.
-            </summary>
-            <param name="this">
-                A <see cref="T:Gee.External.Browsing.Clients.ClientMetadata" />.
-            </param>
-            <returns>
-                A <see cref="T:Gee.External.Browsing.Clients.Http.ClientMetadataModel" /> if <paramref name="this" /> is not a null reference. A null
-                reference otherwise.
-            </returns>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ClientMetadataModel">
-            <summary>
-                Client Metadata Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ClientMetadataModel.Id">
-            <summary>
-                Get and Set Client's Unique Identifier.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ClientMetadataModel.Version">
-            <summary>
-                Get and Set Client's Version.
-            </summary>
-        </member>
         <member name="T:Gee.External.Browsing.Clients.Http.CompressionTypeExtension">
             <summary>
                 Compression Type Extension.
@@ -3116,11 +2844,6 @@
                 Full Hash Request Model.
             </summary>
         </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.FullHashRequestModel.ClientMetadata">
-            <summary>
-                Get and Set Client Metadata.
-            </summary>
-        </member>
         <member name="P:Gee.External.Browsing.Clients.Http.FullHashRequestModel.Query">
             <summary>
                 Get and Set Query.
@@ -3190,11 +2913,6 @@
                 Find Full Hashes URI.
             </summary>
         </member>
-        <member name="F:Gee.External.Browsing.Clients.Http.HttpBrowsingClient.GetThreatListDescriptorsUri">
-            <summary>
-                Get ThreatList Descriptors URI.
-            </summary>
-        </member>
         <member name="F:Gee.External.Browsing.Clients.Http.HttpBrowsingClient.GetThreatListUpdatesUri">
             <summary>
                 Get Threat List Updates URI.
@@ -3204,6 +2922,17 @@
             <summary>
                 API Key.
             </summary>
+        </member>
+        <member name="F:Gee.External.Browsing.Clients.Http.HttpBrowsingClient.ValidThreatListNames">
+            <summary>
+                Valid Threat List Names.
+            </summary>
+            <remarks>
+                The names of the threat lists that are available from the Google Safe Browsing API. The Google Safe
+                Browsing API guarantees a hash list it has ever made available is never removed, so the names are
+                hardcoded instead of being retrieved from the API. The API's global cache, "gc-32b", is deliberately
+                omitted since it identifies hashes that are likely safe, not hashes that pose a threat.
+            </remarks>
         </member>
         <member name="F:Gee.External.Browsing.Clients.Http.HttpBrowsingClient._disposed">
             <summary>
@@ -3255,27 +2984,25 @@
                 Thrown if communication with the Google Safe Browsing API times out.
             </exception>
         </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.HttpBrowsingClient.GetThreatListDescriptorsAsync(System.Threading.CancellationToken)">
+        <member name="M:Gee.External.Browsing.Clients.Http.HttpBrowsingClient.GetThreatListDescriptors(System.Threading.CancellationToken)">
             <summary>
                 Get Threat List Descriptors Asynchronously.
             </summary>
+            <remarks>
+                No HTTP request to the Google Safe Browsing API is made. The API guarantees a hash list it has ever
+                made available is never removed, and explicitly allows a client to hardcode the hash lists it needs, so
+                the threat list descriptors are created from <see cref="F:Gee.External.Browsing.Clients.Http.HttpBrowsingClient.ValidThreatListNames" /> instead. The operation
+                always completes synchronously and always succeeds.
+            </remarks>
             <param name="cancellationToken">
-                A cancellation token to cancel the asynchronous operation with.
+                A cancellation token to cancel the asynchronous operation with. It is never observed, since the
+                operation never blocks, but is accepted to implement <see cref="T:Gee.External.Browsing.Clients.IBrowsingClient" />.
             </param>
             <returns>
                 A collection of <see cref="T:Gee.External.Browsing.ThreatListDescriptor" />.
             </returns>
-            <exception cref="T:Gee.External.Browsing.Clients.BrowsingClientException">
-                Thrown if an error communicating with the Google Safe Browsing API occurs.
-            </exception>
             <exception cref="T:System.ObjectDisposedException">
                 Thrown if the object is disposed.
-            </exception>
-            <exception cref="T:System.OperationCanceledException">
-                Thrown if the asynchronous operation is cancelled.
-            </exception>
-            <exception cref="T:System.TimeoutException">
-                Thrown if communication with the Google Safe Browsing API times out.
             </exception>
         </member>
         <member name="M:Gee.External.Browsing.Clients.Http.HttpBrowsingClient.GetThreatListUpdatesAsync(Gee.External.Browsing.Clients.ThreatListUpdateRequest,System.Threading.CancellationToken)">
@@ -3339,33 +3066,6 @@
                 An HTTP message handler.
             </returns>
         </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.PlatformTypeExtension">
-            <summary>
-                Platform Type Extension.
-            </summary>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.PlatformTypeExtension.AsPlatformType(System.String)">
-            <summary>
-                Create a Platform Type.
-            </summary>
-            <param name="this">
-                A string identifying a <see cref="T:Gee.External.Browsing.PlatformType" />.
-            </param>
-            <returns>
-                A <see cref="T:Gee.External.Browsing.PlatformType" />.
-            </returns>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.PlatformTypeExtension.AsPlatformTypeModel(Gee.External.Browsing.PlatformType)">
-            <summary>
-                Create a Platform Type Model.
-            </summary>
-            <param name="this">
-                A <see cref="T:Gee.External.Browsing.PlatformType" />.
-            </param>
-            <returns>
-                A string identifying a <see cref="T:Gee.External.Browsing.PlatformType" />.
-            </returns>
-        </member>
         <member name="T:Gee.External.Browsing.Clients.Http.ThreatEntryMetadataEntryModel">
             <summary>
                 Threat Entry Metadata Entry Model.
@@ -3421,49 +3121,12 @@
                 Get and Set Uncompressed SHA256 Hashes.
             </summary>
         </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatEntryTypeExtension">
-            <summary>
-                Threat Entry Type Extension.
-            </summary>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.ThreatEntryTypeExtension.AsThreatEntryType(System.String)">
-            <summary>
-                Create a Threat Entry Type.
-            </summary>
-            <param name="this">
-                A string identifying a <see cref="T:Gee.External.Browsing.ThreatEntryType" />.
-            </param>
-            <returns>
-                A <see cref="T:Gee.External.Browsing.ThreatEntryType" />.
-            </returns>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.ThreatEntryTypeExtension.AsThreatEntryTypeModel(Gee.External.Browsing.ThreatEntryType)">
-            <summary>
-                Create a Threat Entry Type Model.
-            </summary>
-            <param name="this">
-                A <see cref="T:Gee.External.Browsing.ThreatEntryType" />.
-            </param>
-            <returns>
-                A string identifying a <see cref="T:Gee.External.Browsing.ThreatEntryType" />.
-            </returns>
-        </member>
         <member name="T:Gee.External.Browsing.Clients.Http.ThreatListDescriptorModel">
             <summary>
                 Threat List Descriptor Model.
             </summary>
         </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListDescriptorModel.PlatformType">
-            <summary>
-                Get and Set Platform Type.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListDescriptorModel.ThreatEntryType">
-            <summary>
-                Get and Set Threat Entry Type.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListDescriptorModel.ThreatType">
+        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListDescriptorModel.ThreatListName">
             <summary>
                 Get and Set Threat Type.
             </summary>
@@ -3494,6 +3157,33 @@
             <summary>
                 Get and Set Threat List Descriptors.
             </summary>
+        </member>
+        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListNameExtension">
+            <summary>
+                Threat Type Extension.
+            </summary>
+        </member>
+        <member name="M:Gee.External.Browsing.Clients.Http.ThreatListNameExtension.AsThreatListName(System.String)">
+            <summary>
+                Create a Threat List Name.
+            </summary>
+            <param name="this">
+                A string identifying a <see cref="T:Gee.External.Browsing.ThreatListName" />.
+            </param>
+            <returns>
+                A <see cref="T:Gee.External.Browsing.ThreatListName" />.
+            </returns>
+        </member>
+        <member name="M:Gee.External.Browsing.Clients.Http.ThreatListNameExtension.AsThreatListNameModel(Gee.External.Browsing.ThreatListName)">
+            <summary>
+                Create a Threat Type Model.
+            </summary>
+            <param name="this">
+                A <see cref="T:Gee.External.Browsing.ThreatType" />.
+            </param>
+            <returns>
+                A string identifying a <see cref="T:Gee.External.Browsing.ThreatType" />.
+            </returns>
         </member>
         <member name="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateChecksumModel">
             <summary>
@@ -3556,6 +3246,228 @@
             <summary>
                 Get and Set Threat List Location.
             </summary>
+        </member>
+        <member name="T:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit">
+             <summary>
+                 Golomb-Rice Decoder.
+             </summary>
+             <remarks>
+                 Decodes the <see cref="T:SafeBrowsing.V5.RiceDeltaEncoded32Bit" /> data the Google Safe Browsing API returns in a
+                 <see cref="T:SafeBrowsing.V5.HashList" />, both for the four byte SHA256 hash prefixes a client should add to its locally
+                 stored copy of a threat list and for the indices of the threats a client should remove from it.
+            
+                 The encoded data is a stream of bits that is read one byte at a time, least significant bit first. Each
+                 entry is encoded as a quotient, in unary and terminated by a zero bit, followed by a remainder in
+                 <see cref="P:SafeBrowsing.V5.RiceDeltaEncoded32Bit.RiceParameter" /> bits, also read least significant bit first. An entry
+                 is <c>(quotient &lt;&lt; riceParameter) + remainder</c> and is the difference between the value it
+                 encodes and the value preceding it, so the values are recovered by accumulating the differences starting
+                 from <see cref="P:SafeBrowsing.V5.RiceDeltaEncoded32Bit.FirstValue" />. The first value is never itself encoded in the
+                 encoded data, which is why a message encoding N values has an
+                 <see cref="P:SafeBrowsing.V5.RiceDeltaEncoded32Bit.EntriesCount" /> of N - 1.
+            
+                 Unlike V4, V5 treats the decoded values as big-endian, so a decoded value is serialized to a SHA256 hash
+                 prefix most significant byte first. Lexicographically sorting the hash prefixes is therefore equivalent
+                 to numerically sorting the decoded values and a client does not need to sort them itself.
+             </remarks>
+        </member>
+        <member name="F:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.MaximumRiceParameter">
+            <summary>
+                Maximum Rice Parameter.
+            </summary>
+            <remarks>
+                The Google Safe Browsing API guarantees the Rice parameter of a <see cref="T:SafeBrowsing.V5.RiceDeltaEncoded32Bit" />
+                is between <see cref="F:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.MinimumRiceParameter" /> and <see cref="F:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.MaximumRiceParameter" />, inclusive.
+            </remarks>
+        </member>
+        <member name="F:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.MinimumRiceParameter">
+            <summary>
+                Minimum Rice Parameter.
+            </summary>
+            <remarks>
+                The Google Safe Browsing API guarantees the Rice parameter of a <see cref="T:SafeBrowsing.V5.RiceDeltaEncoded32Bit" />
+                is between <see cref="F:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.MinimumRiceParameter" /> and <see cref="F:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.MaximumRiceParameter" />, inclusive.
+            </remarks>
+        </member>
+        <member name="M:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.Decode(SafeBrowsing.V5.RiceDeltaEncoded32Bit)">
+            <summary>
+                Decode Rice-Delta Encoded Data.
+            </summary>
+            <param name="riceDelta">
+                A <see cref="T:SafeBrowsing.V5.RiceDeltaEncoded32Bit" /> to decode. A message that is omitted by the Google Safe
+                Browsing API, and is consequently a null reference, indicates there is nothing to decode and must not
+                be passed. A message that is present but has an <see cref="P:SafeBrowsing.V5.RiceDeltaEncoded32Bit.EntriesCount" /> of
+                zero encodes exactly one value, <see cref="P:SafeBrowsing.V5.RiceDeltaEncoded32Bit.FirstValue" />.
+            </param>
+            <returns>
+                The decoded values, in ascending order. When the message encodes removals, the values are the
+                zero-based indices of the threats to remove from the lexicographically sorted threat list. When it
+                encodes additions, the values are the four byte SHA256 hash prefixes to add, which you can serialize
+                with <see cref="M:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.DecodeHashPrefixes(SafeBrowsing.V5.RiceDeltaEncoded32Bit)" /> instead.
+            </returns>
+            <exception cref="T:System.ArgumentException">
+                Thrown if <paramref name="riceDelta" /> has a negative entries count, or has a Rice parameter that is
+                not between <see cref="F:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.MinimumRiceParameter" /> and <see cref="F:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.MaximumRiceParameter" />, inclusive.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+                Thrown if <paramref name="riceDelta" /> is a null reference.
+            </exception>
+            <exception cref="T:System.IO.EndOfStreamException">
+                Thrown if the encoded data is exhausted before the indicated number of entries is decoded.
+            </exception>
+            <exception cref="T:System.IO.InvalidDataException">
+                Thrown if the encoded data is malformed.
+            </exception>
+        </member>
+        <member name="M:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.DecodeHashPrefixes(SafeBrowsing.V5.RiceDeltaEncoded32Bit)">
+            <summary>
+                Decode Rice-Delta Encoded SHA256 Hash Prefixes.
+            </summary>
+            <param name="riceDelta">
+                A <see cref="T:SafeBrowsing.V5.RiceDeltaEncoded32Bit" /> encoding four byte SHA256 hash prefixes to decode. A message
+                that is omitted by the Google Safe Browsing API, and is consequently a null reference, indicates
+                there are no hash prefixes to decode and must not be passed.
+            </param>
+            <returns>
+                The four byte SHA256 hash prefixes, in lexicographical order. Each hash prefix is a decoded value
+                serialized most significant byte first, which is the byte order the Google Safe Browsing API's
+                threats are identified by.
+            </returns>
+            <exception cref="T:System.ArgumentException">
+                Thrown if <paramref name="riceDelta" /> has a negative entries count, or has a Rice parameter that is
+                not between <see cref="F:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.MinimumRiceParameter" /> and <see cref="F:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.MaximumRiceParameter" />, inclusive.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+                Thrown if <paramref name="riceDelta" /> is a null reference.
+            </exception>
+            <exception cref="T:System.IO.EndOfStreamException">
+                Thrown if the encoded data is exhausted before the indicated number of entries is decoded.
+            </exception>
+            <exception cref="T:System.IO.InvalidDataException">
+                Thrown if the encoded data is malformed.
+            </exception>
+        </member>
+        <member name="T:Gee.External.Browsing.Clients.Http.BitReader32Bit">
+            <summary>
+                Bit Reader.
+            </summary>
+            <remarks>
+                Reads a Rice-delta encoded stream of bits one byte at a time, least significant bit first.
+            </remarks>
+        </member>
+        <member name="F:Gee.External.Browsing.Clients.Http.BitReader32Bit._buffer">
+            <summary>
+                Buffer.
+            </summary>
+        </member>
+        <member name="F:Gee.External.Browsing.Clients.Http.BitReader32Bit._bitIndex">
+            <summary>
+                Index of the Next Bit to Read in the Current Byte.
+            </summary>
+        </member>
+        <member name="F:Gee.External.Browsing.Clients.Http.BitReader32Bit._byteIndex">
+            <summary>
+                Index of the Byte Currently Being Read.
+            </summary>
+        </member>
+        <member name="M:Gee.External.Browsing.Clients.Http.BitReader32Bit.#ctor(System.Byte[])">
+            <summary>
+                Create a Bit Reader.
+            </summary>
+            <param name="buffer">
+                The Rice-delta encoded data to read.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                Thrown if <paramref name="buffer" /> is a null reference.
+            </exception>
+        </member>
+        <member name="M:Gee.External.Browsing.Clients.Http.BitReader32Bit.BitsRemaining">
+            <summary>
+                Get the Number of Bits Remaining.
+            </summary>
+            <returns>
+                The number of bits that have not been read yet.
+            </returns>
+        </member>
+        <member name="M:Gee.External.Browsing.Clients.Http.BitReader32Bit.ReadBits(System.Int32)">
+            <summary>
+                Read Bits.
+            </summary>
+            <param name="n">
+                The number of bits to read, between 0 and 32, inclusive.
+            </param>
+            <returns>
+                The bits that were read. The first bit that was read is the least significant bit of the value.
+            </returns>
+            <exception cref="T:System.ArgumentException">
+                Thrown if <paramref name="n" /> is not between 0 and 32, inclusive.
+            </exception>
+            <exception cref="T:System.IO.EndOfStreamException">
+                Thrown if there are fewer than <paramref name="n" /> bits remaining.
+            </exception>
+        </member>
+        <member name="T:Gee.External.Browsing.Clients.Http.RiceDecoder32Bit">
+            <summary>
+                Rice Decoder.
+            </summary>
+            <remarks>
+                Reads the entries a Rice-delta encoded stream of bits holds. Each entry is the difference between the
+                value it encodes and the value preceding it, not the value itself.
+            </remarks>
+        </member>
+        <member name="F:Gee.External.Browsing.Clients.Http.RiceDecoder32Bit._maximumQuotient">
+            <summary>
+                Maximum Quotient.
+            </summary>
+            <remarks>
+                A quotient beyond this shifts an entry beyond the range of a 32-bit value, so it indicates the
+                encoded data is malformed. Bounding it also stops a run of one bits from being read indefinitely.
+            </remarks>
+        </member>
+        <member name="P:Gee.External.Browsing.Clients.Http.RiceDecoder32Bit.BitReader">
+            <summary>
+                Get Bit Reader.
+            </summary>
+        </member>
+        <member name="P:Gee.External.Browsing.Clients.Http.RiceDecoder32Bit.RiceParameter">
+            <summary>
+                Get Rice Parameter.
+            </summary>
+        </member>
+        <member name="M:Gee.External.Browsing.Clients.Http.RiceDecoder32Bit.#ctor(System.Byte[],System.Int32)">
+            <summary>
+                Create a Rice Decoder.
+            </summary>
+            <param name="encodedData">
+                The Rice-delta encoded data to read.
+            </param>
+            <param name="riceParameter">
+                The Golomb-Rice parameter the data was encoded with, between
+                <see cref="F:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.MinimumRiceParameter" /> and
+                <see cref="F:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.MaximumRiceParameter" />, inclusive.
+            </param>
+            <exception cref="T:System.ArgumentException">
+                Thrown if <paramref name="riceParameter" /> is not between
+                <see cref="F:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.MinimumRiceParameter" /> and
+                <see cref="F:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit.MaximumRiceParameter" />, inclusive.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+                Thrown if <paramref name="encodedData" /> is a null reference.
+            </exception>
+        </member>
+        <member name="M:Gee.External.Browsing.Clients.Http.RiceDecoder32Bit.ReadValue">
+            <summary>
+                Read an Entry.
+            </summary>
+            <returns>
+                The entry that was read, which is the difference between the value it encodes and the value
+                preceding it.
+            </returns>
+            <exception cref="T:System.IO.EndOfStreamException">
+                Thrown if the encoded data is exhausted before the entry is read.
+            </exception>
+            <exception cref="T:System.IO.InvalidDataException">
+                Thrown if the entry does not fit in a 32-bit value.
+            </exception>
         </member>
         <member name="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateHashModel">
             <summary>
@@ -3651,11 +3563,6 @@
                 Threat List Update Request Model.
             </summary>
         </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateRequestModel.ClientMetadata">
-            <summary>
-                Get and Set Client Metadata.
-            </summary>
-        </member>
         <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateRequestModel.Queries">
             <summary>
                 Get and Set Queries.
@@ -3710,16 +3617,6 @@
                 Get and Set Checksum.
             </summary>
         </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateResultModel.PlatformType">
-            <summary>
-                Get and Set Platform Type.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateResultModel.ThreatEntryType">
-            <summary>
-                Get and Set Threat Entry Type.
-            </summary>
-        </member>
         <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateResultModel.ThreatListState">
             <summary>
                 Get and Set Threat List State.
@@ -3735,7 +3632,7 @@
                 Get and Set Threats to Remove.
             </summary>
         </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateResultModel.ThreatType">
+        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateResultModel.ThreatListName">
             <summary>
                 Get and Set Threat Type.
             </summary>
@@ -3918,7 +3815,7 @@
                 Thrown if communication with the Google Safe Browsing API times out.
             </exception>
         </member>
-        <member name="M:Gee.External.Browsing.Clients.IBrowsingClient.GetThreatListDescriptorsAsync(System.Threading.CancellationToken)">
+        <member name="M:Gee.External.Browsing.Clients.IBrowsingClient.GetThreatListDescriptors(System.Threading.CancellationToken)">
             <summary>
                 Get Threat List Descriptors Asynchronously.
             </summary>
@@ -4212,7 +4109,7 @@
                 Thrown if communication with the Google Safe Browsing API times out.
             </exception>
         </member>
-        <member name="M:Gee.External.Browsing.Clients.ResilientBrowsingClient.GetThreatListDescriptorsAsync(System.Threading.CancellationToken)">
+        <member name="M:Gee.External.Browsing.Clients.ResilientBrowsingClient.GetThreatListDescriptors(System.Threading.CancellationToken)">
             <summary>
                 Get Threat List Descriptors Asynchronously.
             </summary>
@@ -4282,16 +4179,6 @@
                 Default Threat List Update Constraints.
             </summary>
         </member>
-        <member name="P:Gee.External.Browsing.Clients.ThreatListUpdateConstraints.ClientLocation">
-            <summary>
-                Get Client Location.
-            </summary>
-            <remarks>
-                Represents the geographic location, formatted as an ISO 31166-1 alpha-2 region code, of a client. An
-                invalid geographic location is ignored by the Google Safe Browsing API. A null reference indicates the
-                geographic location of the client is unknown.
-            </remarks>
-        </member>
         <member name="P:Gee.External.Browsing.Clients.ThreatListUpdateConstraints.MaximumDatabaseEntries">
             <summary>
                 Get Maximum Database Entries.
@@ -4310,26 +4197,6 @@
                 Represents the maximum number of threats associated with a <see cref="T:Gee.External.Browsing.ThreatList" /> that will be
                 retrieved in a single request. A <c>0</c> indicates there is no limit to the number of threats that
                 will be retrieved.
-            </remarks>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.ThreatListUpdateConstraints.ThreatListLanguage">
-            <summary>
-                Get Threat List Language.
-            </summary>
-            <remarks>
-                Represents the language, formatted as an ISO 639 alpha-2 language code, a <see cref="T:Gee.External.Browsing.ThreatList" />
-                should be retrieved for. An invalid language is ignored by the Google Safe Browsing API. A null
-                reference indicates a language should not be considered.
-            </remarks>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.ThreatListUpdateConstraints.ThreatListLocation">
-            <summary>
-                Get Threat List Location.
-            </summary>
-            <remarks>
-                Represents the geographic location, formatted as an ISO 31166-1 alpha-2 region code, a
-                <see cref="T:Gee.External.Browsing.ThreatList" /> should be retrieved for. An invalid geographic location is ignored by the
-                Google Safe Browsing API. A null reference indicates a geographic location should not be considered.
             </remarks>
         </member>
         <member name="M:Gee.External.Browsing.Clients.ThreatListUpdateConstraints.#cctor">
@@ -4362,16 +4229,6 @@
                 Threat List Update Constraints Builder.
             </summary>
         </member>
-        <member name="P:Gee.External.Browsing.Clients.ThreatListUpdateConstraintsBuilder.ClientLocation">
-            <summary>
-                Get and Set Client Location.
-            </summary>
-            <remarks>
-                Represents the geographic location, formatted as an ISO 31166-1 alpha-2 region code, of a client. An
-                invalid geographic location is ignored by the Google Safe Browsing API. A null reference indicates the
-                geographic location of the client is unknown.
-            </remarks>
-        </member>
         <member name="P:Gee.External.Browsing.Clients.ThreatListUpdateConstraintsBuilder.MaximumDatabaseEntries">
             <summary>
                 Get and Set Maximum Database Entries.
@@ -4392,45 +4249,12 @@
                 will be retrieved.
             </remarks>
         </member>
-        <member name="P:Gee.External.Browsing.Clients.ThreatListUpdateConstraintsBuilder.ThreatListLanguage">
-            <summary>
-                Get and Set Threat List Language.
-            </summary>
-            <remarks>
-                Represents the language, formatted as an ISO 639 alpha-2 language code, a <see cref="T:Gee.External.Browsing.ThreatList" />
-                should be retrieved for. An invalid language is ignored by the Google Safe Browsing API. A null
-                reference indicates a language should not be considered.
-            </remarks>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.ThreatListUpdateConstraintsBuilder.ThreatListLocation">
-            <summary>
-                Get and Set Threat List Location.
-            </summary>
-            <remarks>
-                Represents the geographic location, formatted as an ISO 31166-1 alpha-2 region code, a
-                <see cref="T:Gee.External.Browsing.ThreatList" /> should be retrieved for. An invalid geographic location is ignored by the
-                Google Safe Browsing API. A null reference indicates a geographic location should not be considered.
-            </remarks>
-        </member>
         <member name="M:Gee.External.Browsing.Clients.ThreatListUpdateConstraintsBuilder.Build">
             <summary>
                 Build a Threat List Update Constraints.
             </summary>
             <returns>
                 A <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateConstraints" />.
-            </returns>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.ThreatListUpdateConstraintsBuilder.SetClientLocation(System.String)">
-            <summary>
-                Set Client Location.
-            </summary>
-            <param name="value">
-                The geographic location, formatted as an ISO 31166-1 alpha-2 region code, of a client. An invalid
-                geographic location is ignored by the Google Safe Browsing API. A null reference indicates the
-                geographic location of the client is unknown.
-            </param>
-            <returns>
-                This threat list update constraints builder.
             </returns>
         </member>
         <member name="M:Gee.External.Browsing.Clients.ThreatListUpdateConstraintsBuilder.SetMaximumDatabaseEntries(System.Int32)">
@@ -4464,32 +4288,6 @@
             <exception cref="T:System.ArgumentOutOfRangeException">
                 Thrown if <paramref name="value" /> is less than <c>0</c>.
             </exception>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.ThreatListUpdateConstraintsBuilder.SetThreatListLanguage(System.String)">
-            <summary>
-                Set Threat List Language.
-            </summary>
-            <param name="value">
-                The language, formatted as an ISO 639 alpha-2 language code, a <see cref="T:Gee.External.Browsing.ThreatList" /> should be
-                retrieved for. An invalid language is ignored by the Google Safe Browsing API. A null reference
-                indicates a language should not be considered.
-            </param>
-            <returns>
-                This threat list update constraints builder.
-            </returns>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.ThreatListUpdateConstraintsBuilder.SetThreatListLocation(System.String)">
-            <summary>
-                Set Threat List Location.
-            </summary>
-            <param name="value">
-                The geographic location, formatted as an ISO 31166-1 alpha-2 region code, a <see cref="T:Gee.External.Browsing.ThreatList" />
-                should be retrieved for. An invalid geographic location is ignored by the Google Safe Browsing API. A
-                null reference indicates a geographic location should not be considered.
-            </param>
-            <returns>
-                This threat list update constraints builder.
-            </returns>
         </member>
         <member name="T:Gee.External.Browsing.Clients.ThreatListUpdateQuery">
             <summary>
@@ -4693,18 +4491,12 @@
                 Thrown if <paramref name="value" /> is a null reference.
             </exception>
         </member>
-        <member name="M:Gee.External.Browsing.Clients.ThreatListUpdateQueryBuilder.SetThreatListDescriptor(Gee.External.Browsing.ThreatType,Gee.External.Browsing.PlatformType,Gee.External.Browsing.ThreatEntryType)">
+        <member name="M:Gee.External.Browsing.Clients.ThreatListUpdateQueryBuilder.SetThreatListDescriptor(Gee.External.Browsing.ThreatListName)">
             <summary>
                 Set Threat List Descriptor.
             </summary>
-            <param name="threatType">
-                A <see cref="T:Gee.External.Browsing.ThreatType" /> identifying the <see cref="T:Gee.External.Browsing.ThreatList" /> to retrieve.
-            </param>
-            <param name="platformType">
-                A <see cref="T:Gee.External.Browsing.PlatformType" /> identifying the <see cref="T:Gee.External.Browsing.ThreatList" /> to retrieve.
-            </param>
-            <param name="threatEntryType">
-                A <see cref="T:Gee.External.Browsing.ThreatEntryType" /> identifying the <see cref="T:Gee.External.Browsing.ThreatList" /> to retrieve.
+            <param name="threatListName">
+                A <see cref="T:Gee.External.Browsing.ThreatListName" /> identifying the <see cref="T:Gee.External.Browsing.ThreatListName" /> to retrieve.
             </param>
             <returns>
                 This threat list update query builder.
@@ -4761,14 +4553,6 @@
                 Threat List Update Request.
             </summary>
         </member>
-        <member name="P:Gee.External.Browsing.Clients.ThreatListUpdateRequest.ClientMetadata">
-            <summary>
-                Get Client Metadata.
-            </summary>
-            <remarks>
-                Represents the metadata of the client making the threat list update request.
-            </remarks>
-        </member>
         <member name="P:Gee.External.Browsing.Clients.ThreatListUpdateRequest.Queries">
             <summary>
                 Get Queries.
@@ -4798,22 +4582,6 @@
                 Thrown if <paramref name="queries" /> is a null reference.
             </exception>
         </member>
-        <member name="M:Gee.External.Browsing.Clients.ThreatListUpdateRequest.#ctor(System.Collections.Generic.IEnumerable{Gee.External.Browsing.Clients.ThreatListUpdateQuery},Gee.External.Browsing.Clients.ClientMetadata)">
-            <summary>
-                Create a Threat List Update Request.
-            </summary>
-            <param name="queries">
-                A collection of <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateQuery" /> indicating the collection of
-                <see cref="T:Gee.External.Browsing.ThreatList" /> to retrieve.
-            </param>
-            <param name="clientMetadata">
-                The metadata of the client making the threat list update request. A null reference indicates the
-                client's metadata is unknown.
-            </param>
-            <exception cref="T:System.ArgumentNullException">
-                Thrown if <paramref name="queries" /> is a null reference.
-            </exception>
-        </member>
         <member name="M:Gee.External.Browsing.Clients.ThreatListUpdateRequest.#ctor(Gee.External.Browsing.Clients.ThreatListUpdateRequestBuilder)">
             <summary>
                 Create a Threat List Update Request.
@@ -4829,14 +4597,6 @@
             <summary>
                 Threat List Update Request Builder.
             </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.ThreatListUpdateRequestBuilder.ClientMetadata">
-            <summary>
-                Get and Set Client Metadata.
-            </summary>
-            <remarks>
-                Represents the metadata of the client making the threat list update request.
-            </remarks>
         </member>
         <member name="P:Gee.External.Browsing.Clients.ThreatListUpdateRequestBuilder.Queries">
             <summary>
@@ -4888,49 +4648,6 @@
             <returns>
                 A <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateRequest" />.
             </returns>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.ThreatListUpdateRequestBuilder.SetClientMetadata(Gee.External.Browsing.Clients.ClientMetadata)">
-            <summary>
-                Set Client Metadata.
-            </summary>
-            <param name="value">
-                The metadata of the client making the threat list update request. A null reference indicates the
-                client's metadata is unknown.
-            </param>
-            <returns>
-                This threat list update request builder.
-            </returns>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.ThreatListUpdateRequestBuilder.SetClientMetadata(System.String,System.Int32,System.Int32,System.Int32)">
-            <summary>
-                Set Client Metadata.
-            </summary>
-            <param name="id">
-                A unique identifier identifying the client.
-            </param>
-            <param name="majorVersion">
-                The client's major version.
-            </param>
-            <param name="minorVersion">
-                The client's minor version.
-            </param>
-            <param name="patchVersion">
-                The client's patch version.
-            </param>
-            <returns>
-                This threat list update request builder.
-            </returns>
-            <exception cref="T:System.ArgumentException">
-                Thrown if <paramref name="id" /> consists exclusively of whitespace characters.
-            </exception>
-            <exception cref="T:System.ArgumentNullException">
-                Thrown if <paramref name="id" /> is a null reference.
-            </exception>
-            <exception cref="T:System.ArgumentOutOfRangeException">
-                Thrown if <paramref name="majorVersion" /> is less than <c>0</c>, or if
-                <paramref name="minorVersion" /> is less than <c>0</c>, or if <paramref name="patchVersion" /> is less
-                than <c>0</c>.
-            </exception>
         </member>
         <member name="T:Gee.External.Browsing.Clients.ThreatListUpdateResponse">
             <summary>
@@ -6406,11 +6123,6 @@
                 Threat List Model.
             </summary>
         </member>
-        <member name="P:Gee.External.Browsing.Databases.Json.ThreatListModel.PlatformType">
-            <summary>
-                Get and Set Threat List's Platform Type.
-            </summary>
-        </member>
         <member name="P:Gee.External.Browsing.Databases.Json.ThreatListModel.RetrieveDate">
             <summary>
                 Get and Set Threat List's Retrieve Date.
@@ -6421,19 +6133,14 @@
                 Get and Set Threat List's State.
             </summary>
         </member>
-        <member name="P:Gee.External.Browsing.Databases.Json.ThreatListModel.ThreatEntryType">
-            <summary>
-                Get and Set Threat List's Threat Entry Type.
-            </summary>
-        </member>
         <member name="P:Gee.External.Browsing.Databases.Json.ThreatListModel.ThreatSha256HashPrefixes">
             <summary>
                 Get and Set Threat SHA256 Hash Prefixes.
             </summary>
         </member>
-        <member name="P:Gee.External.Browsing.Databases.Json.ThreatListModel.ThreatType">
+        <member name="P:Gee.External.Browsing.Databases.Json.ThreatListModel.ThreatListName">
             <summary>
-                Get and Set Threat List's Threat Type.
+                Get and Set Threat List's Name.
             </summary>
         </member>
         <member name="P:Gee.External.Browsing.Databases.Json.ThreatListModel.WaitToDate">
@@ -8169,61 +7876,6 @@
                 Thrown if the object is disposed.
             </exception>
         </member>
-        <member name="T:Gee.External.Browsing.PlatformType">
-            <summary>
-                Platform Type.
-            </summary>
-            <remarks>
-                Indicates the platform a threat targets. A <see cref="T:Gee.External.Browsing.PlatformType" /> is also used as one of the 
-                identifiers identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> together with <see cref="T:Gee.External.Browsing.ThreatEntryType" /> and
-                <see cref="T:Gee.External.Browsing.ThreatType" />.
-            </remarks>
-        </member>
-        <member name="F:Gee.External.Browsing.PlatformType.Unknown">
-            <summary>
-                Indicates a threat targets an unknown platform.
-            </summary>
-        </member>
-        <member name="F:Gee.External.Browsing.PlatformType.All">
-            <summary>
-                Indicates a threat targets all platforms without explicitly indicating which one.
-            </summary>
-        </member>
-        <member name="F:Gee.External.Browsing.PlatformType.Android">
-            <summary>
-                Indicates a threat targets the Android platform.
-            </summary>
-        </member>
-        <member name="F:Gee.External.Browsing.PlatformType.Any">
-            <summary>
-                Indicates a threat targets at least one platform without explicitly indicating which one.
-            </summary>
-        </member>
-        <member name="F:Gee.External.Browsing.PlatformType.Chrome">
-            <summary>
-                Indicates a threat targets the Chrome platform.
-            </summary>
-        </member>
-        <member name="F:Gee.External.Browsing.PlatformType.Ios">
-            <summary>
-                Indicates a threat targets the iOS platform.
-            </summary>
-        </member>
-        <member name="F:Gee.External.Browsing.PlatformType.Linux">
-            <summary>
-                Indicates a threat targets the Linux platform.
-            </summary>
-        </member>
-        <member name="F:Gee.External.Browsing.PlatformType.MacOs">
-            <summary>
-                Indicates a threat targets the MacOS platform.
-            </summary>
-        </member>
-        <member name="F:Gee.External.Browsing.PlatformType.Windows">
-            <summary>
-                Indicates a threat targets the Windows platform.
-            </summary>
-        </member>
         <member name="T:Gee.External.Browsing.Services.BaseBrowsingService">
             <summary>
                 Base Service.
@@ -8684,40 +8336,27 @@
                 <paramref name="updateConstraints" /> is a null reference.
             </exception>
         </member>
-        <member name="M:Gee.External.Browsing.Services.BrowsingDatabaseManagerBuilder.RestrictUpdatesTo(Gee.External.Browsing.ThreatType,Gee.External.Browsing.PlatformType,Gee.External.Browsing.ThreatEntryType)">
+        <member name="M:Gee.External.Browsing.Services.BrowsingDatabaseManagerBuilder.RestrictUpdatesTo(Gee.External.Browsing.ThreatListName)">
             <summary>
                 Restrict Updates.
             </summary>
-            <param name="threatType">
-                A <see cref="T:Gee.External.Browsing.ThreatType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
-            </param>
-            <param name="platformType">
-                A <see cref="T:Gee.External.Browsing.PlatformType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
-            </param>
-            <param name="threatEntryType">
-                A <see cref="T:Gee.External.Browsing.ThreatEntryType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
+            <param name="threatListName">
+                A <see cref="T:Gee.External.Browsing.ThreatListName" /> identifying a <see cref="T:Gee.External.Browsing.ThreatListName" /> to restrict updates to.
             </param>
             <returns>
                 This database manager builder.
             </returns>
         </member>
-        <member name="M:Gee.External.Browsing.Services.BrowsingDatabaseManagerBuilder.RestrictUpdatesTo(Gee.External.Browsing.ThreatType,Gee.External.Browsing.PlatformType,Gee.External.Browsing.ThreatEntryType,System.Func{Gee.External.Browsing.Clients.ThreatListUpdateConstraintsBuilder,Gee.External.Browsing.Clients.ThreatListUpdateConstraints})">
+        <member name="M:Gee.External.Browsing.Services.BrowsingDatabaseManagerBuilder.RestrictUpdatesTo(Gee.External.Browsing.ThreatListName,System.Func{Gee.External.Browsing.Clients.ThreatListUpdateConstraintsBuilder,Gee.External.Browsing.Clients.ThreatListUpdateConstraints})">
             <summary>
                 Restrict Updates.
             </summary>
-            <param name="threatType">
-                A <see cref="T:Gee.External.Browsing.ThreatType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
-            </param>
-            <param name="platformType">
-                A <see cref="T:Gee.External.Browsing.PlatformType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
-            </param>
-            <param name="threatEntryType">
-                A <see cref="T:Gee.External.Browsing.ThreatEntryType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
+            <param name="threatListName">
+                A <see cref="T:Gee.External.Browsing.ThreatListName" /> identifying a <see cref="T:Gee.External.Browsing.ThreatListName" /> to restrict updates to.
             </param>
             <param name="updateConstraintsAction">
                 An action to create the <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateConstraints" /> to apply when the
-                <see cref="T:Gee.External.Browsing.ThreatList" /> identified by <paramref name="threatType" />,
-                <paramref name="platformType" />, and <paramref name="threatEntryType" /> is retrieved.
+                <see cref="T:Gee.External.Browsing.ThreatList" /> identified by <paramref name="threatListName" /> is retrieved.
             </param>
             <returns>
                 This database manager builder.
@@ -8726,23 +8365,16 @@
                 Thrown if <paramref name="updateConstraintsAction" /> is a null reference.
             </exception>
         </member>
-        <member name="M:Gee.External.Browsing.Services.BrowsingDatabaseManagerBuilder.RestrictUpdatesTo(Gee.External.Browsing.ThreatType,Gee.External.Browsing.PlatformType,Gee.External.Browsing.ThreatEntryType,Gee.External.Browsing.Clients.ThreatListUpdateConstraints)">
+        <member name="M:Gee.External.Browsing.Services.BrowsingDatabaseManagerBuilder.RestrictUpdatesTo(Gee.External.Browsing.ThreatListName,Gee.External.Browsing.Clients.ThreatListUpdateConstraints)">
             <summary>
                 Restrict Updates.
             </summary>
-            <param name="threatType">
-                A <see cref="T:Gee.External.Browsing.ThreatType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
-            </param>
-            <param name="platformType">
-                A <see cref="T:Gee.External.Browsing.PlatformType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
-            </param>
-            <param name="threatEntryType">
-                A <see cref="T:Gee.External.Browsing.ThreatEntryType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
+            <param name="threatListName">
+                A <see cref="T:Gee.External.Browsing.ThreatListName" /> identifying a <see cref="T:Gee.External.Browsing.ThreatListName" /> to restrict updates to.
             </param>
             <param name="updateConstraints">
                 The <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateConstraints" /> to apply when the <see cref="T:Gee.External.Browsing.ThreatList" /> identified
-                by <paramref name="threatType" />, <paramref name="platformType" />, and
-                <paramref name="threatEntryType" /> is retrieved.
+                by <paramref name="threatListName" /> is retrieved.
             </param>
             <returns>
                 This database manager builder.
@@ -9210,40 +8842,27 @@
                 <paramref name="updateConstraints" /> is a null reference.
             </exception>
         </member>
-        <member name="M:Gee.External.Browsing.Services.ManagedBrowsingServiceBuilder.RestrictUpdatesTo(Gee.External.Browsing.ThreatType,Gee.External.Browsing.PlatformType,Gee.External.Browsing.ThreatEntryType)">
+        <member name="M:Gee.External.Browsing.Services.ManagedBrowsingServiceBuilder.RestrictUpdatesTo(Gee.External.Browsing.ThreatListName)">
             <summary>
                 Restrict Updates.
             </summary>
-            <param name="threatType">
-                A <see cref="T:Gee.External.Browsing.ThreatType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
-            </param>
-            <param name="platformType">
-                A <see cref="T:Gee.External.Browsing.PlatformType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
-            </param>
-            <param name="threatEntryType">
-                A <see cref="T:Gee.External.Browsing.ThreatEntryType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
+            <param name="threatListName">
+                A <see cref="T:Gee.External.Browsing.ThreatListName" /> identifying a <see cref="T:Gee.External.Browsing.ThreatListName" /> to restrict updates to.
             </param>
             <returns>
                 This managed service builder.
             </returns>
         </member>
-        <member name="M:Gee.External.Browsing.Services.ManagedBrowsingServiceBuilder.RestrictUpdatesTo(Gee.External.Browsing.ThreatType,Gee.External.Browsing.PlatformType,Gee.External.Browsing.ThreatEntryType,System.Func{Gee.External.Browsing.Clients.ThreatListUpdateConstraintsBuilder,Gee.External.Browsing.Clients.ThreatListUpdateConstraints})">
+        <member name="M:Gee.External.Browsing.Services.ManagedBrowsingServiceBuilder.RestrictUpdatesTo(Gee.External.Browsing.ThreatListName,System.Func{Gee.External.Browsing.Clients.ThreatListUpdateConstraintsBuilder,Gee.External.Browsing.Clients.ThreatListUpdateConstraints})">
             <summary>
                 Restrict Updates.
             </summary>
-            <param name="threatType">
-                A <see cref="T:Gee.External.Browsing.ThreatType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
-            </param>
-            <param name="platformType">
-                A <see cref="T:Gee.External.Browsing.PlatformType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
-            </param>
-            <param name="threatEntryType">
-                A <see cref="T:Gee.External.Browsing.ThreatEntryType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
+            <param name="threatListName">
+                A <see cref="T:Gee.External.Browsing.ThreatListName" /> identifying a <see cref="T:Gee.External.Browsing.ThreatListName" /> to restrict updates to.
             </param>
             <param name="updateConstraintsAction">
                 An action to create the <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateConstraints" /> to apply when the
-                <see cref="T:Gee.External.Browsing.ThreatList" /> identified by <paramref name="threatType" />,
-                <paramref name="platformType" />, and <paramref name="threatEntryType" /> is retrieved.
+                <see cref="T:Gee.External.Browsing.ThreatList" /> identified by <paramref name="threatListName" /> is retrieved.
             </param>
             <returns>
                 This managed service builder.
@@ -9252,23 +8871,16 @@
                 Thrown if <paramref name="updateConstraintsAction" /> is a null reference.
             </exception>
         </member>
-        <member name="M:Gee.External.Browsing.Services.ManagedBrowsingServiceBuilder.RestrictUpdatesTo(Gee.External.Browsing.ThreatType,Gee.External.Browsing.PlatformType,Gee.External.Browsing.ThreatEntryType,Gee.External.Browsing.Clients.ThreatListUpdateConstraints)">
+        <member name="M:Gee.External.Browsing.Services.ManagedBrowsingServiceBuilder.RestrictUpdatesTo(Gee.External.Browsing.ThreatListName,Gee.External.Browsing.Clients.ThreatListUpdateConstraints)">
             <summary>
                 Restrict Updates.
             </summary>
-            <param name="threatType">
-                A <see cref="T:Gee.External.Browsing.ThreatType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
-            </param>
-            <param name="platformType">
-                A <see cref="T:Gee.External.Browsing.PlatformType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
-            </param>
-            <param name="threatEntryType">
-                A <see cref="T:Gee.External.Browsing.ThreatEntryType" /> identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> to restrict updates to.
+            <param name="threatListName">
+                A <see cref="T:Gee.External.Browsing.ThreatListName" /> identifying a <see cref="T:Gee.External.Browsing.ThreatListName" /> to restrict updates to.
             </param>
             <param name="updateConstraints">
-                The <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateConstraints" /> to apply when the <see cref="T:Gee.External.Browsing.ThreatList" /> identified
-                by <paramref name="threatType" />, <paramref name="platformType" />, and
-                <paramref name="threatEntryType" /> is retrieved.
+                The <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateConstraints" /> to apply when the <see cref="T:Gee.External.Browsing.ThreatListName" /> identified
+                by <paramref name="threatListName" />, is retrieved.
             </param>
             <returns>
                 This managed service builder.
@@ -9711,16 +9323,7 @@
                 Represents the <see cref="T:Gee.External.Browsing.Services.UrlLookupResultCode" /> indicating the nature of the URL lookup result.
             </remarks>
         </member>
-        <member name="P:Gee.External.Browsing.Services.UrlLookupResult.TargetPlatforms">
-            <summary>
-                Get Target Platforms.
-            </summary>
-            <exception cref="T:System.InvalidOperationException">
-                Thrown if <see cref="P:Gee.External.Browsing.Services.UrlLookupResult.Url" /> is not <see cref="F:Gee.External.Browsing.Services.UrlLookupResultCode.Unsafe" />. To determine if the URL
-                is unsafe, call <see cref="P:Gee.External.Browsing.Services.UrlLookupResult.IsUnsafe" />.
-            </exception>
-        </member>
-        <member name="P:Gee.External.Browsing.Services.UrlLookupResult.ThreatTypes">
+        <member name="P:Gee.External.Browsing.Services.UrlLookupResult.ThreatListNames">
             <summary>
                 Get Threat Types.
             </summary>
@@ -9999,35 +9602,28 @@
                 Indicates a URL is unsafe.
             </summary>
         </member>
-        <member name="T:Gee.External.Browsing.ThreatEntryType">
+        <member name="T:Gee.External.Browsing.ThreatConverter">
             <summary>
-                Threat Entry Type.
+                ThreatType Converter.
             </summary>
             <remarks>
-                Indicates how a threat is posed. A <see cref="T:Gee.External.Browsing.ThreatEntryType" /> is also used as one of the 
-                identifiers identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> together with <see cref="T:Gee.External.Browsing.PlatformType" /> and
-                <see cref="T:Gee.External.Browsing.ThreatType" />.
+                Converts v4 Style ThreatTypes to v5 threat list names. Weirdly enough,
+                ThreatTypes are still used when you lookup a hash via hashes.search. Trying to
+                keep everything consistant and using the hashlist name.
             </remarks>
         </member>
-        <member name="F:Gee.External.Browsing.ThreatEntryType.Unknown">
+        <member name="M:Gee.External.Browsing.ThreatConverter.ThreatTypeToThreatListName(SafeBrowsing.V5.ThreatType)">
             <summary>
-                Indicates a threat is posed through an unknown type.
+                Create a ThreatTypeName from the string form of a ThreatType.
             </summary>
-        </member>
-        <member name="F:Gee.External.Browsing.ThreatEntryType.Executable">
-            <summary>
-                Indicates a threat is posed through an executable.
-            </summary>
-        </member>
-        <member name="F:Gee.External.Browsing.ThreatEntryType.IpAddressRange">
-            <summary>
-                Indicates a threat is posed through an IP address range.
-            </summary>
-        </member>
-        <member name="F:Gee.External.Browsing.ThreatEntryType.Url">
-            <summary>
-                Indicates a threat is posed through a Uniform Resource Locator (URL).
-            </summary>
+            <param name="threatType">
+                The type you want to convert, need to be a valid ThreatType in
+                string form.
+            </param>
+            <returns>
+                A <see cref="T:Gee.External.Browsing.ThreatListName" />, will return the "unsupported"
+                list if input is invalid.
+            </returns>
         </member>
         <member name="T:Gee.External.Browsing.ThreatList">
             <summary>
@@ -10035,9 +9631,7 @@
             </summary>
             <remarks>
                 Represents a threat list retrieved from the Google Safe Browsing API. A threat list is identified using a
-                <see cref="T:Gee.External.Browsing.ThreatType" />, which indicates the nature of its associated threats, a
-                <see cref="T:Gee.External.Browsing.PlatformType" />, which indicates the platform its associated threats target, and a
-                <see cref="T:Gee.External.Browsing.ThreatEntryType" />, which indicates how its associated threats is posed.
+                <see cref="T:Gee.External.Browsing.ThreatListName" />, which indicates the nature of its associated threats.
             </remarks>
         </member>
         <member name="P:Gee.External.Browsing.ThreatList.Descriptor">
@@ -10353,18 +9947,12 @@
                 Thrown if <paramref name="value" /> is a null reference.
             </exception>
         </member>
-        <member name="M:Gee.External.Browsing.ThreatListBuilder.SetDescriptor(Gee.External.Browsing.ThreatType,Gee.External.Browsing.PlatformType,Gee.External.Browsing.ThreatEntryType)">
+        <member name="M:Gee.External.Browsing.ThreatListBuilder.SetDescriptor(Gee.External.Browsing.ThreatListName)">
             <summary>
                 Set Threat List's Descriptor.
             </summary>
-            <param name="threatType">
-                A <see cref="T:Gee.External.Browsing.ThreatType" /> identifying the <see cref="T:Gee.External.Browsing.ThreatList" />.
-            </param>
-            <param name="platformType">
-                A <see cref="T:Gee.External.Browsing.PlatformType" /> identifying the <see cref="T:Gee.External.Browsing.ThreatList" />.
-            </param>
-            <param name="threatEntryType">
-                A <see cref="T:Gee.External.Browsing.ThreatEntryType" /> identifying the <see cref="T:Gee.External.Browsing.ThreatList" />.
+            <param name="threatListName">
+                A <see cref="T:Gee.External.Browsing.ThreatListName" /> identifying the <see cref="T:Gee.External.Browsing.ThreatList" />.
             </param>
             <returns>
                 This threat list builder.
@@ -10419,10 +10007,7 @@
                 Threat List Descriptor.
             </summary>
             <remarks>
-                Identifies a threat list. A threat list is identified using a <see cref="T:Gee.External.Browsing.ThreatType" />, which
-                indicates the nature of its associated threats, a <see cref="T:Gee.External.Browsing.PlatformType" />, which indicates
-                the platform its associated threats target, and a <see cref="T:Gee.External.Browsing.ThreatEntryType" />, which indicates
-                how its associated threats is posed.
+                Identifies a threat list. A threat list is identified using a <see cref="T:Gee.External.Browsing.ThreatListName" />
             </remarks>
         </member>
         <member name="P:Gee.External.Browsing.ThreatListDescriptor.IsMalwareList">
@@ -10430,7 +10015,7 @@
                 Determine if Threat List is a Malware List.
             </summary>
             <remarks>
-                Determines if the threat list is a <see cref="F:Gee.External.Browsing.ThreatType.Malware" /> list.
+                Determines if the threat list is on <see cref="F:Gee.External.Browsing.ThreatListName.mw_4b" /> list.
             </remarks>
         </member>
         <member name="P:Gee.External.Browsing.ThreatListDescriptor.IsPotentiallyHarmfulApplicationList">
@@ -10438,7 +10023,7 @@
                 Determine if Threat List is a Potentially Harmful Application List.
             </summary>
             <remarks>
-                Determines if the threat list is a <see cref="F:Gee.External.Browsing.ThreatType.PotentiallyHarmfulApplication" />
+                Determines if the threat list is a <see cref="F:Gee.External.Browsing.ThreatListName.pha_4b" />
                 (PHA) list.
             </remarks>
         </member>
@@ -10447,7 +10032,7 @@
                 Determine if Threat List is a Social Engineering List.
             </summary>
             <remarks>
-                Determines if the threat list is a <see cref="F:Gee.External.Browsing.ThreatType.SocialEngineering" /> list.
+                Determines if the threat list is a <see cref="F:Gee.External.Browsing.ThreatListName.se_4b" /> list.
             </remarks>
         </member>
         <member name="P:Gee.External.Browsing.ThreatListDescriptor.IsUnwantedSoftwareList">
@@ -10455,45 +10040,23 @@
                 Determine if Threat List is an Unwanted Software List.
             </summary>
             <remarks>
-                Determines if the threat list is an <see cref="F:Gee.External.Browsing.ThreatType.UnwantedSoftware" /> list.
+                Determines if the threat list is an <see cref="F:Gee.External.Browsing.ThreatListName.uws_4b" /> list.
             </remarks>
         </member>
-        <member name="P:Gee.External.Browsing.ThreatListDescriptor.PlatformType">
-            <summary>
-                Get Threat List's Platform Type.
-            </summary>
-            <remarks>
-                Represents the <see cref="P:Gee.External.Browsing.ThreatListDescriptor.PlatformType" /> identifying the threat list.
-            </remarks>
-        </member>
-        <member name="P:Gee.External.Browsing.ThreatListDescriptor.ThreatEntryType">
-            <summary>
-                Get Threat List's Threat Entry Type.
-            </summary>
-            <remarks>
-                Represents the <see cref="P:Gee.External.Browsing.ThreatListDescriptor.ThreatEntryType" /> identifying the threat list.
-            </remarks>
-        </member>
-        <member name="P:Gee.External.Browsing.ThreatListDescriptor.ThreatType">
+        <member name="P:Gee.External.Browsing.ThreatListDescriptor.ThreatListName">
             <summary>
                 Get Threat List's Threat Type.
             </summary>
             <remarks>
-                Represents the <see cref="P:Gee.External.Browsing.ThreatListDescriptor.ThreatType" /> identifying the threat list.
+                Represents the <see cref="T:Gee.External.Browsing.ThreatType" /> identifying the threat list.
             </remarks>
         </member>
-        <member name="M:Gee.External.Browsing.ThreatListDescriptor.#ctor(Gee.External.Browsing.ThreatType,Gee.External.Browsing.PlatformType,Gee.External.Browsing.ThreatEntryType)">
+        <member name="M:Gee.External.Browsing.ThreatListDescriptor.#ctor(Gee.External.Browsing.ThreatListName)">
             <summary>
                 Create a Threat List Descriptor.
             </summary>
-            <param name="threatType">
-                A <see cref="P:Gee.External.Browsing.ThreatListDescriptor.ThreatType" /> identifying the threat list.
-            </param>
-            <param name="platformType">
-                A <see cref="P:Gee.External.Browsing.ThreatListDescriptor.PlatformType" /> identifying the threat list.
-            </param>
-            <param name="threatEntryType">
-                A <see cref="P:Gee.External.Browsing.ThreatListDescriptor.ThreatEntryType" /> identifying the threat list.
+            <param name="threatListName">
+                A <see cref="P:Gee.External.Browsing.ThreatListDescriptor.ThreatListName" /> identifying the threat list.
             </param>
         </member>
         <member name="M:Gee.External.Browsing.ThreatListDescriptor.Equals(System.Object)">
@@ -10523,14 +10086,45 @@
                 The object's string representation.
             </returns>
         </member>
+        <member name="T:Gee.External.Browsing.ThreatListName">
+            <summary>
+                Threat Entry Type.
+            </summary>
+            <remarks>
+                Indicates how a threat is posed. A <see cref="T:Gee.External.Browsing.ThreatListName" /> is also used as the name of the list.
+            </remarks>
+        </member>
+        <member name="F:Gee.External.Browsing.ThreatListName.unsupported">
+            <summary>
+                Indicates a threat is posed through an unknown type.
+            </summary>
+        </member>
+        <member name="F:Gee.External.Browsing.ThreatListName.se_4b">
+            <summary>
+                Indicates social engineering threat.
+            </summary>
+        </member>
+        <member name="F:Gee.External.Browsing.ThreatListName.mw_4b">
+            <summary>
+                Indicates malware threat.
+            </summary>
+        </member>
+        <member name="F:Gee.External.Browsing.ThreatListName.uws_4b">
+            <summary>
+                Indicates unwanted software threat.
+            </summary>
+        </member>
+        <member name="F:Gee.External.Browsing.ThreatListName.pha_4b">
+            <summary>
+                Indicates potentially harmful app threat.
+            </summary>
+        </member>
         <member name="T:Gee.External.Browsing.ThreatType">
             <summary>
                 Threat Type.
             </summary>
             <remarks>
-                Indicates the nature of a threat. A <see cref="T:Gee.External.Browsing.ThreatType" /> is also used as one of the 
-                identifiers identifying a <see cref="T:Gee.External.Browsing.ThreatList" /> together with <see cref="T:Gee.External.Browsing.PlatformType" /> and
-                <see cref="T:Gee.External.Browsing.ThreatEntryType" />.
+                Indicates the nature of a threat in a v5 hashes.search lookup (in FullHashDetail) /> 
             </remarks>
         </member>
         <member name="F:Gee.External.Browsing.ThreatType.Unknown">
@@ -10830,6 +10424,26 @@
                 The object's string representation.
             </returns>
         </member>
+        <member name="M:Gee.External.Browsing.Url.TryGetExpressionForSha256Hash(System.String,Gee.External.Browsing.UrlExpression@)">
+            <summary>
+                Try Get a URL Expression for a SHA256 Hash.
+            </summary>
+            <param name="sha256Hash">
+                A full SHA256 hash, formatted as a hexadecimal encoded string, identifying the
+                <see cref="T:Gee.External.Browsing.UrlExpression" /> to retrieve.
+            </param>
+            <param name="urlExpression">
+                The <see cref="T:Gee.External.Browsing.UrlExpression" /> the URL computes to that is identified by
+                <paramref name="sha256Hash" />, or a null reference if the URL does not compute to it.
+            </param>
+            <returns>
+                A boolean true if the URL computes to a <see cref="T:Gee.External.Browsing.UrlExpression" /> identified by
+                <paramref name="sha256Hash" />. A boolean false otherwise.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                Thrown if <paramref name="sha256Hash" /> is a null reference.
+            </exception>
+        </member>
         <member name="T:Gee.External.Browsing.UrlExpression">
             <summary>
                 Canonicalized Uniform Resource Locator (URL) Expression.
@@ -10873,6 +10487,752 @@
             <returns>
                 The object's string representation.
             </returns>
+        </member>
+        <member name="T:SafeBrowsing.V5.Safebrowsingv5Reflection">
+            <summary>Holder for reflection information generated from safebrowsingv5.proto</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.Safebrowsingv5Reflection.Descriptor">
+            <summary>File descriptor for safebrowsingv5.proto</summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.ThreatType">
+            <summary>
+            Types of threats.
+            LINT.IfChange(ThreatType)
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.ThreatType.Unspecified">
+            <summary>
+            Unknown.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.ThreatType.Malware">
+            <summary>
+            Malware threat type.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.ThreatType.SocialEngineering">
+            <summary>
+            Social engineering threat type.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.ThreatType.UnwantedSoftware">
+            <summary>
+            Unwanted software threat type.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.ThreatType.PotentiallyHarmfulApplication">
+            <summary>
+            Potentially harmful application threat type.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.ThreatType.MaliciousBinary">
+            <summary>
+            Malicious binary threat type.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.ThreatType.SubresourceFilter">
+            <summary>
+            Patterns to be used for activating the subresource filter.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.ThreatType.TrickToBill">
+            <summary>
+            Trick-to-bill threat list.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.ThreatType.AbusiveExperienceViolation">
+            <summary>
+            Abusive experience violation threat type.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.ThreatType.BetterAdsViolation">
+            <summary>
+            Better advertisements threat type.
+            </summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.ThreatAttribute">
+            <summary>
+            Attributes of threats. These attributes may confer additional meaning to a
+            particular threat but will not affect the threat type. For example, an
+            attribute may specify a lower confidence while a different attribute may
+            specify higher confidence. More attributes may be added in the future.
+            LINT.IfChange(ThreatAttribute)
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.ThreatAttribute.Unspecified">
+            <summary>
+            Unknown.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.ThreatAttribute.Canary">
+            <summary>
+            Indicates that the threat_type should not be used for enforcement.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.ThreatAttribute.FrameOnly">
+            <summary>
+            Indicates that the threat_type should only be used for enforcement on
+            frames.
+            </summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.LikelySafeType">
+             <summary>
+             Types of likely-safe sites.
+            
+             Note that the `SearchHashesResponse` intentionally does not contain
+             `LikelySafeType`.
+             </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.LikelySafeType.Unspecified">
+            <summary>
+            Unknown.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.LikelySafeType.GeneralBrowsing">
+            <summary>
+            This site is likely safe enough for general browsing. This is also known as
+            the global cache.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.LikelySafeType.Csd">
+            <summary>
+            This site is likely safe enough that there is no need to run Client-Side
+            Detection models or password protection checks.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.LikelySafeType.Download">
+            <summary>
+            This site is likely safe enough that downloads from the site need not be
+            checked.
+            </summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.SearchHashesRequest">
+            <summary>
+            A request that the client issues to search for specific hash prefixes. Note
+            that currently this only searches threat lists, and does not search the
+            global cache.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.SearchHashesRequest.HashPrefixesFieldNumber">
+            <summary>Field number for the "hash_prefixes" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.SearchHashesRequest.HashPrefixes">
+            <summary>
+            The hash prefixes to be looked up.
+            </summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.SearchHashesResponse">
+            <summary>
+            The response returned after searching threat hashes. Note that if nothing is
+            found, the server will return an OK status (HTTP status code 200) with
+            the `full_hashes` field empty, rather than returning a NOT_FOUND status
+            (HTTP status code 404).
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.SearchHashesResponse.FullHashesFieldNumber">
+            <summary>Field number for the "full_hashes" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.SearchHashesResponse.FullHashes">
+            <summary>
+            The unordered list of full hashes found.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.SearchHashesResponse.CacheDurationFieldNumber">
+            <summary>Field number for the "cache_duration" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.SearchHashesResponse.CacheDuration">
+             <summary>
+             The client-side cache duration. The client shall add this duration to the
+             current time to determine the expiration time. The expiration time then
+             applies to every hash prefix queried by the client in the request,
+             regardless of how many full hashes are returned in the response. Even if
+             the server returns no full hashes for a particular hash prefix, this fact
+             should also be cached by the client.
+            
+             Important: the client must not assume that the server will return the same
+             cache duration for all responses. The server may choose different cache
+             durations for different responses depending on the situation.
+             </summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.FullHash">
+            <summary>
+            The full hash identified with one or more matches.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.FullHash.FullHash_FieldNumber">
+            <summary>Field number for the "full_hash" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.FullHash.FullHash_">
+            <summary>
+            The matching full hash. This is the SHA256 hash. The length will be exactly
+            32 bytes.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.FullHash.FullHashDetailsFieldNumber">
+            <summary>Field number for the "full_hash_details" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.FullHash.FullHashDetails">
+            <summary>
+            A repeated field identifying the details relevant to this full hash.
+            </summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.FullHash.Types">
+            <summary>Container for nested types declared in the FullHash message type.</summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.FullHash.Types.FullHashDetail">
+             <summary>
+             Details about a matching full hash.
+            
+             An important note about forward compatibility: new threat types and threat
+             attributes may be added by the server at any time; those additions are
+             considered minor version changes. It is Google's policy not to expose minor
+             version numbers in APIs (see
+             https://cloud.google.com/apis/design/versioning), so clients MUST be
+             prepared to receive FullHashDetail messages containing ThreatType enum
+             values or ThreatAttribute enum values that are considered invalid by the
+             client. Therefore, it is the client's responsibility to check for the
+             validity of all ThreatType and ThreatAttribute enum values; if any value is
+             considered invalid, the client MUST disregard the entire FullHashDetail
+             message.
+             </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.FullHash.Types.FullHashDetail.ThreatTypeFieldNumber">
+            <summary>Field number for the "threat_type" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.FullHash.Types.FullHashDetail.ThreatType">
+            <summary>
+            The type of threat. This field will never be empty.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.FullHash.Types.FullHashDetail.AttributesFieldNumber">
+            <summary>Field number for the "attributes" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.FullHash.Types.FullHashDetail.Attributes">
+            <summary>
+            Additional attributes about those full hashes. This may be empty.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.Duration.SecondsFieldNumber">
+            <summary>Field number for the "seconds" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.Duration.Seconds">
+            <summary>
+            Signed seconds of the span of time. Must be from -315,576,000,000
+            to +315,576,000,000 inclusive. Note: these bounds are computed from:
+            60 sec/min * 60 min/hr * 24 hr/day * 365.25 days/year * 10000 years
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.Duration.NanosFieldNumber">
+            <summary>Field number for the "nanos" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.Duration.Nanos">
+            <summary>
+            Signed fractions of a second at nanosecond resolution of the span
+            of time. Durations less than one second are represented with a 0
+            `seconds` field and a positive or negative `nanos` field. For durations
+            of one second or more, a non-zero value for the `nanos` field must be
+            of the same sign as the `seconds` field. Must be from -999,999,999
+            to +999,999,999 inclusive.
+            </summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.SizeConstraints">
+            <summary>
+            The constraints on the sizes of the hash lists.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.SizeConstraints.MaxUpdateEntriesFieldNumber">
+            <summary>Field number for the "max_update_entries" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.SizeConstraints.MaxUpdateEntries">
+            <summary>
+            The maximum size in number of entries. The update will not contain more
+            entries than this value, but it is possible that the update will contain
+            fewer entries than this value. This MUST be at least 1024. If omitted or
+            zero, no update size limit is set.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.SizeConstraints.MaxDatabaseEntriesFieldNumber">
+            <summary>Field number for the "max_database_entries" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.SizeConstraints.MaxDatabaseEntries">
+            <summary>
+            Sets the maximum number of entries that the client is willing to have
+            in the local database for the list. (The server MAY cause the client to
+            store less than this number of entries.) If omitted or zero, no database
+            size limit is set.
+            </summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.RiceDeltaEncoded32Bit">
+             <summary>
+             The Rice-Golomb encoded data. Used for either hashes or
+             removal indices. It is guaranteed that every hash or index here has the same
+             length, and this length is exactly 32 bits.
+            
+             Generally speaking, if we sort all the entries lexicographically, we will
+             find that the higher order bits tend not to change as frequently as lower
+             order bits. This means that if we also take the adjacent difference between
+             entries, the higher order bits have a high probability of being zero. This
+             exploits this high probability of zero by essentially choosing a certain
+             number of bits; all bits more significant than this are likely to be zero so
+             we use unary encoding. See the `rice_parameter` field.
+            
+             Historical note: the Rice-delta encoding was first used in V4 of this API. In
+             V5, two significant improvements were made: firstly, the Rice-delta encoding
+             is now available with hash prefixes longer than 4 bytes; secondly, the
+             encoded data are now treated as big-endian so as to avoid a costly sorting
+             step.
+             </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded32Bit.FirstValueFieldNumber">
+            <summary>Field number for the "first_value" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded32Bit.FirstValue">
+            <summary>
+            The first entry in the encoded data (hashes or indices), or, if only a
+            single hash prefix or index was encoded, that entry's value. If the field
+            is empty, the entry is zero.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded32Bit.RiceParameterFieldNumber">
+            <summary>Field number for the "rice_parameter" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded32Bit.RiceParameter">
+            <summary>
+            The Golomb-Rice parameter. This parameter is guaranteed to be between 3 and
+            30, inclusive.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded32Bit.EntriesCountFieldNumber">
+            <summary>Field number for the "entries_count" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded32Bit.EntriesCount">
+            <summary>
+            The number of entries that are delta encoded in the encoded data. If only a
+            single integer was encoded, this will be zero and the single value will be
+            stored in `first_value`.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded32Bit.EncodedDataFieldNumber">
+            <summary>Field number for the "encoded_data" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded32Bit.EncodedData">
+            <summary>
+            The encoded deltas that are encoded using the Golomb-Rice coder.
+            </summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.RiceDeltaEncoded64Bit">
+            <summary>
+            Same as `RiceDeltaEncoded32Bit` except this encodes 64-bit numbers.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded64Bit.FirstValueFieldNumber">
+            <summary>Field number for the "first_value" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded64Bit.FirstValue">
+            <summary>
+            The first entry in the encoded data (hashes), or, if only a single
+            hash prefix was encoded, that entry's value. If the field is empty, the
+            entry is zero.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded64Bit.RiceParameterFieldNumber">
+            <summary>Field number for the "rice_parameter" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded64Bit.RiceParameter">
+            <summary>
+            The Golomb-Rice parameter. This parameter is guaranteed to be between 35
+            and 62, inclusive.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded64Bit.EntriesCountFieldNumber">
+            <summary>Field number for the "entries_count" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded64Bit.EntriesCount">
+            <summary>
+            The number of entries that are delta encoded in the encoded data. If only a
+            single integer was encoded, this will be zero and the single value will be
+            stored in `first_value`.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded64Bit.EncodedDataFieldNumber">
+            <summary>Field number for the "encoded_data" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded64Bit.EncodedData">
+            <summary>
+            The encoded deltas that are encoded using the Golomb-Rice coder.
+            </summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.RiceDeltaEncoded128Bit">
+            <summary>
+            Same as `RiceDeltaEncoded32Bit` except this encodes 128-bit numbers.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded128Bit.FirstValueHiFieldNumber">
+            <summary>Field number for the "first_value_hi" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded128Bit.FirstValueHi">
+            <summary>
+            The upper 64 bits of the first entry in the encoded data (hashes). If the
+            field is empty, the upper 64 bits are all zero.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded128Bit.FirstValueLoFieldNumber">
+            <summary>Field number for the "first_value_lo" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded128Bit.FirstValueLo">
+            <summary>
+            The lower 64 bits of the first entry in the encoded data (hashes). If the
+            field is empty, the lower 64 bits are all zero.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded128Bit.RiceParameterFieldNumber">
+            <summary>Field number for the "rice_parameter" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded128Bit.RiceParameter">
+            <summary>
+            The Golomb-Rice parameter. This parameter is guaranteed to be between 99
+            and 126, inclusive.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded128Bit.EntriesCountFieldNumber">
+            <summary>Field number for the "entries_count" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded128Bit.EntriesCount">
+            <summary>
+            The number of entries that are delta encoded in the encoded data. If only a
+            single integer was encoded, this will be zero and the single value will be
+            stored in `first_value`.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded128Bit.EncodedDataFieldNumber">
+            <summary>Field number for the "encoded_data" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded128Bit.EncodedData">
+            <summary>
+            The encoded deltas that are encoded using the Golomb-Rice coder.
+            </summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.RiceDeltaEncoded256Bit">
+            <summary>
+            Same as `RiceDeltaEncoded32Bit` except this encodes 256-bit numbers.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded256Bit.FirstValueFirstPartFieldNumber">
+            <summary>Field number for the "first_value_first_part" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded256Bit.FirstValueFirstPart">
+            <summary>
+            The first 64 bits of the first entry in the encoded data (hashes). If the
+            field is empty, the first 64 bits are all zero.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded256Bit.FirstValueSecondPartFieldNumber">
+            <summary>Field number for the "first_value_second_part" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded256Bit.FirstValueSecondPart">
+            <summary>
+            The 65 through 128th bits of the first entry in the encoded data (hashes).
+            If the field is empty, the 65 through 128th bits are all zero.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded256Bit.FirstValueThirdPartFieldNumber">
+            <summary>Field number for the "first_value_third_part" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded256Bit.FirstValueThirdPart">
+            <summary>
+            The 129 through 192th bits of the first entry in the encoded data (hashes).
+            If the field is empty, the 129 through 192th bits are all zero.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded256Bit.FirstValueFourthPartFieldNumber">
+            <summary>Field number for the "first_value_fourth_part" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded256Bit.FirstValueFourthPart">
+            <summary>
+            The last 64 bits of the first entry in the encoded data (hashes). If the
+            field is empty, the last 64 bits are all zero.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded256Bit.RiceParameterFieldNumber">
+            <summary>Field number for the "rice_parameter" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded256Bit.RiceParameter">
+            <summary>
+            The Golomb-Rice parameter. This parameter is guaranteed to be between 227
+            and 254, inclusive.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded256Bit.EntriesCountFieldNumber">
+            <summary>Field number for the "entries_count" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded256Bit.EntriesCount">
+            <summary>
+            The number of entries that are delta encoded in the encoded data. If only a
+            single integer was encoded, this will be zero and the single value will be
+            stored in `first_value`.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.RiceDeltaEncoded256Bit.EncodedDataFieldNumber">
+            <summary>Field number for the "encoded_data" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.RiceDeltaEncoded256Bit.EncodedData">
+            <summary>
+            The encoded deltas that are encoded using the Golomb-Rice coder.
+            </summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.HashListMetadata">
+            <summary>
+            Metadata about a particular hash list.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashListMetadata.ThreatTypesFieldNumber">
+            <summary>Field number for the "threat_types" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.HashListMetadata.ThreatTypes">
+            <summary>
+            If not empty, this specifies that the hash list is a kind of threat list,
+            and this enumerates the kind of threats associated with hashes or hash
+            prefixes in this hash list. May be empty if the entry does not represent a
+            threat, i.e. in the case that it represents a likely safe type.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashListMetadata.LikelySafeTypesFieldNumber">
+            <summary>Field number for the "likely_safe_types" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.HashListMetadata.LikelySafeTypes">
+            <summary>
+            If not empty, this specifies that the hash list represents a list of likely
+            safe hashes, and this enumerates the ways they are considered likely safe.
+            This field is mutually exclusive with the threat_types field.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashListMetadata.DescriptionFieldNumber">
+            <summary>Field number for the "description" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.HashListMetadata.Description">
+            <summary>
+            A human-readable description about this list. Written in English.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashListMetadata.HashLengthFieldNumber">
+            <summary>Field number for the "hash_length" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.HashListMetadata.HashLength">
+            <summary>
+            The supported hash length for this hash list. Each hash list will support
+            exactly one length. If a different hash length is introduced for the same
+            set of threat types or safe types, it will be introduced as a separate list
+            with a distinct name and respective hash length set.
+            </summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.HashListMetadata.Types">
+            <summary>Container for nested types declared in the HashListMetadata message type.</summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.HashListMetadata.Types.HashLength">
+            <summary>
+            The length of hashes in a hash list.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashListMetadata.Types.HashLength.Unspecified">
+            <summary>
+            Unspecified length.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashListMetadata.Types.HashLength.FourBytes">
+            <summary>
+            Each hash is a four-byte prefix.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashListMetadata.Types.HashLength.EightBytes">
+            <summary>
+            Each hash is an eight-byte prefix.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashListMetadata.Types.HashLength.SixteenBytes">
+            <summary>
+            Each hash is a sixteen-byte prefix.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashListMetadata.Types.HashLength.ThirtyTwoBytes">
+            <summary>
+            Each hash is a thirty-two-byte full hash.
+            </summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.HashList">
+            <summary>
+            A list of hashes identified by its name.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashList.NameFieldNumber">
+            <summary>Field number for the "name" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.HashList.Name">
+            <summary>
+            The name of the hash list. Note that the Global Cache is also just a hash
+            list and can be referred to here.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashList.VersionFieldNumber">
+            <summary>Field number for the "version" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.HashList.Version">
+            <summary>
+            The version of the hash list. The client MUST NOT manipulate those bytes.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashList.PartialUpdateFieldNumber">
+            <summary>Field number for the "partial_update" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.HashList.PartialUpdate">
+             <summary>
+             When true, this is a partial diff containing additions and removals
+             based on what the client already has. When false, this is the complete
+             hash list.
+            
+             When false, the client MUST delete any locally stored version for this
+             hash list. This means that either the version possessed by the client is
+             seriously out-of-date or the client data is believed to be corrupt. The
+             `compressed_removals` field will be empty.
+            
+             When true, the client MUST apply an incremental update by applying
+             removals and then additions.
+             </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashList.AdditionsFourBytesFieldNumber">
+            <summary>Field number for the "additions_four_bytes" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.HashList.AdditionsFourBytes">
+            <summary>
+            The 4-byte additions.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashList.AdditionsEightBytesFieldNumber">
+            <summary>Field number for the "additions_eight_bytes" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.HashList.AdditionsEightBytes">
+            <summary>
+            The 8-byte additions.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashList.AdditionsSixteenBytesFieldNumber">
+            <summary>Field number for the "additions_sixteen_bytes" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.HashList.AdditionsSixteenBytes">
+            <summary>
+            The 16-byte additions.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashList.AdditionsThirtyTwoBytesFieldNumber">
+            <summary>Field number for the "additions_thirty_two_bytes" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.HashList.AdditionsThirtyTwoBytes">
+            <summary>
+            The 32-byte additions.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashList.CompressedRemovalsFieldNumber">
+            <summary>Field number for the "compressed_removals" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.HashList.CompressedRemovals">
+            <summary>
+            The Rice-delta encoded version of removal indices. Since each hash list
+            definitely has less than 2^32 entries, the indices are treated as 32-bit
+            integers and encoded.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashList.MinimumWaitDurationFieldNumber">
+            <summary>Field number for the "minimum_wait_duration" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.HashList.MinimumWaitDuration">
+            <summary>
+            Clients should wait at least this long to get the hash list again. If
+            omitted or zero, clients SHOULD fetch immediately because it indicates that
+            the server has an additional update to be sent to the client, but could not
+            due to the client-specified constraints.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashList.Sha256ChecksumFieldNumber">
+            <summary>Field number for the "sha256_checksum" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.HashList.Sha256Checksum">
+            <summary>
+            The sorted list of all hashes, hashed again with SHA256.
+            This is the checksum for the sorted list of all hashes present in the
+            database after applying the provided update. In the case that no updates
+            were provided, the server will omit this field to indicate
+            that the client should use the existing checksum.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.HashList.MetadataFieldNumber">
+            <summary>Field number for the "metadata" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.HashList.Metadata">
+            <summary>
+            Metadata about the hash list. This is not populated by the `GetHashList`
+            method, but this is populated by the
+            `ListHashLists` method.
+            </summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.HashList.CompressedAdditionsOneofCase">
+            <summary>Enum of possible cases for the "compressed_additions" oneof.</summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.BatchGetHashListsRequest">
+            <summary>
+            The request to get multiple hash lists at the same time.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.BatchGetHashListsRequest.NamesFieldNumber">
+            <summary>Field number for the "names" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.BatchGetHashListsRequest.Names">
+            <summary>
+            The names of the particular hash lists. The list MAY be a threat list, or
+            it may be the Global Cache. The names MUST NOT contain duplicates; if they
+            did, the client will get an error.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.BatchGetHashListsRequest.VersionFieldNumber">
+            <summary>Field number for the "version" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.BatchGetHashListsRequest.Version">
+             <summary>
+             The versions of the hash list that the client already has. If this is the
+             first time the client is fetching the hash lists, the field should be
+             left empty. Otherwise, the client should supply the versions previously
+             received from the server. The client MUST NOT manipulate those bytes.
+            
+             The client need not send the versions in the same order as the
+             corresponding list names. The client may send fewer or more versions in a
+             request than there are names. However the client MUST NOT send multiple
+             versions that correspond to the same name; if it did, the client will get
+             an error.
+            
+             Historical note: in V4 of the API, this was called
+             `states`; it is now renamed to `version` for clarity.
+             </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.BatchGetHashListsRequest.SizeConstraintsFieldNumber">
+            <summary>Field number for the "size_constraints" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.BatchGetHashListsRequest.SizeConstraints">
+            <summary>
+            The size constraints on each list. If omitted, there are no
+            constraints. Note that the sizes here are per-list, not aggregated across
+            all lists.
+            </summary>
+        </member>
+        <member name="T:SafeBrowsing.V5.BatchGetHashListsResponse">
+            <summary>
+            The response containing multiple hash lists.
+            </summary>
+        </member>
+        <member name="F:SafeBrowsing.V5.BatchGetHashListsResponse.HashListsFieldNumber">
+            <summary>Field number for the "hash_lists" field.</summary>
+        </member>
+        <member name="P:SafeBrowsing.V5.BatchGetHashListsResponse.HashLists">
+            <summary>
+            The hash lists in the same order given in the request.
+            </summary>
         </member>
     </members>
 </doc>

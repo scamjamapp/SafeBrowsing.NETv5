@@ -16,10 +16,8 @@
         internal static ThreatListDescriptor AsThreatListDescriptor(this ThreatListDescriptorModel @this) {
             ThreatListDescriptor threatListDescriptor = null;
             if (@this != null) {
-                var platformType = @this.PlatformType.AsPlatformType();
-                var threatEntryType = @this.ThreatEntryType.AsThreatEntryType();
-                var threatType = @this.ThreatType.AsThreatType();
-                threatListDescriptor = new ThreatListDescriptor(threatType, platformType, threatEntryType);
+                var threatListName = @this.ThreatListName.AsThreatListName();
+                threatListDescriptor = new ThreatListDescriptor(threatListName);
             }
 
             return threatListDescriptor;

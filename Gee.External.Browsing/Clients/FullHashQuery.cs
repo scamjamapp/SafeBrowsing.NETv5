@@ -68,19 +68,12 @@ namespace Gee.External.Browsing.Clients {
         /// <summary>
         ///     Create a Full Hash Query.
         /// </summary>
-        /// <param name="threatType">
-        ///     A <see cref="ThreatType" /> identifying the <see cref="ThreatList" /> to query.
-        /// </param>
-        /// <param name="platformType">
-        ///     A <see cref="PlatformType" /> identifying the <see cref="ThreatList" /> to query.
-        /// </param>
-        /// <param name="threatEntryType">
-        ///     A <see cref="ThreatEntryType" /> identifying the <see cref="ThreatList" /> to query.
+        /// <param name="threatListName">
+        ///     A <see cref="ThreatListName" /> identifying the <see cref="ThreatListName" /> to query.
         /// </param>
         /// <param name="threatListState">
         ///     The state, formatted as a hexadecimal encoded string, of the <see cref="ThreatList" /> identified by
-        ///     <paramref name="threatType" />, <paramref name="platformType" />, and
-        ///     <paramref name="threatEntryType" />.
+        ///     <paramref name="threatListName" />
         /// </param>
         /// <exception cref="System.ArgumentNullException">
         ///     Thrown if <paramref name="threatListState" /> is a null reference.
@@ -88,8 +81,8 @@ namespace Gee.External.Browsing.Clients {
         /// <exception cref="System.FormatException">
         ///     Thrown if <paramref name="threatListState" /> is not hexadecimal encoded.
         /// </exception>
-        public FullHashQuery(ThreatType threatType, PlatformType platformType, ThreatEntryType threatEntryType, string threatListState) {
-            this.ThreatListDescriptor = new ThreatListDescriptor(threatType, platformType, threatEntryType);
+        public FullHashQuery(ThreatListName threatListName, string threatListState) {
+            this.ThreatListDescriptor = new ThreatListDescriptor(threatListName);
             this.ThreatListState = CreateThreatListState(threatListState);
 
             // <summary>

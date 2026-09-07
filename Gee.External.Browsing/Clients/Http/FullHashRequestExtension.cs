@@ -31,13 +31,9 @@ namespace Gee.External.Browsing.Clients.Http {
                 var threatListStates = new List<string>();
                 var threatTypeModels = new HashSet<string>();
                 foreach (var query in @this.Queries) {
-                    var platformTypeModel = query.ThreatListDescriptor.PlatformType.AsPlatformTypeModel();
-                    var threatEntryTypeModel = query.ThreatListDescriptor.ThreatEntryType.AsThreatEntryTypeModel();
                     var threatListState = query.ThreatListState.HexadecimalDecode().Base64Encode();
-                    var threatTypeModel = query.ThreatListDescriptor.ThreatType.AsThreatTypeModel();
+                    var threatTypeModel = query.ThreatListDescriptor.ThreatListName.AsThreatListNameModel();
 
-                    platformTypeModels.Add(platformTypeModel);
-                    threatEntryTypeModels.Add(threatEntryTypeModel);
                     threatListStates.Add(threatListState);
                     threatTypeModels.Add(threatTypeModel);
                 }
@@ -59,7 +55,6 @@ namespace Gee.External.Browsing.Clients.Http {
                 fullHashRequestQueryModel.ThreatTypes = threatTypeModels;
 
                 fullHashRequestModel = new FullHashRequestModel();
-                fullHashRequestModel.ClientMetadata = @this.ClientMetadata.AsClientMetadataModel();
                 fullHashRequestModel.Query = fullHashRequestQueryModel;
                 fullHashRequestModel.ThreatListStates = threatListStates;
             }

@@ -101,22 +101,13 @@ namespace Gee.External.Browsing.Services {
         public UrlLookupResultCode ResultCode { get; }
 
         /// <summary>
-        ///     Get Target Platforms.
-        /// </summary>
-        /// <exception cref="System.InvalidOperationException">
-        ///     Thrown if <see cref="Url" /> is not <see cref="UrlLookupResultCode.Unsafe" />. To determine if the URL
-        ///     is unsafe, call <see cref="IsUnsafe" />.
-        /// </exception>
-        public IEnumerable<PlatformType> TargetPlatforms => this.UnsafeThreatListDescriptors.Select(tld => tld.PlatformType).Distinct();
-
-        /// <summary>
         ///     Get Threat Types.
         /// </summary>
         /// <exception cref="System.InvalidOperationException">
         ///     Thrown if <see cref="Url" /> is not <see cref="UrlLookupResultCode.Unsafe" />. To determine if the URL
         ///     is unsafe, call <see cref="IsUnsafe" />.
         /// </exception>
-        public IEnumerable<ThreatType> ThreatTypes => this.UnsafeThreatListDescriptors.Select(tld => tld.ThreatType).Distinct();
+        public IEnumerable<ThreatListName> ThreatListNames => this.UnsafeThreatListDescriptors.Select(tld => tld.ThreatListName).Distinct();
 
         /// <summary>
         ///     Get Unsafe Threat List Descriptors.

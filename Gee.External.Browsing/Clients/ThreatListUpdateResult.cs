@@ -125,7 +125,6 @@ namespace Gee.External.Browsing.Clients {
         /// </exception>
         internal ThreatListUpdateResult(ThreatListUpdateResultBuilder builder) {
             Guard.ThrowIf(nameof(builder), builder).Null();
-            Guard.ThrowIf(nameof(builder), builder.RetrievedThreatListChecksum).Null();
             Guard.ThrowIf(nameof(builder), builder.Query).Null();
             Guard.ThrowIf(nameof(builder), builder.RetrievedThreatList).Null();
 
