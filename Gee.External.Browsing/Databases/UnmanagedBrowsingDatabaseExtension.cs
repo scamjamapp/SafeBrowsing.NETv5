@@ -223,7 +223,39 @@ namespace Gee.External.Browsing.Databases {
         ///     Thrown if the object is disposed.
         /// </exception>
         [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
-        public static async Task<IReadOnlyCollection<ThreatList>> GetThreatListsAsync(this IUnmanagedBrowsingDatabase @this, IEnumerable<ThreatListDescriptor> threatListDescriptors) {
+        public static Task<IReadOnlyCollection<ThreatList>> GetThreatListsAsync(this IUnmanagedBrowsingDatabase @this, IEnumerable<ThreatListDescriptor> threatListDescriptors) {
+            return @this.GetThreatListsAsync(threatListDescriptors, CancellationToken.None);
+        }
+
+        /// <summary>
+        ///     Get Threat Lists Asynchronously.
+        /// </summary>
+        /// <param name="this">
+        ///     A browsing database.
+        /// </param>
+        /// <param name="threatListDescriptors">
+        ///     A collection of threat list descriptors identifying the threat lists to retrieve.
+        /// </param>
+        /// <param name="cancellationToken">
+        ///     A cancellation token to cancel the asynchronous operation with.
+        /// </param>
+        /// <returns>
+        ///     A collection of threat lists identified by the threat list descriptors contained in
+        ///     <paramref name="threatListDescriptors" />. A threat list descriptor the database holds no threat list
+        ///     for yields an invalid threat list, which reports itself as expired and is consequently scheduled for
+        ///     its first synchronization.
+        /// </returns>
+        /// <exception cref="Gee.External.Browsing.Databases.BrowsingDatabaseException">
+        ///     Thrown if a database error occurs.
+        /// </exception>
+        /// <exception cref="System.ObjectDisposedException">
+        ///     Thrown if the object is disposed.
+        /// </exception>
+        /// <exception cref="System.OperationCanceledException">
+        ///     Thrown if the asynchronous operation is cancelled.
+        /// </exception>
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
+        public static async Task<IReadOnlyCollection<ThreatList>> GetThreatListsAsync(this IUnmanagedBrowsingDatabase @this, IEnumerable<ThreatListDescriptor> threatListDescriptors, CancellationToken cancellationToken) {
             Guard.ThrowIf(nameof(@this), @this).Null();
             Guard.ThrowIf(nameof(threatListDescriptors), threatListDescriptors).Null();
 
@@ -232,7 +264,7 @@ namespace Gee.External.Browsing.Databases {
                 // ...
                 //
                 // Throws an exception if the operation fails.
-                var getThreatListTask = @this.GetThreatListAsync(threatListDescriptor);
+                var getThreatListTask = @this.GetThreatListAsync(threatListDescriptor, cancellationToken);
                 var threatList = await getThreatListTask.ConfigureAwait(false);
 
                 threatList = threatList ?? ThreatList.CreateInvalid(threatListDescriptor);

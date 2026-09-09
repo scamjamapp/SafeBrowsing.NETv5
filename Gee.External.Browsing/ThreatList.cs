@@ -210,11 +210,16 @@ namespace Gee.External.Browsing {
                 // ...
                 //
                 // Throws an exception if the operation fails.
-                var cIsStateHexadecimalEncoded = cState.IsHexadecimalEncoded();
-                if (!cIsStateHexadecimalEncoded) {
-                    var cDetailMessage = $"A state ({cState}) is not hexadecimal encoded.";
-                    throw new FormatException(cDetailMessage);
+                if (cState != "")
+                {
+                    var cIsStateHexadecimalEncoded = cState.IsHexadecimalEncoded();
+                    if (!cIsStateHexadecimalEncoded)
+                    {
+                        var cDetailMessage = $"A state ({cState}) is not hexadecimal encoded.";
+                        throw new FormatException(cDetailMessage);
+                    }
                 }
+                
 
                 return cState;
             }

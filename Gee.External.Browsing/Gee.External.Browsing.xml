@@ -7090,6 +7090,35 @@
                 Thrown if the object is disposed.
             </exception>
         </member>
+        <member name="M:Gee.External.Browsing.Databases.UnmanagedBrowsingDatabaseExtension.GetThreatListsAsync(Gee.External.Browsing.Databases.IUnmanagedBrowsingDatabase,System.Collections.Generic.IEnumerable{Gee.External.Browsing.ThreatListDescriptor},System.Threading.CancellationToken)">
+            <summary>
+                Get Threat Lists Asynchronously.
+            </summary>
+            <param name="this">
+                A browsing database.
+            </param>
+            <param name="threatListDescriptors">
+                A collection of threat list descriptors identifying the threat lists to retrieve.
+            </param>
+            <param name="cancellationToken">
+                A cancellation token to cancel the asynchronous operation with.
+            </param>
+            <returns>
+                A collection of threat lists identified by the threat list descriptors contained in
+                <paramref name="threatListDescriptors" />. A threat list descriptor the database holds no threat list
+                for yields an invalid threat list, which reports itself as expired and is consequently scheduled for
+                its first synchronization.
+            </returns>
+            <exception cref="T:Gee.External.Browsing.Databases.BrowsingDatabaseException">
+                Thrown if a database error occurs.
+            </exception>
+            <exception cref="T:System.ObjectDisposedException">
+                Thrown if the object is disposed.
+            </exception>
+            <exception cref="T:System.OperationCanceledException">
+                Thrown if the asynchronous operation is cancelled.
+            </exception>
+        </member>
         <member name="M:Gee.External.Browsing.Databases.UnmanagedBrowsingDatabaseExtension.GetThreatsAsync(Gee.External.Browsing.Databases.IUnmanagedBrowsingDatabase,Gee.External.Browsing.ThreatListDescriptor)">
             <summary>
                 Get Threats Asynchronously.
@@ -7628,9 +7657,12 @@
                 Disposed Flag.
             </summary>
         </member>
-        <member name="F:Gee.External.Browsing.Services.BrowsingDatabaseManager._synchronizationTask">
+        <member name="F:Gee.External.Browsing.Services.BrowsingDatabaseManager.SynchronizationShutdownTimeout">
             <summary>
                 Synchronization Task.
+            </summary>
+            <summary>
+                Longest Dispose Will Wait for the Synchronization Task to Stop.
             </summary>
         </member>
         <member name="F:Gee.External.Browsing.Services.BrowsingDatabaseManager._synchronizationTaskCancellationTokenSource">

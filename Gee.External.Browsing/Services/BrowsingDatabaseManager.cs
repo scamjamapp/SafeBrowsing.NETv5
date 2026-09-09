@@ -68,6 +68,11 @@ namespace Gee.External.Browsing.Services {
         /// <summary>
         ///     Synchronization Task.
         /// </summary>
+        /// <summary>
+        ///     Longest Dispose Will Wait for the Synchronization Task to Stop.
+        /// </summary>
+        private static readonly TimeSpan SynchronizationShutdownTimeout = TimeSpan.FromSeconds(5);
+
         private readonly Task _synchronizationTask;
 
         /// <summary>
@@ -123,12 +128,23 @@ namespace Gee.External.Browsing.Services {
                 // Cancel the database synchronization task and wait for it to complete.
                 this._disposed = true;
                 this._synchronizationTaskCancellationTokenSource.Cancel();
-                this._synchronizationTask.Wait();
 
                 // ...
                 //
-                // Dispose the database synchronization task.
-                this._synchronizationTask.Dispose();
+                // Wait for the synchronization task to observe the cancellation, but only for a bounded period. The
+                // token is threaded into every client and database call the task makes, so it should return
+                // promptly; the bound is a backstop so that a call which ignores its token cannot hang shutdown
+                // indefinitely.
+                this._synchronizationTask.Wait(BrowsingDatabaseManager.SynchronizationShutdownTimeout);
+
+                // ...
+                //
+                // Dispose the database synchronization task. A task that has not reached a final state cannot be
+                // disposed, which is reachable whenever the bounded wait above times out.
+                if (this._synchronizationTask.IsCompleted) {
+                    this._synchronizationTask.Dispose();
+                }
+
                 this._synchronizationTaskCancellationTokenSource.Dispose();
 
                 // ...
@@ -185,7 +201,7 @@ namespace Gee.External.Browsing.Services {
         private async Task SynchronizeDatabaseAsync() {
             var cancellationToken = this._synchronizationTaskCancellationTokenSource.Token;
             while (!cancellationToken.IsCancellationRequested) {
-                var getThreatListUpdatesTask = GetThreatListUpdatesAsync(this);
+                var getThreatListUpdatesTask = GetThreatListUpdatesAsync(this, cancellationToken);
                 var (threatListUpdateResponse, delayToDate) = await getThreatListUpdatesTask.ConfigureAwait(false);
                 if (threatListUpdateResponse != null) {
                     foreach (var threatListUpdateResult in threatListUpdateResponse.Results) {
@@ -194,7 +210,7 @@ namespace Gee.External.Browsing.Services {
                             delayToDate = threatListWaitToDate.Value;
                         }
 
-                        var synchronizeThreatListTask = SynchronizeThreatListAsync(this, threatListUpdateResult);
+                        var synchronizeThreatListTask = SynchronizeThreatListAsync(this, threatListUpdateResult, cancellationToken);
                         await synchronizeThreatListTask.ConfigureAwait(false);
                     }
                 }
@@ -222,7 +238,7 @@ namespace Gee.External.Browsing.Services {
             // <summary>
             //      Get Threat List Updates Asynchronously.
             // </summary>
-            async Task<(ThreatListUpdateResponse, DateTime)> GetThreatListUpdatesAsync(BrowsingDatabaseManager @this) {
+            async Task<(ThreatListUpdateResponse, DateTime)> GetThreatListUpdatesAsync(BrowsingDatabaseManager @this, CancellationToken cCancellationToken) {
                 var cDelayToDate = DateTime.UtcNow.AddMinutes(30);
                 try {
                     IEnumerable<ThreatListDescriptor> cThreatListDescriptors = @this._updateConstraints.Keys;
@@ -234,14 +250,14 @@ namespace Gee.External.Browsing.Services {
                         // new threat lists are made available between synchronization iterations.
                         //
                         // Throws an exception if the operation fails.
-                        var cGetThreatListDescriptorsTask = @this._client.GetThreatListDescriptors();
+                        var cGetThreatListDescriptorsTask = @this._client.GetThreatListDescriptors(cCancellationToken);
                         cThreatListDescriptors = await cGetThreatListDescriptorsTask.ConfigureAwait(false);
                     }
 
                     // ...
                     //
                     // Retrieve the threat lists from the database. Throws an exception if the operation fails.
-                    var cGetThreatListsTask = @this._database.GetThreatListsAsync(cThreatListDescriptors);
+                    var cGetThreatListsTask = @this._database.GetThreatListsAsync(cThreatListDescriptors, cCancellationToken);
                     var cThreatLists = await cGetThreatListsTask.ConfigureAwait(false);
 
                     ThreatListUpdateRequestBuilder cThreatListUpdateRequestBuilder = null;
@@ -275,7 +291,7 @@ namespace Gee.External.Browsing.Services {
                         //
                         // Throws an exception if the operation fails.
                         var cThreatListUpdateRequest = cThreatListUpdateRequestBuilder.Build();
-                        var cGetThreatListUpdatesTask = @this._client.GetThreatListUpdatesAsync(cThreatListUpdateRequest);
+                        var cGetThreatListUpdatesTask = @this._client.GetThreatListUpdatesAsync(cThreatListUpdateRequest, cCancellationToken);
                         cThreatListUpdateResponse = await cGetThreatListUpdatesTask.ConfigureAwait(false);
                     }
 
@@ -289,7 +305,7 @@ namespace Gee.External.Browsing.Services {
             // <summary>
             //      Synchronize Threat List Asynchronously.
             // </summary>
-            async Task SynchronizeThreatListAsync(BrowsingDatabaseManager @this, ThreatListUpdateResult cThreatListUpdateResult) {
+            async Task SynchronizeThreatListAsync(BrowsingDatabaseManager @this, ThreatListUpdateResult cThreatListUpdateResult, CancellationToken cCancellationToken) {
                 var cSynchronizationStartDate = DateTime.UtcNow;
                 var cThreatList = cThreatListUpdateResult.RetrievedThreatList;
                 try {
@@ -298,7 +314,7 @@ namespace Gee.External.Browsing.Services {
                         // ...
                         //
                         // Throws an exception if the operation fails.
-                        var cModifyThreatListTask = @this._database.StoreThreatListAsync(cThreatList, cSha256HashPrefixes);
+                        var cModifyThreatListTask = @this._database.StoreThreatListAsync(cThreatList, cSha256HashPrefixes, cCancellationToken);
                         await cModifyThreatListTask.ConfigureAwait(false);
                     }
                     else if (cThreatListUpdateResult.IsPartialUpdate) {
@@ -306,14 +322,14 @@ namespace Gee.External.Browsing.Services {
                         //
                         // Throws an exception if the operation fails.
                         var cIndices = cThreatListUpdateResult.ThreatsToRemove;
-                        var cModifyThreatListTask = @this._database.ModifyThreatListAsync(cThreatList, cSha256HashPrefixes, cIndices);
+                        var cModifyThreatListTask = @this._database.ModifyThreatListAsync(cThreatList, cSha256HashPrefixes, cIndices, cCancellationToken);
                         await cModifyThreatListTask.ConfigureAwait(false);
                     }
 
                     // ...
                     //
                     // Throws an exception if the operation fails.
-                    var cComputeThreatListChecksumTask = @this._database.ComputeThreatListChecksumAsync(cThreatList.Descriptor);
+                    var cComputeThreatListChecksumTask = @this._database.ComputeThreatListChecksumAsync(cThreatList.Descriptor, cCancellationToken);
                     var cThreatListChecksum = await cComputeThreatListChecksumTask.ConfigureAwait(false);
                     if (cThreatListUpdateResult.RetrievedThreatListChecksum != null && cThreatListChecksum != cThreatListUpdateResult.RetrievedThreatListChecksum) {
                         // ...
@@ -321,7 +337,7 @@ namespace Gee.External.Browsing.Services {
                         // Throws an exception if the operation fails.
                         cThreatList = ThreatList.CreateInvalid(cThreatList.Descriptor);
                         var cUpdateConstraints = cThreatListUpdateResult.Query.UpdateConstraints;
-                        var cGetThreatListUpdatesTask = @this._client.GetThreatListUpdatesAsync(cThreatList, cUpdateConstraints);
+                        var cGetThreatListUpdatesTask = @this._client.GetThreatListUpdatesAsync(cThreatList, cUpdateConstraints, cCancellationToken);
                         var cThreatListUpdateRequest = await cGetThreatListUpdatesTask.ConfigureAwait(false);
 
                         cThreatListUpdateResult = cThreatListUpdateRequest.Results.First();
@@ -331,7 +347,7 @@ namespace Gee.External.Browsing.Services {
                             //
                             // Throws an exception if the operation fails.
                             cThreatList = cThreatListUpdateResult.RetrievedThreatList;
-                            var cModifyThreatListTask = @this._database.StoreThreatListAsync(cThreatList, cSha256HashPrefixes);
+                            var cModifyThreatListTask = @this._database.StoreThreatListAsync(cThreatList, cSha256HashPrefixes, cCancellationToken);
                             await cModifyThreatListTask.ConfigureAwait(false);
                         }
                     }
@@ -345,6 +361,12 @@ namespace Gee.External.Browsing.Services {
                         cSynchronizationStartDate,
                         cSynchronizationCompletionDate
                     ));
+                }
+                catch (OperationCanceledException) {
+                    // ...
+                    //
+                    // The database manager is shutting down. Cancelling a synchronization is not a failure, so we
+                    // deliberately do not raise the failed event for it.
                 }
                 catch (Exception cEx) {
                     // ...

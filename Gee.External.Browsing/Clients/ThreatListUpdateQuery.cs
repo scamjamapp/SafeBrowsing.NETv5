@@ -122,7 +122,7 @@ namespace Gee.External.Browsing.Clients {
             //      Create Threat List State.
             // </summary>
             string CreateThreatListState(string cThreatListState) {
-                if (cThreatListState != null) {
+                if (cThreatListState != null && cThreatListState != "") {
                     // ...
                     //
                     // Throws an exception if the operation fails.

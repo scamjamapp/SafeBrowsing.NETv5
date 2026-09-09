@@ -112,7 +112,7 @@ namespace Gee.External.Browsing.Clients {
         ///     Thrown if <paramref name="value" /> is not a null reference and it is not hexadecimal encoded.
         /// </exception>
         public ThreatListUpdateQueryBuilder SetThreatListState(string value) {
-            if (value != null) {
+            if (value != null && value != "") {
                 var isValueHexadecimalEncoded = value.IsHexadecimalEncoded();
                 if (!isValueHexadecimalEncoded) {
                     var detailMessage = $"A value ({value}) is not hexadecimal encoded.";

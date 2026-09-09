@@ -141,6 +141,11 @@ namespace Gee.External.Browsing {
             // ...
             //
             // Throws an exception if the operation fails.
+            if (value == "")
+            {
+                this.State = value;
+                return this;
+            }
             var isValueHexadecimalEncoded = value.IsHexadecimalEncoded();
             if (!isValueHexadecimalEncoded) {
                 var detailMessage = $"A value ({value}) is not hexadecimal encoded.";
