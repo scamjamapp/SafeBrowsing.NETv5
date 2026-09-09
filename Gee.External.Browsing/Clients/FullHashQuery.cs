@@ -55,14 +55,20 @@ namespace Gee.External.Browsing.Clients {
                 // ...
                 //
                 // Throws an exception if the operation fails.
-                var cIsThreatListStateHexadecimalEncoded = cThreatListState.IsHexadecimalEncoded();
-                if (!cIsThreatListStateHexadecimalEncoded) {
-                    var cDetailMessage = $"A threat list state ({cThreatListState}) is not hexadecimal encoded.";
-                    throw new FormatException(cDetailMessage);
+                if (cThreatListState != "")
+                {
+                    var cIsThreatListStateHexadecimalEncoded = cThreatListState.IsHexadecimalEncoded();
+                    if (!cIsThreatListStateHexadecimalEncoded)
+                    {
+                        var cDetailMessage = $"A threat list state ({cThreatListState}) is not hexadecimal encoded.";
+                        throw new FormatException(cDetailMessage);
+                    }
                 }
 
                 return cThreatListState;
+
             }
+                
         }
 
         /// <summary>
@@ -92,14 +98,19 @@ namespace Gee.External.Browsing.Clients {
                 // ...
                 //
                 // Throws an exception if the operation fails.
-                var cIsThreatListStateHexadecimalEncoded = cThreatListState.IsHexadecimalEncoded();
-                if (!cIsThreatListStateHexadecimalEncoded) {
-                    var cDetailMessage = $"A threat list state ({cThreatListState}) is not hexadecimal encoded.";
-                    throw new FormatException(cDetailMessage);
+                if (cThreatListState != "")
+                {
+                    var cIsThreatListStateHexadecimalEncoded = cThreatListState.IsHexadecimalEncoded();
+                    if (!cIsThreatListStateHexadecimalEncoded)
+                    {
+                        var cDetailMessage = $"A threat list state ({cThreatListState}) is not hexadecimal encoded.";
+                        throw new FormatException(cDetailMessage);
+                    }
                 }
 
                 return cThreatListState;
             }
+                
         }
 
         /// <summary>

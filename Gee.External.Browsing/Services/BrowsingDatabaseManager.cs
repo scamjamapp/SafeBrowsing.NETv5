@@ -223,15 +223,12 @@ namespace Gee.External.Browsing.Services {
             //      Delay to a Date Asynchronously.
             // </summary>
             async Task DelayToAsync(BrowsingDatabaseManager @this, DateTime cDate) {
+                var cCancellationToken = @this._synchronizationTaskCancellationTokenSource.Token;
                 try {
-                    var cCancellationToken = @this._synchronizationTaskCancellationTokenSource.Token;
                     var cDelayToTask = TaskExtension.DelayTo(cDate, cCancellationToken);
                     await cDelayToTask.ConfigureAwait(false);
                 }
-                catch (OperationCanceledException) {
-                    // ...
-                    //
-                    // We don't care if the cancellation token is cancelled.
+                catch (OperationCanceledException) when (cCancellationToken.IsCancellationRequested) {
                 }
             }
 
