@@ -87,7 +87,7 @@ namespace Gee.External.Browsing.Databases {
                     // ...
                     //
                     // Searching the threat list requires it to be presorted.
-                    var threatSha256HashPrefixIndex = threatDictionaryEntry.Value.BinarySearch(threatSha256HashPrefix);
+                    var threatSha256HashPrefixIndex = threatDictionaryEntry.Value.BinarySearch(threatSha256HashPrefix, StringComparer.Ordinal);
                     if (threatSha256HashPrefixIndex >= 0) {
                         // ...
                         //
@@ -291,7 +291,7 @@ namespace Gee.External.Browsing.Databases {
                 //
                 // We need to sort the threat list so that it can later be searched.
                 newSha256HashPrefixes.AddRange(threatSha256HashPrefixes);
-                newSha256HashPrefixes.Sort();
+                newSha256HashPrefixes.Sort(StringComparer.Ordinal);
                 this._threatLists[threatList.Descriptor] = threatList;
                 this._threats[threatList.Descriptor] = newSha256HashPrefixes;
 
@@ -338,7 +338,7 @@ namespace Gee.External.Browsing.Databases {
                 // We need to sort the threat list so that it can later be searched. Throws an exception if the
                 // operation fails.
                 var newSha256HashPrefixes = new List<string>(threatSha256HashPrefixes);
-                newSha256HashPrefixes.Sort();
+                newSha256HashPrefixes.Sort(StringComparer.Ordinal);
 
                 this._threatLists[threatList.Descriptor] = threatList;
                 this._threats[threatList.Descriptor] = newSha256HashPrefixes;
