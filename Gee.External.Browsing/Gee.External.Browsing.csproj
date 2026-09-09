@@ -48,15 +48,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="Gee.External.Browsing.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="2.4.2" />
     <PackageReference Include="Gee.Common" Version="1.0.0" />
     <PackageReference Include="Google.Protobuf" Version="3.36.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Polly" Version="8.7.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\UrlNormalization\src\Toimik.UrlNormalization\Toimik.UrlNormalization.csproj" />
   </ItemGroup>
 
 </Project>

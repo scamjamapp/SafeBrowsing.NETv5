@@ -54,10 +54,8 @@ namespace Gee.External.Browsing {
             // </summary>
             IEnumerable<string> CreateSha256HashPrefixes(UrlExpression @this) {
                 var cSha256HashPrefixes = new List<string>();
-                for (var cI = 4; cI <= @this.Sha256Hash.Length; cI++) {
-                    var cSha256HashPrefix = @this.Sha256Hash.Substring(0, cI);
-                    cSha256HashPrefixes.Add(cSha256HashPrefix);
-                }
+                var cSha256HashPrefix = @this.Sha256Hash.Substring(0, 8);
+                cSha256HashPrefixes.Add(cSha256HashPrefix);
 
                 return cSha256HashPrefixes;
             }

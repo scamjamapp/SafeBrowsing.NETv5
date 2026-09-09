@@ -308,7 +308,7 @@ namespace Gee.External.Browsing {
             /// </summary>
             static InvalidThreatListCache() {
                 InvalidThreatListCache.Cache = new ConcurrentDictionary<ThreatListDescriptor, ThreatList>();
-                InvalidThreatListCache.InvalidThreatListState = "AA";
+                InvalidThreatListCache.InvalidThreatListState = "";
             }
 
             /// <summary>

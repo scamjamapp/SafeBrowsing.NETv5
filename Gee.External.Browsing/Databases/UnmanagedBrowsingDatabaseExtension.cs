@@ -89,7 +89,7 @@ namespace Gee.External.Browsing.Databases {
                     //
                     // Throws an exception if the decoding, hashing, or encoding operations fail. They will typically
                     // fail if the database is corrupt in anyway.
-                    threatListChecksum = threats.OrderBy(t => t)
+                    threatListChecksum = threats.OrderBy(t => t, StringComparer.Ordinal)
                         .Join()
                         .HexadecimalDecode()
                         .Sha256Hash()

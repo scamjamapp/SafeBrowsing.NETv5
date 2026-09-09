@@ -8,10 +8,10 @@ namespace Gee.External.Browsing.Clients.Http
         {
             if (duration is null)
             {
-                throw new ArgumentNullException(nameof(duration), "duration is null!");
+                throw new ArgumentNullException(nameof(duration), "server responded with null cacheDuration!");
             }
 
-            TimeSpan result = new TimeSpan(0, 0, 0, (int)duration.Seconds, duration.Nanos);
+            TimeSpan result = TimeSpan.FromSeconds(duration.Seconds) + TimeSpan.FromTicks(duration.Nanos / 100);
             
              return result;
         }

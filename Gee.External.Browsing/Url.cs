@@ -1,19 +1,22 @@
-﻿using Gee.Common;
+using Gee.Common;
 using Gee.Common.Guards;
 using Gee.Common.Net;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using Toimik.UrlNormalization;
-using System.Globalization;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Gee.External.Browsing {
+namespace Gee.External.Browsing
+{
     /// <summary>
     ///     Canonicalized Uniform Resource Locator (URL).
     /// </summary>
-    public sealed class Url {
+    public sealed class Url
+    {
         /// <summary>
         ///     Consecutive Dot (".") Pattern.
         /// </summary>
@@ -130,7 +133,8 @@ namespace Gee.External.Browsing {
         /// </summary>
         public string Value => this._canonicalizedUrl.Value;
 
-        internal Url(string url) {
+        internal Url(string url)
+        {
             this._canonicalizedUrl = CanonicalizeUri(url);
             // ...
             //
@@ -140,7 +144,8 @@ namespace Gee.External.Browsing {
             // <summary>
             //      Canonicalize a URI Host Component.
             // </summary>
-            string CanonicalizeHost(string cHost) {
+            string CanonicalizeHost(string cHost)
+            {
                 // ...
                 //
                 // In accordance with the Google Safe Browsing Specification, we first decode the URI host component.
@@ -152,21 +157,39 @@ namespace Gee.External.Browsing {
                 // consecutive dot (".") characters with a single dot (".") character.
                 cHost = Url.LeadingDotPattern.Replace(cHost, string.Empty);
                 cHost = Url.TrailingDotPattern.Replace(cHost, string.Empty);
-                // cHost = Url.ConsecutiveDotPattern.Replace(cHost, ".");
+                cHost = Url.ConsecutiveDotPattern.Replace(cHost, ".");
+
+                // ...
+                //
+                // Next, we express an internationalized domain name in Punycode, since that is the form Google
+                // canonicalizes to. A host component that is not a domain name at all - an IP address, or one
+                // carrying characters the specification requires us to percent-escape rather than reject - is not
+                // expressible in Punycode, so we leave it as it is and let the steps below handle it.
+                try
+                {
+                    cHost = new IdnMapping().GetAscii(cHost);
+                }
+                catch (ArgumentException)
+                {
+                    // ...
+                    //
+                    // The host component is not a domain name. Leave it as it is.
+                }
 
                 // ...
                 //
                 // Next, if the URI host component is expressed as an IP address, we express it in dotted-decimal
                 // notation.
                 cHost.TryAsIpAddress(out var cHostIpAddress);
-                if (cHostIpAddress != null) {
+                if (cHostIpAddress != null)
+                {
                     cHost = cHostIpAddress.ToString();
                 }
 
                 // ...
                 //
                 // Next, we convert the URI host component to lowercase.
-                // cHost = cHost.ToLowerInvariant();
+                cHost = cHost.ToLowerInvariant();
 
                 // ...
                 //
@@ -178,7 +201,8 @@ namespace Gee.External.Browsing {
             // <summary>
             //      Canonicalize a URI Path Component.
             // </summary>
-            string CanonicalizePath(string cPath) {
+            string CanonicalizePath(string cPath)
+            {
                 // ...
                 //
                 // In accordance with the Google Safe Browsing Specification, we first decode the URI path component.
@@ -186,38 +210,103 @@ namespace Gee.External.Browsing {
 
                 // ...
                 //
-                // Next, we replace current directory path segments ("/./"), parent directory path segments ("/../"),
-                // and consecutive slash ("/") characters with a single slash ("/") character.
+                // Next, we resolve current directory path segments ("/./"), parent directory path segments ("/../"),
+                // and replace consecutive slash ("/") characters with a single slash ("/") character. We resolve the
+                // path segments with a segment stack rather than with a regular expression replacement, because a
+                // replacement resolves only the outermost sequence and leaves nested sequences such as
+                // "/a/b/../../c" behind. A path that is not fully resolved hashes to something Google never
+                // publishes, and the URL is silently reported safe.
+                var cResolvedPathSegments = new List<string>();
+                var cPathSegments = cPath.Split('/');
+                foreach (var cPathSegment in cPathSegments)
+                {
+                    if (cPathSegment == string.Empty || cPathSegment == ".")
+                    {
+                        // ...
+                        //
+                        // A current directory path segment, and the empty path segment a run of consecutive slash
+                        // ("/") characters produces, contribute nothing to the path.
+                        continue;
+                    }
 
+                    if (cPathSegment == "..")
+                    {
+                        if (cResolvedPathSegments.Count != 0)
+                        {
+                            cResolvedPathSegments.RemoveAt(cResolvedPathSegments.Count - 1);
+                        }
+
+                        // ...
+                        //
+                        // A parent directory path segment with nothing above it is discarded. It must not be allowed
+                        // to escape above the root.
+                        continue;
+                    }
+
+                    cResolvedPathSegments.Add(cPathSegment);
+                }
+
+                // ...
+                //
+                // Next, we rebuild the URI path component. It always starts at the root, and it retains a trailing
+                // slash ("/") character if the path segment we consumed last denoted a directory.
+                var cLastPathSegment = cPathSegments[cPathSegments.Length - 1];
+                var cPathBuilder = new StringBuilder("/");
+                if (cResolvedPathSegments.Count != 0)
+                {
+                    cPathBuilder.Append(string.Join("/", cResolvedPathSegments));
+                    if (cLastPathSegment == string.Empty || cLastPathSegment == "." || cLastPathSegment == "..")
+                    {
+                        cPathBuilder.Append('/');
+                    }
+                }
+
+                cPath = cPathBuilder.ToString();
+
+                // ...
+                //
                 // Last, we encode the URI path component.
                 cPath = Encode(cPath);
                 return cPath;
- 
             }
 
             // <summary>
             //      Canonicalize a URI.
             // </summary>
-            (string Value, string Scheme, string Host, string Path, string Query) CanonicalizeUri(string cUri) {
+            (string Value, string Scheme, string Host, string Path, string Query) CanonicalizeUri(string cUri)
+            {
                 // ...
                 //
                 // Throws an exception if the operation fails.
+                //
+                // In accordance with the Google Safe Browsing Specification, we first remove CR, LF, and TAB ASCII
+                // control characters from the URI, before anything decodes it. Escape sequences for those characters
+                // are deliberately left alone, so this is done here rather than in Decode, which runs repeatedly.
+                cUri = Url.ControlCharactersPattern.Replace(cUri, string.Empty);
 
-                HttpUrlNormalizer normalizer = new HttpUrlNormalizer(
-                    removableDirectoryIndexNames: new HashSet<string>(0)
-                    );
-                cUri = normalizer.Normalize(cUri);
-
+                // ...
+                //
+                // Next, we remove surrounding whitespace and the URI fragment component. The fragment component does
+                // not participate in canonicalization and a URI may carry more than one hash ("#") character, which
+                // the URI pattern below does not match.
+                cUri = cUri.Trim();
+                var cFragmentIndex = cUri.IndexOf('#');
+                if (cFragmentIndex != -1)
+                {
+                    cUri = cUri.Substring(0, cFragmentIndex);
+                }
 
                 var cUriMatch = Url.UriPattern.Match(cUri);
-                if (!cUriMatch.Success) {
+                if (!cUriMatch.Success)
+                {
                     var cDetailMessage = $"A string ({cUri}) does not express a URI.";
                     throw new UriFormatException(cDetailMessage);
                 }
 
                 var cScheme = "http";
                 var cSchemeMatch = cUriMatch.Groups["scheme"];
-                if (cSchemeMatch.Success && cSchemeMatch.Value != string.Empty) {
+                if (cSchemeMatch.Success && cSchemeMatch.Value != string.Empty)
+                {
                     // ...
                     //
                     // In accordance with the Google Safe Browsing Specification, we first decode the URI scheme
@@ -227,14 +316,16 @@ namespace Gee.External.Browsing {
                 }
 
                 var cHostMatch = cUriMatch.Groups["host"];
-                if (!cHostMatch.Success || cHostMatch.Value == string.Empty) {
+                if (!cHostMatch.Success || cHostMatch.Value == string.Empty)
+                {
                     // ...
                     //
                     // We won't find a host component if there is no scheme component. If there is no scheme component,
                     // we add a default one in accordance with the Google Safe Browsing Specification.
                     cUri = $"{cScheme}://{cUri}";
                     cUriMatch = Url.UriPattern.Match(cUri);
-                    if (!cUriMatch.Success) {
+                    if (!cUriMatch.Success)
+                    {
                         var cDetailMessage = $"A string ({cUri}) does not express a URI.";
                         throw new UriFormatException(cDetailMessage);
                     }
@@ -242,29 +333,19 @@ namespace Gee.External.Browsing {
                     cHostMatch = cUriMatch.Groups["host"];
                 }
 
-                IdnMapping idn = new IdnMapping();
-
-                string asciiHost; 
-                try
-                {
-                    asciiHost = idn.GetAscii(cHostMatch.Value);
-                }
-                catch
-                {
-                    asciiHost = cHostMatch.Value;
-                }
-
-                var cHost = CanonicalizeHost(idn.GetAscii(cHostMatch.Value));
+                var cHost = CanonicalizeHost(cHostMatch.Value);
                 var cPath = "/";
                 var cPathMatch = cUriMatch.Groups["path"];
-                if (cPathMatch.Success && cPathMatch.Value != string.Empty) {
+                if (cPathMatch.Success && cPathMatch.Value != string.Empty)
+                {
                     cPath = CanonicalizePath(cPathMatch.Value);
                 }
 
                 string? cQuery = null;
                 string? cValueQuery = null;
                 var cQueryMatch = cUriMatch.Groups["query"];
-                if (cQueryMatch.Success) {
+                if (cQueryMatch.Success)
+                {
                     // ...
                     //
                     // In accordance with the Google Safe Browsing Specification, we first decode the URI query
@@ -291,7 +372,8 @@ namespace Gee.External.Browsing {
             // <summary>
             //      Create URL Expressions.
             // </summary>
-            IEnumerable<UrlExpression> CreateExpressions(Url @this) {
+            IEnumerable<UrlExpression> CreateExpressions(Url @this)
+            {
                 // ...
                 //
                 // In accordance with the Google Safe Browsing Specification, we first extract the URI host and path
@@ -303,8 +385,10 @@ namespace Gee.External.Browsing {
                 //
                 // Next, we compute every combination of the URI extracted host and path expressions.
                 var cExpressions = new List<UrlExpression>();
-                foreach (var cHostExpression in cHostExpressions) {
-                    foreach (var cPathExpression in cPathExpressions) {
+                foreach (var cHostExpression in cHostExpressions)
+                {
+                    foreach (var cPathExpression in cPathExpressions)
+                    {
                         var cExpressionValue = $"{cHostExpression}{cPathExpression}";
                         var cExpression = new UrlExpression(cExpressionValue, @this);
                         cExpressions.Add(cExpression);
@@ -317,7 +401,8 @@ namespace Gee.External.Browsing {
             // <summary>
             //      Compute a URI Host Component's Expressions.
             // </summary>
-            IEnumerable<string> ComputeHostExpressions(string cHost) {
+            IEnumerable<string> ComputeHostExpressions(string cHost)
+            {
                 // ...
                 //
                 // In accordance with the Google Safe Browsing Specification, we first add the URI host component as
@@ -330,11 +415,13 @@ namespace Gee.External.Browsing {
                 // Next, if the URI host component is not an IP address, we will extract from it up to 4 domain
                 // names, starting with the last 5.
                 cHost.TryAsIpAddress(out var cHostIpAddress);
-                if (cHostIpAddress == null) {
+                if (cHostIpAddress == null)
+                {
                     var cHostDomainNames = cHost.Split('.');
                     var cStartIndex = cHostDomainNames.Length > 5 ? cHostDomainNames.Length - 5 : 0;
                     var cEndIndex = cHostDomainNames.Length - 1;
-                    for (var cI = cStartIndex; cI < cEndIndex; cI++) {
+                    for (var cI = cStartIndex; cI < cEndIndex; cI++)
+                    {
                         var cNewHostDomainNames = cHostDomainNames.Skip(cI);
                         var cHostExpression = string.Join(".", cNewHostDomainNames);
                         cHostExpressions.Add(cHostExpression);
@@ -347,14 +434,16 @@ namespace Gee.External.Browsing {
             // <summary>
             //      Compute a URI Path Component's Expressions.
             // </summary>
-            IEnumerable<string> ComputePathExpressions(string cPath, string cQuery) {
+            IEnumerable<string> ComputePathExpressions(string cPath, string cQuery)
+            {
                 // ...
                 //
                 // In accordance with the Google Safe Browsing Specification, we first add the URI path component as
                 // an expression.
                 var cPathExpressions = new HashSet<string>();
                 cPathExpressions.Add(cPath);
-                if (cQuery != null) {
+                if (cQuery != null)
+                {
                     // ...
                     //
                     // Next, we add the URI path component, with the URI query component, as an expression.
@@ -366,7 +455,8 @@ namespace Gee.External.Browsing {
                 // Next, we will extract up to 4 path segments from the URI path component.
                 var cPathSegments = cPath.Split('/');
                 var cEndIndex = Math.Min(cPathSegments.Length - 1, 4);
-                for (var cI = 0; cI < cEndIndex; cI++) {
+                for (var cI = 0; cI < cEndIndex; cI++)
+                {
                     cPathExpressions.Add(string.Join("/", cPathSegments.Take(cI + 1)) + "/");
                 }
 
@@ -376,20 +466,22 @@ namespace Gee.External.Browsing {
             // <summary>
             //      Decode a String.
             // </summary>
-            string Decode(string cString) {
+            string Decode(string cString)
+            {
                 // ...
                 //
-                // In accordance with the Google Safe Browsing Specification, we first remove CR, LF, and TAB ASCII
-                // control characters from a string before we decode it.
-                cString = Url.ControlCharactersPattern.Replace(cString, string.Empty);
-
-                while (true) {
+                // CR, LF, and TAB ASCII control characters were removed from the URI, once, before it was split into
+                // its components. They are deliberately not removed here: the specification requires that an escape
+                // sequence for one of those characters survives decoding.
+                while (true)
+                {
                     // ...
                     //
                     // In accordance with the Google Safe Browsing Specification, we will repeatedly decode a string
                     // until it is no longer encoded.
                     var cEncodedMatches = Url.EncodedCharacterPattern.Matches(cString);
-                    if (cEncodedMatches.Count == 0) {
+                    if (cEncodedMatches.Count == 0)
+                    {
                         break;
                     }
 
@@ -401,7 +493,8 @@ namespace Gee.External.Browsing {
                     // the indices of successive encoded matches will no longer be valid. The solution is to reverse
                     // the encoded matches and do the replacement operation from right to left.
                     var cReversedEncodedMatches = cEncodedMatches.OfType<Match>().Reverse();
-                    foreach (var cEncodedMatch in cReversedEncodedMatches) {
+                    foreach (var cEncodedMatch in cReversedEncodedMatches)
+                    {
                         var cDecodedString = Uri.UnescapeDataString(cEncodedMatch.Value);
                         cString = cString.SubstringReplace(cDecodedString, cEncodedMatch.Index, cEncodedMatch.Length);
                     }
@@ -413,19 +506,33 @@ namespace Gee.External.Browsing {
             // <summary>
             //      Encode a String.
             // </summary>
-            string Encode(string cString) {
+            string Encode(string cString)
+            {
+                // ...
+                //
+                // We escape the UTF-8 bytes of the string rather than its characters. A character outside the Basic
+                // Multilingual Plane is a UTF-16 surrogate PAIR, and escaping each half of the pair on its own
+                // substitutes the Unicode replacement character for both, so a character such as an emoji or a CJK
+                // Extension B ideograph silently canonicalizes to "%EF%BF%BD%EF%BF%BD" instead of its own UTF-8
+                // bytes. Escaping bytes also states the Google Safe Browsing Specification's rule directly, rather
+                // than borrowing Uri.EscapeDataString's RFC 3986 escape set, which is a wider set than the
+                // specification asks for and has changed between .NET versions.
                 var cEncodedStringBuilder = new StringBuilder();
-                foreach (var cChar in cString) {
+                foreach (var cByte in Encoding.UTF8.GetBytes(cString))
+                {
                     // ...
                     //
-                    // We only encode the characters defined by the Google Safe Browsing Specification.
-                    if (cChar <= 32 || cChar >= 127 || cChar == '#' || cChar == '%') {
-                        var cEncodedString = new string(new[] {cChar});
-                        cEncodedString = Uri.EscapeDataString(cEncodedString);
-                        cEncodedStringBuilder.Append(cEncodedString);
+                    // We only encode the characters defined by the Google Safe Browsing Specification, which asks for
+                    // uppercase hexadecimal characters. Every byte of a multi byte UTF-8 character is >= 127, so a
+                    // non ASCII character is escaped in full by this test.
+                    if (cByte <= 32 || cByte >= 127 || cByte == '#' || cByte == '%')
+                    {
+                        cEncodedStringBuilder.Append('%');
+                        cEncodedStringBuilder.Append(cByte.ToString("X2"));
                     }
-                    else {
-                        cEncodedStringBuilder.Append(cChar);
+                    else
+                    {
+                        cEncodedStringBuilder.Append((char) cByte);
                     }
                 }
 
@@ -440,7 +547,8 @@ namespace Gee.External.Browsing {
         /// <returns>
         ///     The object's string representation.
         /// </returns>
-        public override string ToString() {
+        public override string ToString()
+        {
             return this.Value;
         }
 
@@ -462,12 +570,15 @@ namespace Gee.External.Browsing {
         /// <exception cref="System.ArgumentNullException">
         ///     Thrown if <paramref name="sha256Hash" /> is a null reference.
         /// </exception>
-        public bool TryGetExpressionForSha256Hash(string sha256Hash, out UrlExpression urlExpression) {
+        public bool TryGetExpressionForSha256Hash(string sha256Hash, out UrlExpression urlExpression)
+        {
             Guard.ThrowIf(nameof(sha256Hash), sha256Hash).Null();
 
             urlExpression = null;
-            foreach (var currentUrlExpression in this.Expressions) {
-                if (currentUrlExpression.Sha256Hash == sha256Hash) {
+            foreach (var currentUrlExpression in this.Expressions)
+            {
+                if (currentUrlExpression.Sha256Hash == sha256Hash)
+                {
                     urlExpression = currentUrlExpression;
                     break;
                 }

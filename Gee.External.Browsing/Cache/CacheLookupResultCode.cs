@@ -26,6 +26,11 @@
         ///     Indicates a cache unsafe hit if an <see cref="UnsafeCacheEntry" /> exists in a
         ///     <see cref="IBrowsingCache" /> and has not expired.
         /// </summary>
-        UnsafeHit = 3
+        UnsafeHit = 3,
+
+        /// <summary>
+        ///     Indicates entry should be removed from cache and excluded from online api lookup.
+        /// </summary>
+        Expired = 4
     }
 }

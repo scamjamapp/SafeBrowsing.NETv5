@@ -163,11 +163,11 @@ namespace Gee.External.Browsing.Cache {
                 else {
                     // ...
                     //
-                    // If the full SHA256 hash identifies an expired cached unsafe threat, indicate a cache miss.
+                    // If the full SHA256 hash identifies an expired cached unsafe threat, indicate a cache expired.
                     // Throws an exception if the operation fails.
                     var removeUnsafeCacheEntryTask = @this.RemoveUnsafeCacheEntryAsync(threatSha256Hash, cancellationToken);
                     await removeUnsafeCacheEntryTask.ConfigureAwait(false);
-                    cacheLookupResult = CacheLookupResult.CacheMiss(threatSha256Hash, threatSha256HashPrefix);
+                    cacheLookupResult = CacheLookupResult.CacheExpired(threatSha256Hash, threatSha256HashPrefix);
                 }
             }
             else {

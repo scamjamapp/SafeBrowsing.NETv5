@@ -696,6 +696,14 @@
                 Determines if the cache lookup result indicates an <see cref="F:Gee.External.Browsing.Cache.CacheLookupResultCode.UnsafeHit" />.
             </remarks>
         </member>
+        <member name="P:Gee.External.Browsing.Cache.CacheLookupResult.IsCacheExpiredHit">
+            <summary>
+                Determine if Cache Lookup Result Indicates a Cache Expired Hit.
+            </summary>
+            <remarks>
+                Determines if the cache lookup result indicates an <see cref="F:Gee.External.Browsing.Cache.CacheLookupResultCode.Expired" />.
+            </remarks>
+        </member>
         <member name="P:Gee.External.Browsing.Cache.CacheLookupResult.ResultCode">
             <summary>
                 Get Result Code.
@@ -749,6 +757,30 @@
             </remarks>
             <exception cref="T:System.InvalidOperationException">
                 Thrown if the cache lookup result does not indicate a <see cref="F:Gee.External.Browsing.Cache.CacheLookupResultCode.UnsafeHit" />.
+            </exception>
+        </member>
+        <member name="M:Gee.External.Browsing.Cache.CacheLookupResult.CacheExpired(System.String,System.String)">
+            <summary>
+                Create a Cache Result Indicating a Cache Expired.
+            </summary>
+            <param name="threatSha256Hash">
+                A full SHA256 hash, formatted as a hexadecimal encoded string, identifying the threat that was looked
+                up in a <see cref="T:Gee.External.Browsing.Cache.IBrowsingCache" />.
+            </param>
+            <param name="threatSha256HashPrefix">
+                A SHA256 hash prefix, formatted as a hexadecimal encoded string, identifying the threat that was
+                looked up in a <see cref="T:Gee.External.Browsing.Cache.IBrowsingCache" />.
+            </param>
+            <returns>
+                A cache lookup result indicating a <see cref="F:Gee.External.Browsing.Cache.CacheLookupResultCode.Expired" />.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                Thrown if <paramref name="threatSha256Hash" /> is a null reference, or if
+                <paramref name="threatSha256HashPrefix" /> is a null reference.
+            </exception>
+            <exception cref="T:System.FormatException">
+                Thrown if <paramref name="threatSha256Hash" /> is not formatted as a hexadecimal encoded string, or if
+                <paramref name="threatSha256HashPrefix" /> is not formatted as a hexadecimal encoded string.
             </exception>
         </member>
         <member name="M:Gee.External.Browsing.Cache.CacheLookupResult.CacheMiss(System.String,System.String)">
@@ -906,6 +938,11 @@
             <summary>
                 Indicates a cache unsafe hit if an <see cref="T:Gee.External.Browsing.Cache.UnsafeCacheEntry" /> exists in a
                 <see cref="T:Gee.External.Browsing.Cache.IBrowsingCache" /> and has not expired.
+            </summary>
+        </member>
+        <member name="F:Gee.External.Browsing.Cache.CacheLookupResultCode.Expired">
+            <summary>
+                Indicates entry should be removed from cache and excluded from online api lookup.
             </summary>
         </member>
         <member name="T:Gee.External.Browsing.Cache.IBrowsingCache">
@@ -2287,21 +2324,21 @@
         </member>
         <member name="F:Gee.External.Browsing.Clients.CompressionType.Unknown">
             <summary>
-                Indicates the compression type of a <see cref="T:Gee.External.Browsing.Clients.Http.ThreatEntrySetModel" /> is unknown. A
-                <see cref="T:Gee.External.Browsing.Clients.Http.ThreatEntrySetModel" /> with an unknown compression type should be considered erroneous and
+                Indicates the compression type of a <see cref="!:ThreatEntrySetModel" /> is unknown. A
+                <see cref="!:ThreatEntrySetModel" /> with an unknown compression type should be considered erroneous and
                 be disregarded.
             </summary>
         </member>
         <member name="F:Gee.External.Browsing.Clients.CompressionType.RiceGolomb">
             <summary>
-                Indicates a <see cref="T:Gee.External.Browsing.Clients.Http.ThreatEntrySetModel" /> is compressed using the Rice-Golomb algorithm. A
-                compressed <see cref="T:Gee.External.Browsing.Clients.Http.ThreatEntrySetModel" /> must be uncompressed before it can be processed.
+                Indicates a <see cref="!:ThreatEntrySetModel" /> is compressed using the Rice-Golomb algorithm. A
+                compressed <see cref="!:ThreatEntrySetModel" /> must be uncompressed before it can be processed.
             </summary>
         </member>
         <member name="F:Gee.External.Browsing.Clients.CompressionType.Uncompressed">
             <summary>
-                Indicates a <see cref="T:Gee.External.Browsing.Clients.Http.ThreatEntrySetModel" /> is uncompressed. An uncompressed
-                <see cref="T:Gee.External.Browsing.Clients.Http.ThreatEntrySetModel" /> can be processed immediately.
+                Indicates a <see cref="!:ThreatEntrySetModel" /> is uncompressed. An uncompressed
+                <see cref="!:ThreatEntrySetModel" /> can be processed immediately.
             </summary>
         </member>
         <member name="T:Gee.External.Browsing.Clients.FullHashQuery">
@@ -2770,129 +2807,6 @@
                 This full hash response builder.
             </returns>
         </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.CompressionTypeExtension">
-            <summary>
-                Compression Type Extension.
-            </summary>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.CompressionTypeExtension.AsCompressionType(System.String)">
-            <summary>
-                Create a Compression Type.
-            </summary>
-            <param name="this">
-                A string identifying a <see cref="T:Gee.External.Browsing.Clients.CompressionType" />.
-            </param>
-            <returns>
-                A <see cref="T:Gee.External.Browsing.Clients.CompressionType" />.
-            </returns>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.CompressionTypeExtension.AsCompressionTypeModel(Gee.External.Browsing.Clients.CompressionType)">
-            <summary>
-                Create a Compression Type Model.
-            </summary>
-            <param name="this">
-                A <see cref="T:Gee.External.Browsing.Clients.CompressionType" />.
-            </param>
-            <returns>
-                A string identifying a <see cref="T:Gee.External.Browsing.Clients.CompressionType" />.
-            </returns>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.FullHashQueryModel">
-            <summary>
-                Full Hash Query Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.FullHashQueryModel.PlatformTypes">
-            <summary>
-                Get and Set Platform Types.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.FullHashQueryModel.ThreatEntries">
-            <summary>
-                Get and Set Threat Entries.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.FullHashQueryModel.ThreatEntryTypes">
-            <summary>
-                Get and Set Threat Entry Types.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.FullHashQueryModel.ThreatTypes">
-            <summary>
-                Get and Set Threat Types.
-            </summary>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.FullHashRequestExtension">
-            <summary>
-                Full Hash Request Extension.
-            </summary>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.FullHashRequestExtension.AsFullHashRequestModel(Gee.External.Browsing.Clients.FullHashRequest)">
-            <summary>
-                Create a Full Hash Request Model.
-            </summary>
-            <param name="this">
-                A <see cref="T:Gee.External.Browsing.Clients.FullHashRequest" />.
-            </param>
-            <returns>
-                A <see cref="T:Gee.External.Browsing.Clients.Http.FullHashRequestModel" /> if <paramref name="this" /> is not a null reference. A null
-                reference otherwise.
-            </returns>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.FullHashRequestModel">
-            <summary>
-                Full Hash Request Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.FullHashRequestModel.Query">
-            <summary>
-                Get and Set Query.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.FullHashRequestModel.ThreatListStates">
-            <summary>
-                Get and Set Threat List States.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.FullHashResponseModel.SafeThreatsDuration">
-            <summary>
-                Get and Set Safe Threats Duration.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.FullHashResponseModel.UnsafeThreats">
-            <summary>
-                Get and Set Unsafe Threats.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.FullHashResponseModel.WaitDuration">
-            <summary>
-                Get and Set Wait Duration.
-            </summary>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.FullHashResponseModelExtension">
-            <summary>
-                Full Hash Response Model Extension.
-            </summary>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.FullHashResponseModelExtension.AsFullHashResponse(Gee.External.Browsing.Clients.Http.FullHashResponseModel,Gee.External.Browsing.Clients.FullHashRequest)">
-            <summary>
-                Create a Full Hash Response.
-            </summary>
-            <param name="this">
-                A <see cref="T:Gee.External.Browsing.Clients.Http.FullHashResponseModel" />.
-            </param>
-            <param name="request">
-                The <see cref="T:Gee.External.Browsing.Clients.FullHashRequest" /> made to the Google Safe Browsing API for which the
-                <see cref="T:Gee.External.Browsing.Clients.FullHashResponse" /> has been returned.
-            </param>
-            <returns>
-                A <see cref="T:Gee.External.Browsing.Clients.FullHashResponse" /> if <paramref name="this" /> is not a null reference. A null reference
-                otherwise.
-            </returns>
-            <exception cref="T:System.ArgumentNullException">
-                Thrown if <paramref name="request" /> is a null reference.
-            </exception>
-        </member>
         <member name="T:Gee.External.Browsing.Clients.Http.HttpBrowsingClient">
             <summary>
                 HTTP Client.
@@ -3066,98 +2980,6 @@
                 An HTTP message handler.
             </returns>
         </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatEntryMetadataEntryModel">
-            <summary>
-                Threat Entry Metadata Entry Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatEntryMetadataEntryModel.Key">
-            <summary>
-                Get and Set Threat Entry's Metadata Key.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatEntryMetadataEntryModel.Value">
-            <summary>
-                Get and Set Threat Entry's Metadata Value.
-            </summary>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatEntryMetadataModel">
-            <summary>
-                Threat Entry Metadata Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatEntryMetadataModel.Entries">
-            <summary>
-                Get and Set Threat Entry's Metadata Entries.
-            </summary>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatEntryModel">
-            <summary>
-                Threat Entry Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatEntryModel.Sha256Hash">
-            <summary>
-                Get and Set SHA256 Hash.
-            </summary>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatEntrySetModel">
-            <summary>
-                Threat Entry Set Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatEntrySetModel.CompressionType">
-            <summary>
-                Get and Set Compression Type.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatEntrySetModel.UncompressedIndices">
-            <summary>
-                Get and Set Uncompressed Indices.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatEntrySetModel.UncompressedSha256HashPrefixes">
-            <summary>
-                Get and Set Uncompressed SHA256 Hashes.
-            </summary>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListDescriptorModel">
-            <summary>
-                Threat List Descriptor Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListDescriptorModel.ThreatListName">
-            <summary>
-                Get and Set Threat Type.
-            </summary>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListDescriptorModelExtension">
-            <summary>
-                Threat List Descriptor Model Extension.
-            </summary>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.ThreatListDescriptorModelExtension.AsThreatListDescriptor(Gee.External.Browsing.Clients.Http.ThreatListDescriptorModel)">
-            <summary>
-                Create a Threat List Descriptor.
-            </summary>
-            <param name="this">
-                A <see cref="T:Gee.External.Browsing.Clients.Http.ThreatListDescriptorModel" />.
-            </param>
-            <returns>
-                A <see cref="T:Gee.External.Browsing.ThreatListDescriptor" /> if <paramref name="this" /> is not a null reference. A null
-                reference otherwise.
-            </returns>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListDescriptorResponseModel">
-            <summary>
-                Threat List Descriptor Response Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListDescriptorResponseModel.ThreatListDescriptors">
-            <summary>
-                Get and Set Threat List Descriptors.
-            </summary>
-        </member>
         <member name="T:Gee.External.Browsing.Clients.Http.ThreatListNameExtension">
             <summary>
                 Threat Type Extension.
@@ -3184,68 +3006,6 @@
             <returns>
                 A string identifying a <see cref="T:Gee.External.Browsing.ThreatType" />.
             </returns>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateChecksumModel">
-            <summary>
-                Threat List Update Checksum Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateChecksumModel.Sha256Hash">
-            <summary>
-                Get and Set SHA256 Hash.
-            </summary>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateConstraintsExtension">
-            <summary>
-                Threat List Update Constraints Extension.
-            </summary>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.ThreatListUpdateConstraintsExtension.AsClientConstraintsModel(Gee.External.Browsing.Clients.ThreatListUpdateConstraints)">
-            <summary>
-                Create a Threat List Update Constraints Model.
-            </summary>
-            <param name="this">
-                A <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateConstraints" />.
-            </param>
-            <returns>
-                A <see cref="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateConstraintsModel" /> if <paramref name="this" /> is not a null reference.
-                A null reference otherwise.
-            </returns>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateConstraintsModel">
-            <summary>
-                Threat List Update Constraints Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateConstraintsModel.ClientLocation">
-            <summary>
-                Get and Set Client Location.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateConstraintsModel.MaximumDatabaseEntries">
-            <summary>
-                Get and Set Maximum Database Entries.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateConstraintsModel.MaximumResponseEntries">
-            <summary>
-                Get and Set Maximum Response Entries.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateConstraintsModel.SupportedCompressionTypes">
-            <summary>
-                Get and Set Supported Compressions.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateConstraintsModel.ThreatListLanguage">
-            <summary>
-                Get and Set Threat List Language.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateConstraintsModel.ThreatListLocation">
-            <summary>
-                Get and Set Threat List Location.
-            </summary>
         </member>
         <member name="T:Gee.External.Browsing.Clients.Http.GolombRiceDecoder32Bit">
              <summary>
@@ -3469,212 +3229,6 @@
                 Thrown if the entry does not fit in a 32-bit value.
             </exception>
         </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateHashModel">
-            <summary>
-                Threat List Update Hash Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateHashModel.Sha256HashPrefixes">
-            <summary>
-                Get and Set SHA256 Hash Prefixes.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateHashModel.Sha256HashPrefixSize">
-            <summary>
-                Get and Set SHA256 Hash Prefix Size.
-            </summary>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateIndexModel">
-            <summary>
-                Threat List Update Index Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateIndexModel.Indices">
-            <summary>
-                Get and Set Indices.
-            </summary>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateQueryExtension">
-            <summary>
-                Threat List Update Query Extension.
-            </summary>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.ThreatListUpdateQueryExtension.AsThreatListUpdateQueryModel(Gee.External.Browsing.Clients.ThreatListUpdateQuery)">
-            <summary>
-                Create a Threat List Update Query Model.
-            </summary>
-            <param name="this">
-                A <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateQuery" />.
-            </param>
-            <returns>
-                A <see cref="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateQueryModel" /> if <paramref name="this" /> is not a null reference. A null
-                reference otherwise.
-            </returns>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateQueryModel">
-            <summary>
-                Threat List Update Query Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateQueryModel.Constraints">
-            <summary>
-                Get and Set Constraints.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateQueryModel.PlatformType">
-            <summary>
-                Get and Set Platform Type.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateQueryModel.ThreatEntryType">
-            <summary>
-                Get and Set Threat Entry Type.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateQueryModel.ThreatListState">
-            <summary>
-                Get and Set Threat List State.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateQueryModel.ThreatType">
-            <summary>
-                Get and Set Threat Type.
-            </summary>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateRequestExtension">
-            <summary>
-                Threat List Update Request Extension.
-            </summary>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.ThreatListUpdateRequestExtension.AsThreatListUpdateRequestModel(Gee.External.Browsing.Clients.ThreatListUpdateRequest)">
-            <summary>
-                Create a Threat List Update Request Model.
-            </summary>
-            <param name="this">
-                A <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateRequest" />.
-            </param>
-            <returns>
-                A <see cref="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateRequestModel" /> if <paramref name="this" /> is not a null reference. A
-                null reference otherwise.
-            </returns>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateRequestModel">
-            <summary>
-                Threat List Update Request Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateRequestModel.Queries">
-            <summary>
-                Get and Set Queries.
-            </summary>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateResponseModel">
-            <summary>
-                Threat List Update Response Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateResponseModel.Results">
-            <summary>
-                Get and Set Results.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateResponseModel.WaitDuration">
-            <summary>
-                Get and Set Wait Duration.
-            </summary>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateResponseModelExtension">
-            <summary>
-                Threat List Update Response Model Extension.
-            </summary>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.ThreatListUpdateResponseModelExtension.AsThreatListUpdateResponse(Gee.External.Browsing.Clients.Http.ThreatListUpdateResponseModel,Gee.External.Browsing.Clients.ThreatListUpdateRequest)">
-            <summary>
-                Create a Threat List Update Response.
-            </summary>
-            <param name="this">
-                A <see cref="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateResponseModel" />.
-            </param>
-            <param name="request">
-                The <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateRequest" /> made to the Google Safe Browsing API for which the
-                <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateResponse" /> has been returned.
-            </param>
-            <returns>
-                A <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateResponse" /> if <paramref name="this" /> is not a null reference. A null
-                reference otherwise.
-            </returns>
-            <exception cref="T:System.ArgumentNullException">
-                Thrown if <paramref name="request" /> is a null reference.
-            </exception>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateResultModel">
-            <summary>
-                Threat List Update Result Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateResultModel.Checksum">
-            <summary>
-                Get and Set Checksum.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateResultModel.ThreatListState">
-            <summary>
-                Get and Set Threat List State.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateResultModel.ThreatsToAdd">
-            <summary>
-                Get and Set Threats to Add.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateResultModel.ThreatsToRemove">
-            <summary>
-                Get and Set Threats to Remove.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateResultModel.ThreatListName">
-            <summary>
-                Get and Set Threat Type.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.ThreatListUpdateResultModel.UpdateType">
-            <summary>
-                Get and Set Update Type.
-            </summary>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateResultModelExtension">
-            <summary>
-                Threat List Update Result Model Extension.
-            </summary>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.ThreatListUpdateResultModelExtension.AsThreatListUpdateResult(Gee.External.Browsing.Clients.Http.ThreatListUpdateResultModel,Gee.External.Browsing.Clients.ThreatListUpdateRequest,System.DateTime,System.Nullable{System.DateTime})">
-            <summary>
-                Create a Threat List Update Result.
-            </summary>
-            <param name="this">
-                A <see cref="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateResultModel" />.
-            </param>
-            <param name="request">
-                The <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateRequest" /> made to the Google Safe Browsing API for which the
-                <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateResult" /> has been returned.
-            </param>
-            <param name="threatListRetrieveDate">
-                The date, in Coordinated Universal Time (UTC), the <see cref="T:Gee.External.Browsing.ThreatList" /> was retrieved from the
-                Google Safe Browsing API. If the date is not expressed in UTC, it is converted to it.
-            </param>
-            <param name="threatListWaitToDate">
-                The date, in Coordinated Universal Time (UTC), a client must wait to before retrieving the
-                <see cref="T:Gee.External.Browsing.ThreatList" /> from the Google Safe Browsing API again. If the date is not expressed in UTC,
-                it is converted to it. A null reference indicates a client does not need to wait.
-            </param>
-            <returns>
-                A <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateResult" /> if <paramref name="this" /> is not a null reference. A null
-                reference otherwise.
-            </returns>
-            <exception cref="T:System.ArgumentNullException">
-                Thrown if <paramref name="request" /> is a null reference.
-            </exception>
-        </member>
         <member name="T:Gee.External.Browsing.Clients.Http.ThreatListUpdateTypeExtension">
             <summary>
                 Threat List Update Type Extension.
@@ -3700,85 +3254,6 @@
             </param>
             <returns>
                 A string identifying a <see cref="T:Gee.External.Browsing.Clients.ThreatListUpdateType" />.
-            </returns>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.ThreatTypeExtension">
-            <summary>
-                Threat Type Extension.
-            </summary>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.ThreatTypeExtension.AsThreatType(System.String)">
-            <summary>
-                Create a Threat Type.
-            </summary>
-            <param name="this">
-                A string identifying a <see cref="T:Gee.External.Browsing.ThreatType" />.
-            </param>
-            <returns>
-                A <see cref="T:Gee.External.Browsing.ThreatType" />.
-            </returns>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.ThreatTypeExtension.AsThreatTypeModel(Gee.External.Browsing.ThreatType)">
-            <summary>
-                Create a Threat Type Model.
-            </summary>
-            <param name="this">
-                A <see cref="T:Gee.External.Browsing.ThreatType" />.
-            </param>
-            <returns>
-                A string identifying a <see cref="T:Gee.External.Browsing.ThreatType" />.
-            </returns>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.UnsafeThreatModel">
-            <summary>
-                Unsafe Threat Model.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.UnsafeThreatModel.CacheDuration">
-            <summary>
-                Get and Set Cache Duration.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.UnsafeThreatModel.Metadata">
-            <summary>
-                Get and Set Metadata.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.UnsafeThreatModel.PlatformType">
-            <summary>
-                Get and Set Platform Type.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.UnsafeThreatModel.Threat">
-            <summary>
-                Get and Set Threat.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.UnsafeThreatModel.ThreatEntryType">
-            <summary>
-                Get and Set Threat Entry Type.
-            </summary>
-        </member>
-        <member name="P:Gee.External.Browsing.Clients.Http.UnsafeThreatModel.ThreatType">
-            <summary>
-                Get and Set Threat Type.
-            </summary>
-        </member>
-        <member name="T:Gee.External.Browsing.Clients.Http.UnsafeThreatModelExtension">
-            <summary>
-                Unsafe Threat Model Extension.
-            </summary>
-        </member>
-        <member name="M:Gee.External.Browsing.Clients.Http.UnsafeThreatModelExtension.AsUnsafeThreat(Gee.External.Browsing.Clients.Http.UnsafeThreatModel)">
-            <summary>
-                Create an Unsafe Threat.
-            </summary>
-            <param name="this">
-                An <see cref="T:Gee.External.Browsing.Clients.Http.UnsafeThreatModel" />.
-            </param>
-            <returns>
-                An <see cref="T:Gee.External.Browsing.UnsafeThreat" /> if <paramref name="this" /> is not a null reference. A null reference
-                otherwise.
             </returns>
         </member>
         <member name="T:Gee.External.Browsing.Clients.IBrowsingClient">

@@ -44,6 +44,14 @@ namespace Gee.External.Browsing.Cache {
         public bool IsCacheUnsafeHit => this.ResultCode == CacheLookupResultCode.UnsafeHit;
 
         /// <summary>
+        ///     Determine if Cache Lookup Result Indicates a Cache Expired Hit.
+        /// </summary>
+        /// <remarks>
+        ///     Determines if the cache lookup result indicates an <see cref="CacheLookupResultCode.Expired" />.
+        /// </remarks>
+        public bool IsCacheExpiredHit => this.ResultCode == CacheLookupResultCode.Expired;
+
+        /// <summary>
         ///     Get Result Code.
         /// </summary>
         /// <remarks>
@@ -106,6 +114,30 @@ namespace Gee.External.Browsing.Cache {
                 return this._unsafeThreats;
             }
         }
+
+        /// <summary>
+        ///     Create a Cache Result Indicating a Cache Expired.
+        /// </summary>
+        /// <param name="threatSha256Hash">
+        ///     A full SHA256 hash, formatted as a hexadecimal encoded string, identifying the threat that was looked
+        ///     up in a <see cref="IBrowsingCache" />.
+        /// </param>
+        /// <param name="threatSha256HashPrefix">
+        ///     A SHA256 hash prefix, formatted as a hexadecimal encoded string, identifying the threat that was
+        ///     looked up in a <see cref="IBrowsingCache" />.
+        /// </param>
+        /// <returns>
+        ///     A cache lookup result indicating a <see cref="CacheLookupResultCode.Expired" />.
+        /// </returns>
+        /// <exception cref="System.ArgumentNullException">
+        ///     Thrown if <paramref name="threatSha256Hash" /> is a null reference, or if
+        ///     <paramref name="threatSha256HashPrefix" /> is a null reference.
+        /// </exception>
+        /// <exception cref="System.FormatException">
+        ///     Thrown if <paramref name="threatSha256Hash" /> is not formatted as a hexadecimal encoded string, or if
+        ///     <paramref name="threatSha256HashPrefix" /> is not formatted as a hexadecimal encoded string.
+        /// </exception>
+        public static CacheLookupResult CacheExpired(string threatSha256Hash, string threatSha256HashPrefix) => new CacheLookupResult(CacheLookupResultCode.Expired, threatSha256Hash, threatSha256HashPrefix, null);
 
         /// <summary>
         ///     Create a Cache Result Indicating a Cache Miss.
