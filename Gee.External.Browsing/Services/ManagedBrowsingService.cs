@@ -125,7 +125,7 @@ namespace Gee.External.Browsing.Services {
             //      Create Retry Policy Timeout.
             // </summary>
             TimeSpan CreateRetryPolicyTimeout(int cRetryAttempt) {
-                var cDelaySeconds = Math.Pow(2, cRetryAttempt);
+                var cDelaySeconds = Math.Min(Math.Pow(2, cRetryAttempt), 30);
                 var cDelay = TimeSpan.FromSeconds(cDelaySeconds);
                 return cDelay;
             }
@@ -197,8 +197,9 @@ namespace Gee.External.Browsing.Services {
             // invoke a retry policy until the database is no longer stale. We can only do this because we are managing
             // the database so we know it will immediately synchronize again once it become stale. We put a limit on
             // the number of retries in case the synchronization fails.
-            Func<Task<UrlLookupResult>> resiliencyPolicyAction = () => base.LookupAsync(this._cache, this._client, this._database, url, cancellationToken);
-            var executeResiliencyPolicyTask = this._resiliencyPolicy.ExecuteAsync(resiliencyPolicyAction);
+            var executeResiliencyPolicyTask = this._resiliencyPolicy.ExecuteAsync(
+                ct => base.LookupAsync(this._cache, this._client, this._database, url, ct), cancellationToken);
+
             return executeResiliencyPolicyTask;
         }
 

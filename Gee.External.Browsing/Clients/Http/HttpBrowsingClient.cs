@@ -93,7 +93,6 @@ namespace Gee.External.Browsing.Clients.Http {
                 // Add the Google Safe Browsing API Key to every HTTP request so that we don't have explicitly add it
                 // when creating every HTTP request.
                 var requestQueryParameters = httpCall.FlurlRequest.Url.QueryParams;
-                requestQueryParameters.Add(HttpBrowsingClient.ApiKeyQueryParameterName, this._apiKey, true);
             }
         }
 
@@ -167,11 +166,18 @@ namespace Gee.External.Browsing.Clients.Http {
 
                     var cResponseBytes = await HttpBrowsingClient.FindFullHashesUri
                                                 .SetQueryParam("hashPrefixes", prefixes)
+                                                .SetQueryParam("key", _apiKey)
                                                 .GetBytesAsync(cCancellationToken)
                                                 .ConfigureAwait(false);
 
                     var cResponseMessage = SearchHashesResponse.Parser.ParseFrom(cResponseBytes);
                     
+                    var cCacheDuration = cResponseMessage.CacheDuration;
+                    if (cCacheDuration is null)
+                    {
+                        throw new BrowsingClientException("server responded without a cache_duration!", HttpStatusCode.InternalServerError);
+                    }
+
                     var convertedDateTime = DateTime.UtcNow + DurationConverter.SafeBrowsingDurationToTimespan(cResponseMessage.CacheDuration);
                     var hashes = cResponseMessage.FullHashes;
 
@@ -322,6 +328,8 @@ namespace Gee.External.Browsing.Clients.Http {
                     List<int> maxUpdateEntries = new List<int>();
                     List<int> maxDatabaseEntries = new List<int>();
 
+                    url.QueryParams.Add ("key", _apiKey);
+
                     foreach (var query in updateQueries)
                     {
                         if (query.ThreatListDescriptor.ThreatListName == ThreatListName.unsupported)
@@ -330,7 +338,7 @@ namespace Gee.External.Browsing.Clients.Http {
                         }
 
                         url.QueryParams.Add("names", ThreatConverter.ThreatListNameToUrlQueryString(query.ThreatListDescriptor.ThreatListName));
-                        if (query.ThreatListState != null)
+                        if (query.ThreatListState != null && query.ThreatListState != "")
                         {
                             url.QueryParams.Add("version", Convert.ToBase64String(Convert.FromHexString(query.ThreatListState)));
                         }

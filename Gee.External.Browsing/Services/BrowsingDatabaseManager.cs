@@ -206,7 +206,10 @@ namespace Gee.External.Browsing.Services {
                 if (threatListUpdateResponse != null) {
                     foreach (var threatListUpdateResult in threatListUpdateResponse.Results) {
                         var threatListWaitToDate = threatListUpdateResult.RetrievedThreatList.WaitToDate;
-                        if (threatListWaitToDate != null && threatListWaitToDate < delayToDate) {
+                        if (threatListWaitToDate == null) {
+                            delayToDate = DateTime.UtcNow;
+                        }
+                        else if (threatListWaitToDate != null && threatListWaitToDate < delayToDate) {
                             delayToDate = threatListWaitToDate.Value;
                         }
 

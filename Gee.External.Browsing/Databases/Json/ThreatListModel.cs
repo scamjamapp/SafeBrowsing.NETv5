@@ -37,5 +37,7 @@ namespace Gee.External.Browsing.Databases.Json {
         /// </summary>
         [JsonProperty(PropertyName = "WaitToDate", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DateTime? WaitToDate { get; set; }
+
+        
     }
 }

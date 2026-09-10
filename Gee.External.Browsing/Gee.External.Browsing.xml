@@ -9158,6 +9158,15 @@
                 again.
             </remarks>
         </member>
+        <member name="P:Gee.External.Browsing.ThreatList.AdditionalRequestPending">
+            <summary>
+                Determine if there is an additional api requests pending for this list version.
+            </summary>
+            <remarks>
+                Determines if the threat list has additional api requests pending and should be retrieved from the Google Safe Browsing API
+                again.
+            </remarks>
+        </member>
         <member name="P:Gee.External.Browsing.ThreatList.IsMalwareList">
             <summary>
                 Determine if Threat List is a Malware List.

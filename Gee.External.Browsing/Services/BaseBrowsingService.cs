@@ -248,7 +248,7 @@ namespace Gee.External.Browsing.Services {
 
             foreach (var databaseThreatList in databaseThreatLists)
             {
-                if (databaseThreatList.Expired)
+                if (databaseThreatList.Expired && !databaseThreatList.AdditionalRequestPending)
                 {
                     return UrlLookupResult.DatabaseStale(url, urlLookupDate);
                 }

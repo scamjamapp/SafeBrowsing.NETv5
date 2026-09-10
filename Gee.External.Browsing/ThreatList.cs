@@ -27,7 +27,16 @@ namespace Gee.External.Browsing {
         ///     Determines if the threat list has expired and should be retrieved from the Google Safe Browsing API
         ///     again.
         /// </remarks>
-        public bool Expired => this.WaitToDate == null || DateTime.UtcNow >= this.WaitToDate.Value;
+        public bool Expired => WaitToDate == null || DateTime.UtcNow >= WaitToDate;
+
+        /// <summary>
+        ///     Determine if there is an additional api requests pending for this list version.
+        /// </summary>
+        /// <remarks>
+        ///     Determines if the threat list has additional api requests pending and should be retrieved from the Google Safe Browsing API
+        ///     again.
+        /// </remarks>
+        public bool AdditionalRequestPending => WaitToDate == null && State != "";
 
         /// <summary>
         ///     Determine if Threat List is a Malware List.
